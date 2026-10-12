@@ -1,122 +1,209 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import LandingPage from './pages/LandingPage';
+import AuthPage from './pages/AuthPage';
+import OnboardingPage from './pages/OnboardingPage';
+import DashboardPage from './pages/DashboardPage';
+import TopUpModal from './components/TopUpModal';
+import ReviewSignOffModal from './components/ReviewSignOffModal';
+import { api } from './services/api';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [currentView, setCurrentView] = useState('landing'); // 'landing' | 'auth' | 'onboarding' | 'dashboard'
+  const [user, setUser] = useState(api.getUser());
+  const [jobs, setJobs] = useState([]);
+  const [savedJobIds, setSavedJobIds] = useState(api.getSavedJobIds());
+  const [appliedJobs, setAppliedJobs] = useState(api.getAppliedJobs());
+  const [testimonials, setTestimonials] = useState(api.getTestimonials());
+
+  // Global modals
+  const [isTopUpOpen, setIsTopUpOpen] = useState(false);
+  const [selectedJobForLandingApply, setSelectedJobForLandingApply] = useState(null);
+
+  // Toast Notification state
+  const [toastMessage, setToastMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
+
+  const triggerToast = (msg) => {
+    setToastMessage(msg);
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 4500);
+  };
+
+  // Load initial jobs
+  useEffect(() => {
+    api.getJobs(60).then(data => setJobs(data));
+  }, []);
+
+  // Sync user state
+  const refreshUser = () => {
+    setUser(api.getUser());
+  };
+
+  // Toggle bookmark star
+  const handleToggleSaveJob = (jobId) => {
+    const updated = api.toggleSaveJob(jobId);
+    setSavedJobIds(updated);
+    const isNowSaved = updated.includes(jobId);
+    triggerToast(isNowSaved ? '⭐ Job saved to your Bookmarks tab!' : 'Job removed from Bookmarks.');
+  };
+
+  // Execute Quick Apply with ₱50 wallet deduction & ATS dispatch
+  const handleConfirmApply = async (job, tailoredData) => {
+    try {
+      const res = await api.applyToJob(job, tailoredData);
+      setUser(api.getUser());
+      setAppliedJobs(api.getAppliedJobs());
+      triggerToast(`🚀 Application submitted to ${job.company}! Recruiter receipt confirmed • ₱50 debited from wallet.`);
+      setSelectedJobForLandingApply(null);
+    } catch (err) {
+      triggerToast(`⚠️ ${err.message}`);
+    }
+  };
+
+  // Handle PayMongo reload
+  const handleTopUpSuccess = async (amount) => {
+    const res = await api.topUpWallet(amount);
+    setUser(api.getUser());
+    triggerToast(`💳 PayMongo Top-Up Successful! +₱${amount}.00 added to your wallet.`);
+  };
+
+  // Add community testimonial
+  const handleAddTestimonial = (text, author) => {
+    const updated = api.addTestimonial(text, author);
+    setTestimonials(updated);
+    triggerToast(`🎉 Thank you for sharing your feedback on the Community Wall!`);
+  };
+
+  // Auth flow callbacks
+  const handleLoginSuccess = (loginData) => {
+    api.login(loginData.email);
+    refreshUser();
+    setCurrentView('dashboard');
+    triggerToast(`👋 Welcome back, ${loginData.email.split('@')[0]}!`);
+  };
+
+  const handleStartOnboarding = (signupData) => {
+    api.register(signupData.email);
+    refreshUser();
+    setCurrentView('onboarding');
+    triggerToast(`🎉 Account created! Let's set up your profile and parse your resume.`);
+  };
+
+  const handleCompleteOnboarding = async (formData) => {
+    await api.submitOnboarding(formData);
+    refreshUser();
+    setCurrentView('dashboard');
+    triggerToast(`✨ Onboarding complete! 8 High-Match roles ready for review.`);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-800">
+      
+      {/* Toast Notification Banner */}
+      {showToast && (
+        <div className="fixed top-20 right-4 z-50 animate-in fade-in slide-in-from-top-4 duration-200 max-w-md">
+          <div className="bg-slate-900 text-white text-xs sm:text-sm font-bold px-4 py-3 rounded-2xl shadow-elevated border border-slate-700 flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0 animate-ping"></span>
+            <span>{toastMessage}</span>
+          </div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      )}
 
-      <div className="ticks"></div>
+      {/* Main Navbar */}
+      <Navbar
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        user={user}
+        onOpenTopUp={() => setIsTopUpOpen(true)}
+        onLogout={() => {
+          setCurrentView('landing');
+          triggerToast('Logged out.');
+        }}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {/* Active View Container */}
+      <main className="flex-1">
+        {currentView === 'landing' && (
+          <LandingPage
+            onStartSignUp={(email) => handleStartOnboarding({ email })}
+            onLoginClick={() => setCurrentView('auth')}
+            onOpenDashboard={() => setCurrentView('dashboard')}
+            onQuickApplyFromLanding={(job) => setSelectedJobForLandingApply(job)}
+          />
+        )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {currentView === 'auth' && (
+          <AuthPage
+            onLoginSuccess={handleLoginSuccess}
+            onStartOnboarding={handleStartOnboarding}
+          />
+        )}
+
+        {currentView === 'onboarding' && (
+          <OnboardingPage
+            initialEmail={user?.email}
+            onCompleteOnboarding={handleCompleteOnboarding}
+          />
+        )}
+
+        {currentView === 'dashboard' && (
+          <DashboardPage
+            user={user}
+            jobs={jobs}
+            savedJobIds={savedJobIds}
+            appliedJobs={appliedJobs}
+            testimonials={testimonials}
+            onToggleSaveJob={handleToggleSaveJob}
+            onConfirmApply={handleConfirmApply}
+            onTopUpSuccess={handleTopUpSuccess}
+            onAddTestimonial={handleAddTestimonial}
+          />
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-200 py-8 px-4 text-center text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-extrabold text-slate-900">CANDIDATE.ph</span>
+            <span>• High-Speed Job Matching Platform</span>
+          </div>
+          <div className="flex items-center gap-4 text-slate-400">
+            <span>₱0 Free Forever to Scan & Match</span>
+            <span>•</span>
+            <span>₱50 per Quick Apply</span>
+            <span>•</span>
+            <span>Secured via PayMongo</span>
+          </div>
+        </div>
+      </footer>
+
+      {/* Global Top Up Modal */}
+      <TopUpModal
+        isOpen={isTopUpOpen}
+        onClose={() => setIsTopUpOpen(false)}
+        currentBalance={user?.walletBalance ?? 250}
+        onTopUpSuccess={handleTopUpSuccess}
+      />
+
+      {/* Quick Apply Sign-Off Modal triggered from Landing Page */}
+      {selectedJobForLandingApply && (
+        <ReviewSignOffModal
+          job={selectedJobForLandingApply}
+          user={user}
+          isOpen={Boolean(selectedJobForLandingApply)}
+          onClose={() => setSelectedJobForLandingApply(null)}
+          onConfirmApply={handleConfirmApply}
+          onOpenTopUp={() => {
+            setSelectedJobForLandingApply(null);
+            setIsTopUpOpen(true);
+          }}
+        />
+      )}
+
+    </div>
+  );
 }
-
-export default App
