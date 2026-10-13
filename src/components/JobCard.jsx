@@ -108,12 +108,12 @@ export default function JobCard({
           </div>
 
           <div className="p-2.5 rounded-xl bg-slate-50/80 border border-slate-100">
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">PORTAL</p>
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">CHANNEL</p>
             <p className="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5 truncate">
-              {job.portal}
+              Direct Application
             </p>
-            <span className="inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded font-black uppercase tracking-wider border bg-orange-100 text-orange-800 border-orange-200">
-              {job.portalBadge}
+            <span className="inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded font-black uppercase tracking-wider border bg-emerald-100 text-emerald-800 border-emerald-200">
+              OFFICIAL PORTAL
             </span>
           </div>
         </div>

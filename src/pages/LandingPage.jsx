@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Zap, 
-  Radar, 
+  Search, 
   Send, 
   Mail, 
   ArrowRight, 
@@ -9,18 +9,18 @@ import {
   CheckCircle2, 
   XCircle, 
   AlertCircle, 
-  Users, 
-  ChevronLeft, 
-  ChevronRight, 
   ShieldCheck, 
   Clock, 
-  Coins, 
-  FileCheck2, 
   Sparkles, 
   Gift, 
   Filter, 
   Lock, 
-  UserCheck
+  UserCheck, 
+  ChevronLeft, 
+  ChevronRight,
+  Briefcase,
+  FileCheck2,
+  Building2
 } from 'lucide-react';
 
 const THEMES = {
@@ -80,21 +80,15 @@ const LIVE_HERO_JOBS = [
     title: "Senior React Developer",
     salary: "₱180k–240k/mo",
     setup: "Hybrid • BGC",
-    portal: "Greenhouse",
-    portalBadge: "SEAMLESS",
-    portalBadgeColor: "bg-orange-100 text-orange-800 border-orange-200",
+    channelBadge: "DIRECT APPLICATION",
+    channelBadgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
     postedHeader: "Posted 1h 18m ago • First Review Batch (< 25 applicants)",
     matchPillText: "98% Strong Match",
     matchPillColor: "bg-orange-600 text-white",
     coreCount: "4/4 core requirements met",
     skills: ["React 18 + TypeScript", "Next.js SSR", "Payments domain", "Design systems"],
     amberSkill: "Optional: GraphQL",
-    referralHeadline: "2 Insider Referral Contacts Available",
-    referralSubtext: "Ex-colleagues in your LinkedIn network",
-    avatars: [
-      { text: "JC", bg: "bg-blue-100 text-blue-800" },
-      { text: "AR", bg: "bg-orange-100 text-orange-800" }
-    ],
+    matchHighlight: "Top 2% candidate fit for Maya's frontend core",
     estQueue: "First Review Batch",
     timelinePercent: "50%",
     initialSeconds: 4706
@@ -108,21 +102,15 @@ const LIVE_HERO_JOBS = [
     title: "Lead Cloud & Backend Architect",
     salary: "₱140k–195k/mo",
     setup: "Hybrid • Ortigas Center",
-    portal: "Workday",
-    portalBadge: "ASSISTED BETA",
-    portalBadgeColor: "bg-amber-100 text-amber-800 border-amber-200",
+    channelBadge: "DIRECT APPLICATION",
+    channelBadgeColor: "bg-amber-100 text-amber-800 border-amber-200",
     postedHeader: "Posted 12m ago • Early Bird Batch (< 5 applicants)",
     matchPillText: "99% Strong Match",
     matchPillColor: "bg-purple-600 text-white",
     coreCount: "5/5 core requirements met",
     skills: ["Golang / Microservices", "Kafka Queues", "High-Concurrency", "AWS Architecture"],
     amberSkill: "Optional: Payment latency tuning",
-    referralHeadline: "4 Insider Referral Contacts Available",
-    referralSubtext: "UP Diliman CS alumni inside engineering",
-    avatars: [
-      { text: "DL", bg: "bg-purple-100 text-purple-800" },
-      { text: "RT", bg: "bg-emerald-100 text-emerald-800" }
-    ],
+    matchHighlight: "High-concurrency fintech match based on your resume",
     estQueue: "Early Bird Batch",
     timelinePercent: "15%",
     initialSeconds: 720
@@ -136,21 +124,15 @@ const LIVE_HERO_JOBS = [
     title: "Junior Web Developer",
     salary: "₱45k–60k/mo",
     setup: "Hybrid • BGC",
-    portal: "Lever",
-    portalBadge: "SEAMLESS",
-    portalBadgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    channelBadge: "DIRECT APPLICATION",
+    channelBadgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
     postedHeader: "Posted 25m ago • Early Bird Batch (< 10 applicants)",
     matchPillText: "96% Strong Match",
     matchPillColor: "bg-blue-600 text-white",
     coreCount: "3/3 core requirements met",
     skills: ["React Basics", "JavaScript ES6+", "HTML5 / Tailwind", "Git Workflow"],
     amberSkill: "Optional: TypeScript",
-    referralHeadline: "2 Insider Referral Contacts Available",
-    referralSubtext: "UST & UP Diliman alumni in engineering",
-    avatars: [
-      { text: "MR", bg: "bg-blue-100 text-blue-800" },
-      { text: "KV", bg: "bg-emerald-100 text-emerald-800" }
-    ],
+    matchHighlight: "Clean stack alignment for junior engineer track",
     estQueue: "Early Bird Batch",
     timelinePercent: "20%",
     initialSeconds: 1500
@@ -164,20 +146,15 @@ const LIVE_HERO_JOBS = [
     title: "Associate UI/UX Designer",
     salary: "₱40k–55k/mo",
     setup: "Flexible • Makati Hub",
-    portal: "Greenhouse",
-    portalBadge: "SEAMLESS",
-    portalBadgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    channelBadge: "DIRECT APPLICATION",
+    channelBadgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
     postedHeader: "Posted 42m ago • Early Bird Batch (< 15 applicants)",
     matchPillText: "97% Strong Match",
     matchPillColor: "bg-cyan-600 text-white",
     coreCount: "4/4 core requirements met",
     skills: ["Figma Components", "Design Systems", "Wireframing", "User Flows"],
     amberSkill: "Optional: ProtoPie",
-    referralHeadline: "1 Insider Referral Contact Available",
-    referralSubtext: "1 DLSU alumni connection in design team",
-    avatars: [
-      { text: "AL", bg: "bg-cyan-100 text-cyan-800" }
-    ],
+    matchHighlight: "Design system alignment matched directly with your portfolio",
     estQueue: "Early Bird Batch",
     timelinePercent: "35%",
     initialSeconds: 2520
@@ -215,7 +192,6 @@ export default function LandingPage({
     root.style.setProperty('--theme-secondary-border', theme.secondaryBorder);
   };
 
-  // Live timer tick
   useEffect(() => {
     const timer = setInterval(() => {
       setCardTimerSeconds(prev => prev + 1);
@@ -223,7 +199,6 @@ export default function LandingPage({
     return () => clearInterval(timer);
   }, []);
 
-  // Ticker fluctuation
   useEffect(() => {
     const interval = setInterval(() => {
       setTickerCount(prev => prev + (Math.floor(Math.random() * 5) - 2));
@@ -254,7 +229,7 @@ export default function LandingPage({
     <div className="bg-[#F8FAFC] text-slate-800 font-sans antialiased">
 
       {/* ========================================================================= */}
-      {/* 2. HERO SECTION: SPEED & COMPLETE SAMPLE MATCHER CARD */}
+      {/* 1. HERO SECTION: SPEED & COMPLETE SAMPLE MATCHER CARD */}
       {/* ========================================================================= */}
       <section className="relative pt-8 pb-16 md:pt-14 md:pb-24 overflow-hidden grid-dot-pattern" id="live-jobs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -263,11 +238,11 @@ export default function LandingPage({
             {/* Left: Value Proposition */}
             <div className="lg:col-span-6 space-y-5 text-left">
               
-              {/* Scanning Ticker Pill */}
+              {/* Intelligent Search Telemetry Pill */}
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50/90 border border-amber-200/90 text-amber-900 text-xs font-semibold">
                   <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                  <span>Scanning <strong className="text-amber-950 font-bold">{tickerCount.toLocaleString()}</strong> + PH & Remote tech roles 24/7</span>
+                  <span>Monitoring <strong className="text-amber-950 font-bold">{tickerCount.toLocaleString()}</strong> + PH & Remote Tech Roles</span>
                 </div>
               </div>
 
@@ -287,15 +262,15 @@ export default function LandingPage({
 
               {/* Subheadline */}
               <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed max-w-xl">
-                We scan Philippine and remote tech jobs 24/7, so you can apply within the hour a role goes live. Scanning and matching are <strong className="text-slate-900 font-bold">100% free, forever</strong>. You only pay ₱50 per application pack, and only when you choose to apply.
+                We search top Philippine and remote companies, matching openings directly against your resume. Searching and matching are <strong className="text-slate-900 font-bold">100% free, forever</strong>. You only pay ₱50 per application, and only when you choose to apply.
               </p>
 
               {/* 2 Mini Highlight Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl pt-1">
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-center">
                   <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-700 uppercase tracking-wider">
-                    <Radar className="w-3.5 h-3.5 text-amber-600" />
-                    <span>SCAN + MATCH 24/7</span>
+                    <Search className="w-3.5 h-3.5 text-amber-600" />
+                    <span>SMART SEARCH & MATCH</span>
                   </div>
                   <p className="text-lg font-black text-slate-900 mt-0.5">
                     ₱0 <span className="text-xs font-semibold text-amber-700">Free Forever</span>
@@ -308,8 +283,17 @@ export default function LandingPage({
                     <span>ONLY WHEN YOU APPLY</span>
                   </div>
                   <p className="text-lg font-black text-slate-900 mt-0.5">
-                    ₱50 <span className="text-xs font-semibold text-slate-500">per pack</span>
+                    ₱50 <span className="text-xs font-semibold text-slate-500">per application</span>
                   </p>
+                </div>
+              </div>
+
+              {/* Zero-Middleman Guarantee Callout Banner */}
+              <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-950 flex items-start gap-2.5 max-w-xl">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="block text-emerald-900 font-bold">Zero Middleman Guarantee:</strong>
+                  Employers receive your application directly and reply to your personal email address. We don't gatekeep your messages or take a percentage of your salary.
                 </div>
               </div>
 
@@ -335,17 +319,17 @@ export default function LandingPage({
                   </div>
                   <button 
                     type="submit"
-                    className="px-5 py-3 bg-theme-primary hover:bg-theme-primary-hover active:scale-95 text-white font-bold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-md whitespace-nowrap"
+                    className="px-5 py-3 bg-theme-primary hover:bg-theme-primary-hover active:scale-95 text-white font-bold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-md whitespace-nowrap cursor-pointer"
                   >
-                    <span>Claim 50 Free Credits</span>
+                    <span>Claim ₱50 Free Balance</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </form>
 
                 <div className="flex flex-wrap items-center gap-4 sm:gap-5 mt-3 text-xs text-slate-500 font-medium">
+                  <span className="flex items-center gap-1 text-amber-700 font-medium"><Check className="w-3.5 h-3.5 text-amber-600" /> 1st Application 100% Free</span>
                   <span className="flex items-center gap-1 text-amber-700 font-medium"><Check className="w-3.5 h-3.5 text-amber-600" /> No credit card required</span>
-                  <span className="flex items-center gap-1 text-amber-700 font-medium"><Check className="w-3.5 h-3.5 text-amber-600" /> No subscription, ever</span>
-                  <span className="flex items-center gap-1 text-amber-700 font-medium"><Check className="w-3.5 h-3.5 text-amber-600" /> Credits never expire</span>
+                  <span className="flex items-center gap-1 text-amber-700 font-medium"><Check className="w-3.5 h-3.5 text-amber-600" /> Balance never expires</span>
                 </div>
               </div>
 
@@ -365,7 +349,7 @@ export default function LandingPage({
                   </div>
                   <div className="flex items-center gap-1.5 text-xs font-black text-rose-600">
                     <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
-                    <span>• LIVE</span>
+                    <span>• ACTIVE ROLE</span>
                   </div>
                 </div>
 
@@ -402,16 +386,16 @@ export default function LandingPage({
                     </div>
 
                     <div className="p-3 rounded-2xl bg-slate-50/80 border border-slate-100">
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">PORTAL</p>
-                      <p className="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">{activeJob.portal}</p>
-                      <span className={`inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded font-black uppercase tracking-wider border ${activeJob.portalBadgeColor}`}>
-                        {activeJob.portalBadge}
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">CHANNEL</p>
+                      <p className="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">Direct Career Portal</p>
+                      <span className={`inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded font-black uppercase tracking-wider border ${activeJob.channelBadgeColor}`}>
+                        {activeJob.channelBadge}
                       </span>
                     </div>
                   </div>
 
                   {/* THE SAMPLE MATCHER BOX */}
-                  <div className="p-4 rounded-2xl bg-white border border-amber-200/90 space-y-2.5 shadow-xs">
+                  <div className="p-4 rounded-2xl bg-white border border-amber-200/90 space-y-2.5 shadow-xs text-left">
                     <div className="flex items-center justify-between">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-extrabold ${activeJob.matchPillColor}`}>
                         <Check className="w-3.5 h-3.5" />
@@ -435,28 +419,22 @@ export default function LandingPage({
                     </div>
                   </div>
 
-                  {/* Referral Contacts Box */}
-                  <div className="p-3 rounded-2xl bg-slate-50/90 border border-slate-200/70 flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="flex -space-x-1.5 overflow-hidden">
-                        {activeJob.avatars.map((av, i) => (
-                          <span key={i} className={`inline-flex items-center justify-center w-7 h-7 rounded-full ${av.bg} text-[10px] font-black border-2 border-white`}>{av.text}</span>
-                        ))}
+                  {/* Verification Highlight Box (Replaces unverified alumni contacts) */}
+                  <div className="p-3 rounded-2xl bg-slate-50/90 border border-slate-200/70 flex items-center justify-between gap-2 text-left">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
+                        <FileCheck2 className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                          <Users className="w-3.5 h-3.5 text-theme-primary" />
-                          <span>{activeJob.referralHeadline}</span>
+                        <p className="text-xs font-bold text-slate-900 flex items-center gap-1">
+                          <span>AI Match Analysis</span>
                         </p>
-                        <p className="text-[11px] text-slate-500">{activeJob.referralSubtext}</p>
+                        <p className="text-[11px] text-slate-500">{activeJob.matchHighlight}</p>
                       </div>
                     </div>
-                    <button 
-                      onClick={() => onQuickApplyFromLanding(activeJob)}
-                      className="text-xs text-theme-primary font-bold hover:underline shrink-0"
-                    >
-                      View
-                    </button>
+                    <span className="text-[10px] bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-md font-bold shrink-0">
+                      Top Match
+                    </span>
                   </div>
 
                 </div>
@@ -468,7 +446,7 @@ export default function LandingPage({
                       Live for <span className="font-mono font-bold text-amber-600">{formatTimer(cardTimerSeconds)}</span>
                     </span>
                     <span className="font-bold text-theme-primary text-xs">
-                      Est. queue: {activeJob.estQueue}
+                      Queue: {activeJob.estQueue}
                     </span>
                   </div>
 
@@ -486,7 +464,7 @@ export default function LandingPage({
                   </div>
                 </div>
 
-                {/* Primary 1-Click Apply Button */}
+                {/* Primary Action Button: Review, Tweak & 1-Click Apply */}
                 <div className="pt-2">
                   <button 
                     onClick={() => onQuickApplyFromLanding(activeJob)}
@@ -494,10 +472,10 @@ export default function LandingPage({
                   >
                     <div className="flex items-center gap-2 text-sm sm:text-base font-extrabold">
                       <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
-                      <span>1-Click Autofill Apply</span>
+                      <span>Review, Tweak & 1-Click Apply</span>
                     </div>
                     <span className="text-[11px] font-medium text-white/80 mt-0.5">
-                      50 Credits • debited only on confirmed receipt
+                      ₱50 • You approve every word before dispatch
                     </span>
                   </button>
                 </div>
@@ -505,15 +483,15 @@ export default function LandingPage({
                 {/* Trust Microcopy */}
                 <div className="flex items-center justify-between text-[11px] text-slate-500 pt-3 px-1">
                   <span className="flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
-                    <span>You approve every pack before it's sent</span>
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Employer replies to your personal email</span>
                   </span>
                   <span className="font-bold text-slate-700">
-                    Wallet: <strong className="text-slate-900 font-extrabold">50 credits</strong>
+                    Wallet: <strong className="text-slate-900 font-extrabold">₱50 balance (1 free app)</strong>
                   </span>
                 </div>
 
-                {/* Bottom Controls & Embedded Theme Switcher */}
+                {/* Bottom Controls & Theme Switcher */}
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                   <div className="flex items-center gap-1">
                     <button onClick={prevJob} aria-label="Previous job" className="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors">
@@ -580,9 +558,9 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. THE RELATABLE CONTRAST: THE USUAL WAY VS CANDIDATE.PH */}
+      {/* 2. THE CONTRAST: THE USUAL WAY VS CANDIDATE.PH */}
       {/* ========================================================================= */}
-      <section id="comparison" class="py-20 bg-white border-y border-slate-200">
+      <section id="comparison" className="py-20 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
@@ -590,7 +568,7 @@ export default function LandingPage({
               The Contrast
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              How Everyone Else Searches vs. How Candidate.ph Does It
+              How Everyone Else Searches vs. How CANDIDATE.ph Does It
             </h2>
             <p className="text-slate-600 text-base sm:text-lg">
               If you've spent weeks browsing job boards only to get zero responses, here is why your current approach feels exhausting—and how our matching engine fixes it.
@@ -599,8 +577,8 @@ export default function LandingPage({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
             
-            {/* The Usual Way (Left Column) */}
-            <div className="rounded-3xl p-7 sm:p-8 bg-slate-50 border-2 border-red-200/80 space-y-6 flex flex-col justify-between">
+            {/* The Usual Way */}
+            <div className="rounded-3xl p-7 sm:p-8 bg-slate-50 border-2 border-red-200/80 space-y-6 flex flex-col justify-between text-left">
               <div className="space-y-6">
                 <div className="flex items-center justify-between pb-4 border-b border-red-200/60">
                   <span className="text-base font-extrabold text-red-700 flex items-center gap-2">
@@ -633,7 +611,7 @@ export default function LandingPage({
                 <div className="space-y-1.5">
                   <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-red-100 text-red-700 text-xs flex items-center justify-center font-bold">3</span>
-                    Sending one generic resume to 50 companies
+                    Sending one generic resume everywhere
                   </h4>
                   <p className="text-xs text-slate-600 leading-relaxed pl-7">
                     Because tailoring takes too long, you submit the same PDF everywhere—and automated company filters discard it.
@@ -656,8 +634,8 @@ export default function LandingPage({
               </div>
             </div>
 
-            {/* The Candidate.ph Way (Right Column) */}
-            <div className="rounded-3xl p-7 sm:p-8 bg-white border-2 border-theme-primary shadow-elevated space-y-6 flex flex-col justify-between">
+            {/* The Candidate.ph Way */}
+            <div className="rounded-3xl p-7 sm:p-8 bg-white border-2 border-theme-primary shadow-elevated space-y-6 flex flex-col justify-between text-left">
               <div className="space-y-6">
                 <div className="flex items-center justify-between pb-4 border-b border-theme-primary-border">
                   <span className="text-base font-extrabold text-theme-primary flex items-center gap-2">
@@ -670,37 +648,37 @@ export default function LandingPage({
                 <div className="space-y-1.5">
                   <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 text-xs flex items-center justify-center font-bold">1</span>
-                    Continuous 24/7 scanning and matching
+                    Intelligent Search & Match Engine
                   </h4>
                   <p className="text-xs text-slate-600 leading-relaxed pl-7">
-                    Upload your resume once and set your target salary. Our system watches thousands of verified openings and matches you automatically.
+                    Upload your resume once and set your target salary. We search open roles and present only the ones matching 60%+ of your stack.
                   </p>
                 </div>
 
                 <div className="space-y-1.5">
                   <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 text-xs flex items-center justify-center font-bold">2</span>
-                    1-Click Form Autofill
+                    Review & Tweak Before You Send
                   </h4>
                   <p className="text-xs text-slate-600 leading-relaxed pl-7">
-                    Say goodbye to repetitive typing. When you like a matched job, our platform populates the employer's application form in seconds.
+                    Never send blindly. You get a full preview and can tailor your headline, summary, and skills specifically for that role before sign-off.
                   </p>
                 </div>
 
                 <div className="space-y-1.5">
                   <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 text-xs flex items-center justify-center font-bold">3</span>
-                    Resume tailored to each job's requirements
+                    Direct to the Employer's Hiring Team
                   </h4>
                   <p className="text-xs text-slate-600 leading-relaxed pl-7">
-                    We format and highlight your real matching skills for that specific opening so company screening software doesn't filter you out.
+                    We deliver your packaged application straight into the employer's official candidate portal, and they reply directly to your personal email.
                   </p>
                 </div>
 
                 <div className="space-y-1.5">
                   <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 text-xs flex items-center justify-center font-bold">4</span>
-                    Early Bird Advantage
+                    The Early Bird Advantage
                   </h4>
                   <p className="text-xs text-slate-600 leading-relaxed pl-7">
                     Apply within hours of the opening going live—while the applicant pool is still very small and the hiring manager is reviewing every submission.
@@ -720,7 +698,7 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 4. INSIDE THE DASHBOARD: INTERACTIVE APP PREVIEW */}
+      {/* 3. INSIDE THE DASHBOARD: INTERACTIVE APP PREVIEW */}
       {/* ========================================================================= */}
       <section id="dashboard-preview" className="py-20 bg-[#F8FAFC]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -733,7 +711,7 @@ export default function LandingPage({
               Inside Your Candidate.ph Dashboard
             </h2>
             <p className="text-slate-600 text-base sm:text-lg">
-              Here is what candidates see when they log in. Browse your real-time matches, track application stages, and review your Early Bird timestamps.
+              Here is what you see when you log in. Browse your real-time matches, track application stages, and review your Early Bird timestamps.
             </p>
           </div>
 
@@ -753,10 +731,9 @@ export default function LandingPage({
               </div>
 
               <div className="flex items-center gap-3 text-xs">
-                <span className="hidden sm:inline text-slate-400">Candidate: <strong className="text-white">Patricia M. (UST Alumni)</strong></span>
+                <span className="hidden sm:inline text-slate-400">Candidate: <strong className="text-white">Juan Dela Cruz (Verified)</strong></span>
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-semibold">
-                  <Coins className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>50 Free Credits</span>
+                  <span>₱250 Balance (5 Apps)</span>
                 </div>
               </div>
             </div>
@@ -774,13 +751,13 @@ export default function LandingPage({
               </div>
             </div>
 
-            {/* Dashboard Grid: Live Matches + Live Tracker */}
+            {/* Dashboard Grid */}
             <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
               
               {/* Left 7 Cols: Matches Feed */}
               <div className="lg:col-span-7 space-y-4">
                 <div className="flex items-center justify-between pb-2">
-                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Your Live Matches</h3>
+                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Your Live Matches (60%+)</h3>
                   <span className="text-xs text-slate-400">Sorted by match score</span>
                 </div>
 
@@ -803,9 +780,9 @@ export default function LandingPage({
                     <span className="text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded text-[11px]">Posted 12m ago • Early Bird</span>
                     <button 
                       onClick={() => onQuickApplyFromLanding(LIVE_HERO_JOBS[1])} 
-                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors"
+                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors cursor-pointer"
                     >
-                      Apply 1-Click
+                      Quick Apply (₱50)
                     </button>
                   </div>
                 </div>
@@ -817,7 +794,7 @@ export default function LandingPage({
                       <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white font-bold text-base flex items-center justify-center">M</div>
                       <div>
                         <h4 className="font-bold text-slate-900 text-sm">Senior React Developer</h4>
-                        <p className="text-xs text-slate-500 font-medium">Maya (Voyager) • Hybrid BGC</p>
+                        <p className="text-xs text-slate-500 font-medium">Maya • Hybrid BGC</p>
                       </div>
                     </div>
                     <span className="text-xs font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
@@ -829,9 +806,9 @@ export default function LandingPage({
                     <span className="text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded text-[11px]">Posted 1h ago • Batch #1</span>
                     <button 
                       onClick={() => onQuickApplyFromLanding(LIVE_HERO_JOBS[0])} 
-                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors"
+                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors cursor-pointer"
                     >
-                      Apply 1-Click
+                      Quick Apply (₱50)
                     </button>
                   </div>
                 </div>
@@ -843,7 +820,7 @@ export default function LandingPage({
                       <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold text-base flex items-center justify-center">G</div>
                       <div>
                         <h4 className="font-bold text-slate-900 text-sm">Junior Web Developer</h4>
-                        <p className="text-xs text-slate-500 font-medium">GCash (Mynt) • Hybrid BGC</p>
+                        <p className="text-xs text-slate-500 font-medium">GCash • Hybrid BGC</p>
                       </div>
                     </div>
                     <span className="text-xs font-extrabold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
@@ -855,9 +832,9 @@ export default function LandingPage({
                     <span className="text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded text-[11px]">Posted 25m ago • Early Bird</span>
                     <button 
                       onClick={() => onQuickApplyFromLanding(LIVE_HERO_JOBS[2])} 
-                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors"
+                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors cursor-pointer"
                     >
-                      Apply 1-Click
+                      Quick Apply (₱50)
                     </button>
                   </div>
                 </div>
@@ -868,12 +845,12 @@ export default function LandingPage({
               <div className="lg:col-span-5 space-y-4 text-left">
                 <div className="flex items-center justify-between pb-2">
                   <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Live Application Tracker</h3>
-                  <span className="text-xs font-bold text-emerald-600">3 Submissions</span>
+                  <span className="text-xs font-bold text-emerald-600">3 Sent Directly</span>
                 </div>
 
                 <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-4 text-xs">
                   
-                  {/* Item 1: Interview Scheduled */}
+                  {/* Item 1 */}
                   <div className="p-3 bg-white rounded-xl border border-emerald-200 shadow-xs space-y-1.5">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-slate-900">Canva Manila</span>
@@ -884,49 +861,49 @@ export default function LandingPage({
                     <p className="text-[11px] text-slate-500">Associate UI/UX Designer • ₱40k–₱55k/mo</p>
                     <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-100">
                       <span>Applied: 18 mins after listing</span>
-                      <span className="text-emerald-600 font-bold">Early Bird Verified</span>
+                      <span className="text-emerald-600 font-bold">Employer Replied via Email</span>
                     </div>
                   </div>
 
-                  {/* Item 2: Recruiter Reviewing */}
+                  {/* Item 2 */}
                   <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900">Maya (Voyager)</span>
+                      <span className="font-bold text-slate-900">Maya</span>
                       <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
-                        Recruiter Reviewing
+                        Hiring Team Reviewing
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-500">Junior QA Automation • ₱38k–₱52k/mo</p>
+                    <p className="text-[11px] text-slate-500">Senior React Developer • ₱180k–₱240k/mo</p>
                     <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-100">
                       <span>Applied: 40 mins after listing</span>
                       <span className="text-slate-600">Batch 1 (&lt; 25 applicants)</span>
                     </div>
                   </div>
 
-                  {/* Item 3: Confirmed Received */}
+                  {/* Item 3 */}
                   <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-slate-900">Globe Telecom</span>
                       <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
-                        Receipt Confirmed 200 OK
+                        Receipt Confirmed
                       </span>
                     </div>
                     <p className="text-[11px] text-slate-500">Digital Solutions Analyst • ₱50k–₱70k/mo</p>
                     <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-100">
-                      <span>Workday Assisted Autofill</span>
-                      <span className="text-emerald-600 font-bold">50 Credits debited</span>
+                      <span>Direct Portal Delivery</span>
+                      <span className="text-emerald-600 font-bold">₱50 Debited</span>
                     </div>
                   </div>
 
                 </div>
 
-                {/* Zero-Risk Standard */}
+                {/* Candidate Protection Guarantee */}
                 <div className="p-3.5 bg-theme-primary-light rounded-xl border border-theme-primary-border text-[11px] text-slate-700 space-y-1">
                   <p className="font-bold text-slate-900 flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-theme-primary" />
                     <span>Candidate Protection Guarantee:</span>
                   </p>
-                  <p>Credits are only deducted once the employer's portal officially returns a 200 OK submission receipt.</p>
+                  <p>₱50 is only deducted once the employer's official career portal confirms successful receipt of your application.</p>
                 </div>
 
               </div>
@@ -939,7 +916,7 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 5. THE SCIENCE: WHY TIMING & FILTER ALIGNMENT WORK */}
+      {/* 4. THE STRATEGY: WHY TIMING & RELEVANCE WORK */}
       {/* ========================================================================= */}
       <section id="the-science" className="py-20 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -949,10 +926,10 @@ export default function LandingPage({
               The Strategy
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Why Candidate.ph Gets You Invited to More Interviews
+              Why CANDIDATE.ph Gets You Invited to More Interviews
             </h2>
             <p className="text-slate-600 text-base sm:text-lg">
-              Landing an interview is not just about qualifications—it is about timing, relevance, and internal connections.
+              Landing an interview is not just about qualifications—it is about timing, relevance, and being in the first batch reviewed.
             </p>
           </div>
 
@@ -965,10 +942,7 @@ export default function LandingPage({
               <div className="text-3xl font-black text-slate-900">6x Callback Rate</div>
               <h3 className="text-base font-bold text-slate-900">The Early Bird Advantage</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Hiring managers don't read through 300 resumes. They review the first 25 that come in. Applying within the first 24 hours places your name on the recruiter's desk before the role is closed.
-              </p>
-              <p className="text-[11px] text-slate-400 italic pt-2 border-t border-slate-200">
-                * Source: TalentWorks Employment Velocity & Hiring Benchmark Study.
+                Hiring teams don't read through 300 resumes. They interview candidates from the first 25 that arrive. Applying within the first few hours places your name on the recruiter's desk while their calendar is still completely open.
               </p>
             </div>
 
@@ -976,27 +950,21 @@ export default function LandingPage({
               <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
                 <FileCheck2 className="w-6 h-6" />
               </div>
-              <div className="text-3xl font-black text-emerald-600">No Auto-Rejection</div>
-              <h3 className="text-base font-bold text-slate-900">Screening Software Alignment</h3>
+              <div className="text-3xl font-black text-emerald-600">Tailored Match Scoring</div>
+              <h3 className="text-base font-bold text-slate-900">Resume Keyword Alignment</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Company hiring systems scan for specific skills. If a job asks for "React" and your resume only says "Frontend," a computer might throw your application away. We ensure your genuine achievements match what they are searching for.
-              </p>
-              <p className="text-[11px] text-slate-400 italic pt-2 border-t border-slate-200">
-                * Clean single-column layout readable by modern hiring portals.
+                If a company asks for specific competencies, a computer filter might discard a generic resume. We highlight your genuine matching skills for each opening so you never get filtered out prematurely.
               </p>
             </div>
 
             <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-amber-300 transition-all space-y-4 shadow-xs">
               <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-                <Users className="w-6 h-6" />
+                <ShieldCheck className="w-6 h-6" />
               </div>
-              <div className="text-3xl font-black text-amber-600">4x Referral Boost</div>
-              <h3 className="text-base font-bold text-slate-900">Alumni & Colleague Routes</h3>
+              <div className="text-3xl font-black text-amber-600">Direct Recruiter Delivery</div>
+              <h3 className="text-base font-bold text-slate-900">Direct Personal Email Replies</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Applications backed by internal connections convert to interviews at 4x higher rates. We scan LinkedIn to show you if someone from your university (UP, UST, DLSU, Ateneo) or previous company works there.
-              </p>
-              <p className="text-[11px] text-slate-400 italic pt-2 border-t border-slate-200">
-                * Source: LinkedIn Talent Solutions Global Recruiting Trends.
+                Your application package lands directly in the company's official hiring inbox. Recruiters reply directly to your personal email address—giving you 100% control over interview scheduling.
               </p>
             </div>
 
@@ -1006,14 +974,14 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 6. ACTIVELY MONITORED COMPANIES */}
+      {/* 5. ACTIVELY MONITORED COMPANIES */}
       {/* ========================================================================= */}
       <section className="py-16 bg-[#F8FAFC]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Actively Monitored Tech & Corporate Hubs</h3>
-            <p className="text-lg font-extrabold text-slate-900">We continuously scan open roles at top employers across the Philippines.</p>
+            <p className="text-lg font-extrabold text-slate-900">We continuously search open roles at top employers across the Philippines.</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
@@ -1021,7 +989,7 @@ export default function LandingPage({
             <div className="bg-white p-4 rounded-2xl border border-slate-200 text-center flex flex-col items-center justify-center shadow-xs">
               <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-sm mb-2 shadow-xs">M</div>
               <span className="font-bold text-slate-900 text-xs">Maya</span>
-              <span className="text-[10px] text-slate-400">Voyager</span>
+              <span className="text-[10px] text-slate-400">Fintech</span>
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-slate-200 text-center flex flex-col items-center justify-center shadow-xs">
@@ -1057,7 +1025,7 @@ export default function LandingPage({
             <div className="bg-white p-4 rounded-2xl border border-slate-200 text-center flex flex-col items-center justify-center shadow-xs">
               <div className="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-black text-sm mb-2 shadow-xs">🪙</div>
               <span className="font-bold text-slate-900 text-xs">Coins.ph</span>
-              <span className="text-[10px] text-slate-400">Fintech</span>
+              <span className="text-[10px] text-slate-400">Crypto & Fiat</span>
             </div>
 
           </div>
@@ -1066,7 +1034,7 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 7. HOW IT WORKS: 3 SIMPLE STEPS */}
+      {/* 6. HOW IT WORKS: 3 SIMPLE STEPS */}
       {/* ========================================================================= */}
       <section id="how-it-works" className="py-20 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1079,7 +1047,7 @@ export default function LandingPage({
               Ready In 3 Minutes
             </h2>
             <p className="text-slate-600 text-base mt-2">
-              Configure your master credentials once. Let the engine monitor openings and prepare tailored packs.
+              Create your profile once. Let our engine search openings and present matched opportunities to you.
             </p>
           </div>
 
@@ -1090,14 +1058,14 @@ export default function LandingPage({
                 <div className="w-10 h-10 rounded-xl bg-theme-primary text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
                   1
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Upload Your Base Resume</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Upload Your Resume</h3>
                 <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  Upload your current resume once. Our matching engine reads your real skills, graduation year, and work experience to find matching openings.
+                  Upload your current resume once. Our matching engine reads your real skills and experience to find compatible openings.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
                 <Gift className="w-4 h-4 text-emerald-600" />
-                <span>50 Free Credits unlocked automatically on sign-up.</span>
+                <span>₱50 Free Balance unlocked automatically on sign-up.</span>
               </div>
             </div>
 
@@ -1106,14 +1074,14 @@ export default function LandingPage({
                 <div className="w-10 h-10 rounded-xl bg-theme-primary text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
                   2
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Set Your Salary & Dealbreakers</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Set Your Preferences</h3>
                 <p className="text-sm text-slate-600 leading-relaxed mb-4">
                   Specify your minimum monthly salary in ₱ (e.g., minimum ₱45,000/mo) and preferred setup (Remote, Hybrid BGC, or Makati). We hide underpaid roles.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
                 <Filter className="w-4 h-4 text-theme-primary" />
-                <span>Strict filtering: Only jobs that meet your criteria appear.</span>
+                <span>Strict filtering: Only jobs with 60%+ qualification match appear.</span>
               </div>
             </div>
 
@@ -1122,14 +1090,14 @@ export default function LandingPage({
                 <div className="w-10 h-10 rounded-xl bg-theme-primary text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
                   3
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Review & Apply in 1 Click</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Review, Tweak & Apply</h3>
                 <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  When a fresh job goes live, click "Apply". We generate a tailored resume pack, autofill the company's application form, and let you review before sending.
+                  When a matched role appears, preview exactly what will be sent. Tweak your summary or bullet points, then approve and send in 1 click for ₱50.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-600" />
-                <span>Always ₱0 to search; only ₱50 when you choose to apply.</span>
+                <span>Always ₱0 to search; only ₱50 when you choose to send.</span>
               </div>
             </div>
 
@@ -1139,25 +1107,25 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 8. PRICING & THE 3 ZERO-RISK COMMITMENTS */}
+      {/* 7. PRICING & THE 3 ZERO-RISK COMMITMENTS */}
       {/* ========================================================================= */}
       <section id="pricing" className="py-20 md:py-28 bg-[#F8FAFC] border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
             <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Fair Pay-As-You-Go Credits
+              Fair Pay-As-You-Go Pricing
             </span>
             <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
               Searching is Free Forever. <br />Pay Only ₱50 When You Apply.
             </h2>
             <p className="text-slate-600 text-base sm:text-lg">
-              No monthly lock-ins. Buy credits when you need them; keep unused credits permanently.
+              No monthly lock-ins or subscriptions. Reload your wallet with PayMongo when you need to send applications; your balance never expires.
             </p>
 
             <div className="inline-flex items-center gap-3 p-3 px-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold shadow-xs mt-2">
               <span className="text-xl">🎁</span>
-              <span>Every new account receives <strong>50 Free Credits</strong> (Your 1st application is 100% on us).</span>
+              <span>Every new account receives <strong>₱50 Free Balance</strong> (Your 1st application is 100% on us).</span>
             </div>
           </div>
 
@@ -1177,26 +1145,26 @@ export default function LandingPage({
                     <span className="text-4xl font-extrabold text-slate-900">₱250</span>
                     <span className="text-slate-500 font-medium text-sm">one-time</span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">₱50.00 per tailored application pack</p>
+                  <p className="text-xs text-slate-500 mt-1">₱50.00 per direct application</p>
                 </div>
 
                 <div className="pt-4 pb-2 border-y border-slate-100">
-                  <span className="text-2xl font-black text-theme-primary">250 Credits</span>
-                  <p className="text-xs text-slate-600 font-medium">Generates <strong>5 Complete Applications</strong></p>
+                  <span className="text-2xl font-black text-theme-primary">5 Applications</span>
+                  <p className="text-xs text-slate-600 font-medium">Includes in-place resume tailoring & sign-off</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-600">
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>5 Tailored Resumes & Cover Letters</span>
+                    <span>5 Direct Employer Dispatches</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>1-Click Company Form Autofill</span>
+                    <span>Preview & Tweak Before Every Send</span>
                   </li>
                   <li className="flex items-center gap-2 font-bold text-slate-800">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Credits never expire</span>
+                    <span>Balance never expires</span>
                   </li>
                 </ul>
               </div>
@@ -1204,7 +1172,7 @@ export default function LandingPage({
               <div className="pt-6 mt-6">
                 <button 
                   onClick={() => onStartSignUp('applicant@email.com')} 
-                  className="w-full py-3 rounded-xl border-2 border-slate-300 font-bold text-slate-800 text-sm hover:border-slate-800 transition-colors"
+                  className="w-full py-3 rounded-xl border-2 border-slate-300 font-bold text-slate-800 text-sm hover:border-slate-800 transition-colors cursor-pointer"
                 >
                   Select ₱250 Pack
                 </button>
@@ -1215,7 +1183,7 @@ export default function LandingPage({
             <div className="bg-white rounded-3xl p-8 border-2 border-theme-primary relative flex flex-col justify-between shadow-elevated transform md:-translate-y-2">
               
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-theme-primary text-white text-[11px] font-extrabold uppercase tracking-wider py-1 px-4 rounded-full shadow-md">
-                Most Popular • +10% Bonus
+                Most Popular • +1 Free App
               </div>
 
               <div className="space-y-4">
@@ -1229,33 +1197,33 @@ export default function LandingPage({
                     <span className="text-4xl font-extrabold text-slate-900">₱500</span>
                     <span className="text-slate-500 font-medium text-sm">one-time</span>
                   </div>
-                  <p className="text-xs text-theme-secondary font-semibold mt-1">₱45.45 per pack (Includes +1 Free Pack)</p>
+                  <p className="text-xs text-theme-secondary font-semibold mt-1">₱45.45 per application (Includes 1 Free Application)</p>
                 </div>
 
                 <div className="pt-4 pb-2 border-y border-slate-100">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-theme-primary">550 Credits</span>
-                    <span className="text-xs font-bold text-theme-secondary bg-theme-secondary-light px-2 py-0.5 rounded">+50 Free</span>
+                    <span className="text-2xl font-black text-theme-primary">11 Applications</span>
+                    <span className="text-xs font-bold text-theme-secondary bg-theme-secondary-light px-2 py-0.5 rounded">+1 Free</span>
                   </div>
-                  <p className="text-xs text-slate-600 font-medium">Generates <strong>11 Complete Applications</strong></p>
+                  <p className="text-xs text-slate-600 font-medium">Reload seamlessly via PayMongo GCash / Maya</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-600">
                   <li className="flex items-center gap-2 font-medium text-slate-800">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>11 Tailored Application Packs</span>
+                    <span>11 Direct Employer Dispatches</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Instant Early Bird alerts via Telegram / SMS</span>
+                    <span>Instant Early Bird notifications</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>LinkedIn Alumni & Referral Route Finder</span>
+                    <span>Full application history & audit receipts</span>
                   </li>
                   <li className="flex items-center gap-2 font-bold text-slate-800">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Credits never expire</span>
+                    <span>Balance never expires</span>
                   </li>
                 </ul>
               </div>
@@ -1275,7 +1243,7 @@ export default function LandingPage({
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">Blitz Pack</span>
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">+20% Bonus</span>
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">+4 Free Apps</span>
                 </div>
                 
                 <div>
@@ -1283,29 +1251,29 @@ export default function LandingPage({
                     <span className="text-4xl font-extrabold text-slate-900">₱1,000</span>
                     <span className="text-slate-500 font-medium text-sm">one-time</span>
                   </div>
-                  <p className="text-xs text-theme-secondary font-semibold mt-1">₱41.60 per pack (Includes +4 Free Packs)</p>
+                  <p className="text-xs text-theme-secondary font-semibold mt-1">₱41.60 per application (Includes 4 Free Applications)</p>
                 </div>
 
                 <div className="pt-4 pb-2 border-y border-slate-100">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-theme-primary">1,200 Credits</span>
-                    <span className="text-xs font-bold text-theme-secondary bg-theme-secondary-light px-2 py-0.5 rounded">+200 Free</span>
+                    <span className="text-2xl font-black text-theme-primary">24 Applications</span>
+                    <span className="text-xs font-bold text-theme-secondary bg-theme-secondary-light px-2 py-0.5 rounded">+4 Free</span>
                   </div>
-                  <p className="text-xs text-slate-600 font-medium">Generates <strong>24 Complete Applications</strong></p>
+                  <p className="text-xs text-slate-600 font-medium">Best for intensive career hunts</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-600">
                   <li className="flex items-center gap-2 font-medium text-slate-800">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>24 Tailored Application Packs</span>
+                    <span>24 Direct Employer Dispatches</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Global Remote USD Salary Benchmark Data</span>
+                    <span>Priority matching queue</span>
                   </li>
                   <li className="flex items-center gap-2 font-bold text-slate-800">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Credits never expire</span>
+                    <span>Balance never expires</span>
                   </li>
                 </ul>
               </div>
@@ -1313,7 +1281,7 @@ export default function LandingPage({
               <div className="pt-6 mt-6">
                 <button 
                   onClick={() => onStartSignUp('applicant@email.com')} 
-                  className="w-full py-3 rounded-xl border-2 border-slate-300 font-bold text-slate-800 text-sm hover:border-slate-800 transition-colors"
+                  className="w-full py-3 rounded-xl border-2 border-slate-300 font-bold text-slate-800 text-sm hover:border-slate-800 transition-colors cursor-pointer"
                 >
                   Select ₱1,000 Pack
                 </button>
@@ -1335,27 +1303,27 @@ export default function LandingPage({
                   <span>Zero-Risk Billing</span>
                 </div>
                 <p className="leading-relaxed">
-                  Credits are <strong>only debited when your application is confirmed received</strong> by the employer's portal. If an employer's website fails, 0 credits are deducted.
+                  ₱50 is <strong>only debited when your application is confirmed received</strong> by the employer's portal. If an employer's link fails, ₱0 is deducted.
                 </p>
               </div>
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 font-bold text-slate-900 text-sm">
                   <UserCheck className="w-4 h-4 text-theme-primary" />
-                  <span>You Approve Every Pack</span>
+                  <span>You Approve Every Send</span>
                 </div>
                 <p className="leading-relaxed">
-                  We never submit blindly. You preview and approve every resume adjustment, bullet point, and letter before authorizing transmission.
+                  We never submit blindly. You preview and approve every resume adjustment, bullet point, and headline before authorizing transmission.
                 </p>
               </div>
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 font-bold text-slate-900 text-sm">
                   <Clock className="w-4 h-4 text-amber-600" />
-                  <span>Credits Never Expire</span>
+                  <span>Balance Never Expires</span>
                 </div>
                 <p className="leading-relaxed">
-                  Use your credits this week or five months from now. Continuous scanning and matching stays 100% free regardless of your credit balance.
+                  Use your balance this week or five months from now. Continuous searching and matching stays 100% free regardless of your balance.
                 </p>
               </div>
 
@@ -1364,7 +1332,7 @@ export default function LandingPage({
 
           {/* Supported Gateways */}
           <div className="mt-12 text-center">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Official Philippine Payment Gateways</p>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Official Philippine Payment Channels</p>
             <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-slate-600 font-bold text-xs sm:text-sm">
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200 shadow-xs">
                 <span className="w-3 h-3 rounded-full bg-blue-500"></span>
@@ -1393,14 +1361,14 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 9. FINAL CTA & 5-COLUMN FOOTER */}
+      {/* 8. FINAL CTA & 5-COLUMN FOOTER */}
       {/* ========================================================================= */}
       <section className="py-20 bg-slate-900 text-white relative overflow-hidden text-center">
         <div className="max-w-4xl mx-auto px-4 space-y-8 relative z-10">
           
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-emerald-400 text-xs font-bold border border-slate-700">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Zero Subscriptions • 50 Free Credits on Sign-up
+            Zero Subscriptions • ₱50 Free Balance on Sign-up
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
@@ -1408,7 +1376,7 @@ export default function LandingPage({
           </h2>
 
           <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto font-normal">
-            Get matched with open Philippine and remote tech roles. Apply with a tailored resume in 1 click for just ₱50 per pack.
+            Get matched with open Philippine and remote tech roles. Tailor your resume and apply in 1 click for just ₱50 per application.
           </p>
 
           <form 
@@ -1423,14 +1391,14 @@ export default function LandingPage({
               required
               value={footerEmail}
               onChange={(e) => setFooterEmail(e.target.value)}
-              placeholder="Enter your email to claim 50 free credits..." 
+              placeholder="Enter your email to claim ₱50 free balance..." 
               className="flex-1 px-4 py-3.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button 
               type="submit" 
               className="px-6 py-3.5 bg-theme-primary hover:bg-theme-primary-hover text-white font-bold text-sm rounded-xl transition-all shadow-md whitespace-nowrap cursor-pointer"
             >
-              Claim 50 Credits
+              Claim ₱50 Balance
             </button>
           </form>
 
@@ -1440,7 +1408,7 @@ export default function LandingPage({
         </div>
       </section>
 
-      {/* Complete 5-Column Brand Footer from CandidatePH.html */}
+      {/* Complete 5-Column Brand Footer */}
       <footer className="bg-slate-950 text-slate-400 text-xs py-12 border-t border-slate-800 text-left">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
@@ -1451,7 +1419,7 @@ export default function LandingPage({
                 <span className="text-xs px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-bold border border-slate-700">.ph</span>
               </div>
               <p className="text-slate-400 text-xs max-w-xs leading-relaxed">
-                The job matching platform engineered to make professional job hunting fast, fair, and easy for Philippine talent.
+                The job matching platform engineered to make professional job hunting fast, fair, and direct for Philippine talent.
               </p>
               <p className="text-slate-500 text-[11px]">
                 Proudly built for professionals in Metro Manila, Cebu, and remote Philippines.
@@ -1463,8 +1431,8 @@ export default function LandingPage({
               <ul className="space-y-2">
                 <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
                 <li><a href="#comparison" className="hover:text-white transition-colors">Old Way vs Candidate</a></li>
-                <li><button onClick={onOpenDashboard} className="hover:text-white transition-colors text-left">Inside the Dashboard</button></li>
-                <li><a href="#pricing" className="hover:text-white transition-colors">₱50 Pack Pricing</a></li>
+                <li><button onClick={onOpenDashboard} className="hover:text-white transition-colors text-left cursor-pointer">Inside the Dashboard</button></li>
+                <li><a href="#pricing" className="hover:text-white transition-colors">₱50 Application Pricing</a></li>
               </ul>
             </div>
 
@@ -1493,7 +1461,7 @@ export default function LandingPage({
           <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
             <p>© 2026 CANDIDATE.ph. All rights reserved.</p>
             <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Continuous Scanner Active</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Active Matching Engine</span>
               <span>Manila, Philippines (PHT / GMT+8)</span>
             </div>
           </div>

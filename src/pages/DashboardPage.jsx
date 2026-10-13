@@ -78,13 +78,13 @@ export default function DashboardPage({
           <div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-2">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-              <span>Scraper Sync: Twice Daily (6:00 AM & 6:00 PM PHT)</span>
+              <span>Search & Match Drop: Twice Daily (6:00 AM & 6:00 PM PHT)</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Welcome back, {user?.name || 'Juan Dela Cruz'}
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
-              Targeting: <strong className="text-slate-800">{user?.targetRole || 'Senior Frontend Engineer'}</strong> • Matching {user?.citizenship || 'Filipino'} candidates with ATS roles scanning 60%+ qualification overlap.
+              Targeting: <strong className="text-slate-800">{user?.targetRole || 'Senior Frontend Engineer'}</strong> • Presenting open roles with 60%+ qualification match directly from employer career portals.
             </p>
           </div>
 
@@ -99,7 +99,7 @@ export default function DashboardPage({
                 ₱{user?.walletBalance ?? 250}.00
               </div>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                {Math.floor((user?.walletBalance ?? 250) / 50)} Quick Applies remaining (₱50/app)
+                {Math.floor((user?.walletBalance ?? 250) / 50)} Direct Applications available (₱50/app)
               </p>
             </div>
 
@@ -117,7 +117,7 @@ export default function DashboardPage({
         {/* 4 Summary Stats Pills */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 mt-6 border-t border-slate-100">
           <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">SCRAPED JOBS SCANNED</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">ACTIVE ROLES MONITORED</span>
             <span className="text-lg font-black text-slate-900 mt-0.5 block">15,443+</span>
           </div>
 

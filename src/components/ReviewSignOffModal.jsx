@@ -85,7 +85,7 @@ export default function ReviewSignOffModal({
                 <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
                   Step 1 of 1 • Final Review & Sign-Off
                 </span>
-                <span className="text-xs text-slate-400">• {job.portal} ATS</span>
+                <span className="text-xs text-slate-400">• Direct Career Portal</span>
               </div>
               <h2 className="text-lg sm:text-xl font-black text-white">
                 {job.title} @ {job.company}
@@ -113,7 +113,7 @@ export default function ReviewSignOffModal({
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-900">
-                  Wallet Deduction: <span className="text-blue-700 font-extrabold">₱50.00</span> upon confirmed ATS receipt
+                  Wallet Deduction: <span className="text-blue-700 font-extrabold">₱50.00</span> upon confirmed delivery to employer
                 </p>
                 <p className="text-[11px] text-slate-600">
                   Current Balance: ₱{user?.walletBalance ?? 250}.00 → Balance After: ₱{(user?.walletBalance ?? 250) - 50}.00
@@ -136,7 +136,7 @@ export default function ReviewSignOffModal({
             <Mail className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
             <div className="text-xs text-emerald-950">
               <span className="font-bold block text-emerald-900">Direct Employer Communication:</span>
-              {job.company}'s recruitment team will receive this package directly into their {job.portal} ATS and will email you directly at{' '}
+              {job.company}'s recruitment team will receive this application directly into their hiring portal and will email you directly at{' '}
               <strong className="font-bold underline">{user?.email || 'your personal email'}</strong>. Once sent, we step back.
             </div>
           </div>
@@ -309,13 +309,13 @@ export default function ReviewSignOffModal({
                 </div>
               </div>
 
-              {/* ATS Packaging Badge */}
+              {/* Packaging Badge */}
               <div className="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between text-xs text-slate-500">
                 <span className="flex items-center gap-1.5 font-medium">
                   <ShieldCheck className="w-4 h-4 text-blue-600" />
-                  <span>Payload Formatted for <strong>{job.portal} ATS API</strong></span>
+                  <span>Package Formatted for <strong>Direct Career Portal Submission</strong></span>
                 </span>
-                <span className="font-mono text-[10px] text-slate-400">STATUS: READY</span>
+                <span className="font-mono text-[10px] text-emerald-600 font-bold">READY TO SEND</span>
               </div>
 
             </div>
@@ -331,7 +331,7 @@ export default function ReviewSignOffModal({
                 className="w-4 h-4 mt-0.5 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
               />
               <span className="text-xs text-slate-700 leading-normal">
-                <strong>Applicant Sign-Off:</strong> I approve this application package and authorize CANDIDATE.ph to deliver it to <strong>{job.company}</strong>'s ATS. I understand <strong>₱50</strong> will be deducted from my wallet balance upon confirmed delivery, and the employer will reply to my personal email.
+                <strong>Applicant Sign-Off:</strong> I approve this application package and authorize CANDIDATE.ph to deliver it directly to <strong>{job.company}</strong>'s hiring team. I understand <strong>₱50</strong> will be deducted from my wallet balance upon confirmed delivery, and the employer will reply directly to my personal email.
               </span>
             </label>
           </div>
@@ -370,12 +370,12 @@ export default function ReviewSignOffModal({
               {isSubmitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Dispatching to ATS...</span>
+                  <span>Delivering to Employer...</span>
                 </>
               ) : (
                 <>
                   <Send className="w-4 h-4 text-amber-300" />
-                  <span>Sign Off & Send to ATS (-₱50)</span>
+                  <span>Sign Off & Send to Employer (-₱50)</span>
                 </>
               )}
             </button>
