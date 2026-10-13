@@ -159,43 +159,6 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
         </div>
       </div>
 
-      {/* Discrete Floating Preview Navigator for Testing (Bottom Right Corner) */}
-      <div className="fixed bottom-4 right-4 z-50 bg-slate-900/90 backdrop-blur-md text-slate-300 p-1.5 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-1 text-[11px]">
-        <span className="text-[10px] font-bold text-slate-400 px-2 uppercase tracking-wider hidden sm:inline">Preview:</span>
-        <button
-          onClick={() => setCurrentView('landing')}
-          className={`px-2.5 py-1 rounded-xl font-bold transition-all ${
-            isLanding ? 'bg-blue-600 text-white' : 'hover:bg-slate-800 text-slate-400'
-          }`}
-        >
-          Landing
-        </button>
-        <button
-          onClick={() => setCurrentView('auth')}
-          className={`px-2.5 py-1 rounded-xl font-bold transition-all ${
-            isAuth ? 'bg-blue-600 text-white' : 'hover:bg-slate-800 text-slate-400'
-          }`}
-        >
-          Login
-        </button>
-        <button
-          onClick={() => setCurrentView('onboarding')}
-          className={`px-2.5 py-1 rounded-xl font-bold transition-all ${
-            isOnboarding ? 'bg-blue-600 text-white' : 'hover:bg-slate-800 text-slate-400'
-          }`}
-        >
-          Onboarding
-        </button>
-        <button
-          onClick={() => setCurrentView('dashboard')}
-          className={`px-2.5 py-1 rounded-xl font-bold transition-all ${
-            isDashboard ? 'bg-blue-600 text-white' : 'hover:bg-slate-800 text-slate-400'
-          }`}
-        >
-          Dashboard
-        </button>
-      </div>
-
     </header>
   );
 }
