@@ -254,46 +254,47 @@ export default function LandingPage({
                 </div>
               </div>
 
-              {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-black text-slate-900 tracking-tight leading-[1.14]">
-                The Smart Job Matching Engine for <span className="text-theme-primary">Filipino Professionals.</span><br />
-                Be <span className="text-theme-primary">CANDIDATE #1</span> before the role gets flooded.
-              </h1>
+              {/* Main Headline with Breathing Room & Font Hierarchy */}
+              <div className="space-y-3">
+                <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 tracking-tight leading-[1.16]">
+                  The Smart Job Matching Engine for <span className="text-theme-primary">Filipino Professionals.</span>
+                </h1>
+                <p className="text-xl sm:text-2xl lg:text-[25px] font-extrabold text-slate-700 tracking-tight leading-snug">
+                  Be <span className="text-theme-primary">Candidate #1</span> before the role gets flooded.
+                </p>
+              </div>
 
               {/* Subheadline */}
-              <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed max-w-xl">
+              <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed max-w-xl pt-1">
                 Upload your resume once. We search open roles at top employers, match them to your qualifications and skills, and deliver your tailored application directly to the hiring team.
               </p>
 
-              {/* 2 Mini Highlight Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl pt-1">
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-center">
+              {/* 2 Mini Value Proposition Cards (Expanded with rich explanation) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-xl pt-2">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-1.5 text-left">
                   <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-700 uppercase tracking-wider">
                     <Search className="w-3.5 h-3.5 text-amber-600" />
                     <span>SMART SEARCH & MATCH</span>
                   </div>
-                  <p className="text-lg font-black text-slate-900 mt-0.5">
+                  <p className="text-xl font-black text-slate-900">
                     ₱0 <span className="text-xs font-semibold text-amber-700">Free Forever</span>
                   </p>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-center">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-theme-primary uppercase tracking-wider">
-                    <Send className="w-3.5 h-3.5 text-theme-primary" />
-                    <span>ONLY WHEN YOU APPLY</span>
-                  </div>
-                  <p className="text-lg font-black text-slate-900 mt-0.5">
-                    ₱50 <span className="text-xs font-semibold text-slate-500">per application</span>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Always turned on. Our engine searches open roles and matches them to your background daily at zero cost.
                   </p>
                 </div>
-              </div>
 
-              {/* Zero-Middleman Guarantee Callout Banner */}
-              <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-950 flex items-start gap-2.5 max-w-xl">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-emerald-900 font-bold">Zero Middleman Guarantee:</strong>
-                  Employers receive your application directly and reply to your personal email address. We don't gatekeep your messages or take a percentage of your salary.
+                <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-1.5 text-left">
+                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-theme-primary uppercase tracking-wider">
+                    <Send className="w-3.5 h-3.5 text-theme-primary" />
+                    <span>YOU ONLY PAY WHEN YOU APPLY</span>
+                  </div>
+                  <p className="text-xl font-black text-slate-900">
+                    ₱50 <span className="text-xs font-semibold text-slate-500">per application</span>
+                  </p>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Zero subscriptions or monthly lock-ins. You only spend ₱50 when you decide to send your tailored application.
+                  </p>
                 </div>
               </div>
 
@@ -1070,6 +1071,21 @@ export default function LandingPage({
               </div>
             </div>
 
+          </div>
+
+          {/* Prominent Zero-Middleman / We Don't Own The Employer Callout */}
+          <div className="mt-12 max-w-4xl mx-auto p-6 sm:p-7 rounded-3xl bg-emerald-50 border-2 border-emerald-200 text-emerald-950 flex flex-col sm:flex-row items-start sm:items-center gap-4 text-left shadow-xs">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <h4 className="text-base font-extrabold text-emerald-900">
+                Zero Middleman Guarantee: We Don't Own the Employer
+              </h4>
+              <p className="text-xs sm:text-sm text-emerald-800 leading-relaxed">
+                Employers receive your application directly in their hiring inbox and reply straight to your personal email address. We never intercept messages, gatekeep communications, or take a cut of your salary. You maintain 100% direct control over your interview process.
+              </p>
+            </div>
           </div>
 
         </div>

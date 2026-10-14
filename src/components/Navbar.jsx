@@ -51,7 +51,7 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                 </a>
                 <a 
                   href="#dashboard-preview" 
-                  className="px-3 py-2 rounded-lg text-blue-600 font-bold hover:bg-blue-50 transition-colors whitespace-nowrap"
+                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors whitespace-nowrap"
                 >
                   Inside the Dashboard
                 </a>
@@ -194,7 +194,7 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
             <a
               href="#dashboard-preview"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2.5 rounded-xl text-blue-600 font-bold hover:bg-blue-50 transition-colors"
+              className="px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors"
             >
               Inside the Dashboard
             </a>
