@@ -242,7 +242,7 @@ export default function LandingPage({
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50/90 border border-amber-200/90 text-amber-900 text-xs font-semibold">
                   <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                  <span>Monitoring <strong className="text-amber-950 font-bold">{tickerCount.toLocaleString()}</strong> + PH & Remote Tech Roles</span>
+                  <span>Monitoring <strong className="text-amber-950 font-bold">{tickerCount.toLocaleString()}</strong> + Philippine Professional & Tech Roles</span>
                 </div>
               </div>
 
@@ -255,14 +255,14 @@ export default function LandingPage({
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-black text-slate-900 tracking-tight leading-[1.12]">
-                Be <span className="text-theme-primary">CANDIDATE #1.</span><br />
-                Land the interview before the other 200 applicants arrive.
+              <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-black text-slate-900 tracking-tight leading-[1.14]">
+                The Smart Job Matching Engine for <span className="text-theme-primary">Filipino Professionals.</span><br />
+                Be <span className="text-theme-primary">CANDIDATE #1</span> before the role gets flooded.
               </h1>
 
               {/* Subheadline */}
               <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed max-w-xl">
-                We search top Philippine and remote companies, matching openings directly against your resume. Searching and matching are <strong className="text-slate-900 font-bold">100% free, forever</strong>. You only pay ₱50 per application, and only when you choose to apply.
+                Upload your resume once. We search open roles at top employers, match them to your qualifications and skills, and deliver your tailored application directly to the hiring team.
               </p>
 
               {/* 2 Mini Highlight Cards */}
