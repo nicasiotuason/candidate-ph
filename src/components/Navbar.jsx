@@ -67,6 +67,12 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                 >
                   Pricing
                 </a>
+                <a 
+                  href="#faq" 
+                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors whitespace-nowrap"
+                >
+                  FAQ
+                </a>
               </nav>
 
               <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
@@ -211,6 +217,13 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
               className="px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors"
             >
               Pricing (₱0 to Search)
+            </a>
+            <a
+              href="#faq"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors"
+            >
+              FAQ
             </a>
           </nav>
         </div>

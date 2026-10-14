@@ -20,7 +20,13 @@ import {
   ChevronRight,
   Briefcase,
   FileCheck2,
-  Building2
+  Building2,
+  Heart,
+  ChevronDown,
+  MapPin,
+  HelpCircle,
+  TrendingUp,
+  X
 } from 'lucide-react';
 
 const THEMES = {
@@ -74,90 +80,121 @@ const LIVE_HERO_JOBS = [
   {
     id: "job_01",
     company: "Maya",
-    industry: "Fintech",
+    industry: "Digital Banking & Payments",
     logo: "M",
     logoColor: "bg-emerald-600 text-white",
-    title: "Senior React Developer",
-    salary: "₱180k–240k/mo",
-    setup: "Hybrid • BGC",
-    channelBadge: "DIRECT APPLICATION",
-    channelBadgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    postedHeader: "Posted 1h 18m ago • First Review Batch (< 25 applicants)",
-    matchPillText: "98% Strong Match",
-    matchPillColor: "bg-orange-600 text-white",
-    coreCount: "4/4 core requirements met",
-    skills: ["React 18 + TypeScript", "Next.js SSR", "Payments domain", "Design systems"],
-    amberSkill: "Optional: GraphQL",
-    matchHighlight: "Top 2% candidate fit for Maya's frontend core",
-    estQueue: "First Review Batch",
-    timelinePercent: "50%",
-    initialSeconds: 4706
+    title: "Senior Full Stack Engineer (FinTech)",
+    salary: "₱180,000 – ₱240,000 / mo",
+    location: "BGC, Taguig",
+    setup: "Hybrid (2 days on-site)",
+    type: "Full-Time",
+    level: "Mid-Senior Level",
+    experience: "5+ yrs exp",
+    postedAgo: "Discovered 1 hour ago",
+    applicantCount: "< 20 applicants",
+    matchScore: 98,
+    matchLabel: "STRONG MATCH",
+    fitReasons: [
+      "4/4 Core Skills Met (React 18, TypeScript, Node.js, Go)",
+      "Salary exceeds your ₱150k monthly floor",
+      "Matches your preferred BGC Hybrid setup"
+    ]
   },
   {
     id: "job_02",
-    company: "SeaMoney",
-    industry: "ShopeePay",
-    logo: "S",
-    logoColor: "bg-orange-600 text-white",
-    title: "Lead Cloud & Backend Architect",
-    salary: "₱140k–195k/mo",
-    setup: "Hybrid • Ortigas Center",
-    channelBadge: "DIRECT APPLICATION",
-    channelBadgeColor: "bg-amber-100 text-amber-800 border-amber-200",
-    postedHeader: "Posted 12m ago • Early Bird Batch (< 5 applicants)",
-    matchPillText: "99% Strong Match",
-    matchPillColor: "bg-purple-600 text-white",
-    coreCount: "5/5 core requirements met",
-    skills: ["Golang / Microservices", "Kafka Queues", "High-Concurrency", "AWS Architecture"],
-    amberSkill: "Optional: Payment latency tuning",
-    matchHighlight: "High-concurrency fintech match based on your resume",
-    estQueue: "Early Bird Batch",
-    timelinePercent: "15%",
-    initialSeconds: 720
+    company: "Globe Telecom",
+    industry: "Telecommunications & Tech",
+    logo: "G",
+    logoColor: "bg-blue-600 text-white",
+    title: "Growth Marketing & Retention Lead",
+    salary: "₱130,000 – ₱170,000 / mo",
+    location: "BGC, Taguig",
+    setup: "Hybrid (1 day on-site)",
+    type: "Full-Time",
+    level: "Senior / Lead",
+    experience: "6+ yrs exp",
+    postedAgo: "Discovered 45m ago",
+    applicantCount: "< 15 applicants",
+    matchScore: 94,
+    matchLabel: "STRONG MATCH",
+    fitReasons: [
+      "Verified B2C retention & lifecycle marketing skills",
+      "Salary exceeds your ₱120k monthly floor",
+      "Direct match with consumer digital apps"
+    ]
   },
   {
     id: "job_03",
-    company: "GCash",
-    industry: "Fintech / Mynt",
-    logo: "G",
-    logoColor: "bg-blue-600 text-white",
-    title: "Junior Web Developer",
-    salary: "₱45k–60k/mo",
-    setup: "Hybrid • BGC",
-    channelBadge: "DIRECT APPLICATION",
-    channelBadgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    postedHeader: "Posted 25m ago • Early Bird Batch (< 10 applicants)",
-    matchPillText: "96% Strong Match",
-    matchPillColor: "bg-blue-600 text-white",
-    coreCount: "3/3 core requirements met",
-    skills: ["React Basics", "JavaScript ES6+", "HTML5 / Tailwind", "Git Workflow"],
-    amberSkill: "Optional: TypeScript",
-    matchHighlight: "Clean stack alignment for junior engineer track",
-    estQueue: "Early Bird Batch",
-    timelinePercent: "20%",
-    initialSeconds: 1500
+    company: "Canva Philippines",
+    industry: "Design Tech & Global SaaS",
+    logo: "C",
+    logoColor: "bg-cyan-600 text-white",
+    title: "Product Operations & Strategy Lead",
+    salary: "Salary not disclosed • Est. Market: ₱110,000 – ₱150,000 / mo",
+    location: "Makati CBD / Remote",
+    setup: "Flexible Hub",
+    type: "Full-Time",
+    level: "Lead Level",
+    experience: "5+ yrs exp",
+    postedAgo: "Discovered 2 hours ago",
+    applicantCount: "< 25 applicants",
+    matchScore: 96,
+    matchLabel: "STRONG MATCH",
+    fitReasons: [
+      "Product operations & cross-functional leadership fit",
+      "Salary estimated in top-quartile market band",
+      "Work From Home friendly flexible arrangement"
+    ]
   },
   {
     id: "job_04",
-    company: "Canva Manila",
-    industry: "Design Tech",
-    logo: "C",
-    logoColor: "bg-cyan-600 text-white",
-    title: "Associate UI/UX Designer",
-    salary: "₱40k–55k/mo",
-    setup: "Flexible • Makati Hub",
-    channelBadge: "DIRECT APPLICATION",
-    channelBadgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    postedHeader: "Posted 42m ago • Early Bird Batch (< 15 applicants)",
-    matchPillText: "97% Strong Match",
-    matchPillColor: "bg-cyan-600 text-white",
-    coreCount: "4/4 core requirements met",
-    skills: ["Figma Components", "Design Systems", "Wireframing", "User Flows"],
-    amberSkill: "Optional: ProtoPie",
-    matchHighlight: "Design system alignment matched directly with your portfolio",
-    estQueue: "Early Bird Batch",
-    timelinePercent: "35%",
-    initialSeconds: 2520
+    company: "SeaMoney",
+    industry: "ShopeePay & Digital Finance",
+    logo: "S",
+    logoColor: "bg-orange-600 text-white",
+    title: "Lead Cloud & Microservices Architect",
+    salary: "₱190,000 – ₱260,000 / mo",
+    location: "Ortigas Center",
+    setup: "Hybrid or Remote",
+    type: "Full-Time",
+    level: "Staff / Principal",
+    experience: "8+ yrs exp",
+    postedAgo: "Discovered 15m ago",
+    applicantCount: "< 5 applicants",
+    matchScore: 99,
+    matchLabel: "EXCEPTIONAL MATCH",
+    fitReasons: [
+      "High-concurrency systems expertise (Kafka, Go, AWS)",
+      "Top-tier compensation exceeding senior band",
+      "Early bird opening (< 5 total submissions)"
+    ]
+  }
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "How does CANDIDATE.ph work?",
+    a: "Upload your master resume once and set your preferences (minimum monthly salary in ₱ and preferred Metro Manila hub or remote). Our engine searches open roles across top Philippine employers daily at ₱0 cost, matches them to your background, and prepares an ATS-tailored application package. You review and sign off on every detail before anything is sent."
+  },
+  {
+    q: "What does the ₱50 fee cover, and when am I charged?",
+    a: "Searching and matching is ₱0 free forever. You only pay ₱50 when you decide to apply to a specific role. Crucially, the ₱50 is only deducted once the employer's official career portal verifies successful receipt. Every new account receives ₱50 in free starting balance, so your first application is 100% on us."
+  },
+  {
+    q: "What is the Zero Middleman Guarantee?",
+    a: "Employers receive your application with your personal email as the direct contact point. When a recruiter or hiring manager invites you to interview, their reply lands directly in your private inbox (Gmail, Outlook, Yahoo). We never gatekeep your messages, hide employer contact details, or take a percentage of your salary."
+  },
+  {
+    q: "How does the Resume Tweak work? Does it invent experience?",
+    a: "Never. Our engine never invents fake credentials or hallucinates experience. It simply re-orders and highlights your authentic skills and accomplishments to match the specific keywords the employer's ATS screening filter is searching for. Before sending, you can choose between the Tailored Resume or your Original Master Resume."
+  },
+  {
+    q: "How do I buy application credits? Is there a monthly subscription?",
+    a: "There are zero recurring monthly subscriptions. You buy application credits on-demand via PayMongo using GCash, Maya, or Debit/Credit cards. You can purchase 4 applications for ₱200, 11 for ₱500, or 24 for ₱1,000. Your credits never expire."
+  },
+  {
+    q: "Can I edit my profile and salary floor after signing up?",
+    a: "Yes, at any time. You have full editing control over your target salary, preferred hubs, work experience, education, and skill tags. Updating your profile immediately re-calibrates your matched job feed in real time."
   }
 ];
 
@@ -173,6 +210,11 @@ export default function LandingPage({
   const [activeThemeKey, setActiveThemeKey] = useState('cobalt-tangerine');
   const [cardTimerSeconds, setCardTimerSeconds] = useState(4706);
   const [tickerCount, setTickerCount] = useState(15443);
+  const [openFaqIdx, setOpenFaqIdx] = useState(null);
+
+  const toggleFaq = (idx) => {
+    setOpenFaqIdx(openFaqIdx === idx ? null : idx);
+  };
 
   const activeJob = LIVE_HERO_JOBS[currentJobIdx % LIVE_HERO_JOBS.length];
 
@@ -338,187 +380,179 @@ export default function LandingPage({
 
             </div>
 
-            {/* Right: The Complete Sample Matcher Card */}
+            {/* Right: The Two-Zone Match Card (Jobright-Inspired Pattern) */}
             <div className="lg:col-span-6 w-full">
-              <div className="relative bg-white rounded-3xl p-5 sm:p-6 shadow-elevated border border-slate-200 transition-all">
+              <div className="relative bg-white rounded-3xl p-5 sm:p-6 shadow-elevated border border-slate-200 transition-all text-left">
                 
-                {/* Top Status Row */}
+                {/* Top Timing & Urgency Header */}
                 <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
                     <span className="text-xs font-bold text-amber-900">
-                      {activeJob.postedHeader}
+                      Early Applicant • {activeJob.postedAgo} • <span className="font-extrabold text-amber-950">{activeJob.applicantCount}</span>
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs font-black text-rose-600">
-                    <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
-                    <span>• ACTIVE ROLE</span>
+                  <div className="flex items-center gap-1.5 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span>ACTIVE ROLE</span>
                   </div>
                 </div>
 
-                {/* Dynamic Content Area */}
-                <div className="pt-4 space-y-4">
+                {/* The Two-Zone Grid */}
+                <div className="pt-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
                   
-                  {/* Company Header Block */}
-                  <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-2xl ${activeJob.logoColor} font-black text-xl flex items-center justify-center shadow-xs`}>
-                      {activeJob.logo}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-                        <span className="font-bold text-slate-900">{activeJob.company}</span>
-                        <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                        <span className="text-slate-400">• {activeJob.industry}</span>
-                      </div>
-                      <h3 className="font-black text-slate-900 text-lg sm:text-xl leading-tight mt-0.5">
-                        {activeJob.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* 3 Metadata Tiles */}
-                  <div className="grid grid-cols-3 gap-2 pt-1 text-left">
-                    <div className="p-3 rounded-2xl bg-slate-50/80 border border-slate-100">
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">SALARY</p>
-                      <p className="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">{activeJob.salary}</p>
-                    </div>
-
-                    <div className="p-3 rounded-2xl bg-slate-50/80 border border-slate-100">
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">SETUP</p>
-                      <p className="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">{activeJob.setup}</p>
-                    </div>
-
-                    <div className="p-3 rounded-2xl bg-slate-50/80 border border-slate-100">
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">CHANNEL</p>
-                      <p className="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">Direct Career Portal</p>
-                      <span className={`inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded font-black uppercase tracking-wider border ${activeJob.channelBadgeColor}`}>
-                        {activeJob.channelBadge}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* THE SAMPLE MATCHER BOX */}
-                  <div className="p-4 rounded-2xl bg-white border border-amber-200/90 space-y-2.5 shadow-xs text-left">
-                    <div className="flex items-center justify-between">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-extrabold ${activeJob.matchPillColor}`}>
-                        <Check className="w-3.5 h-3.5" />
-                        <span>{activeJob.matchPillText}</span>
-                      </span>
-                      <span className="text-xs text-slate-500 font-semibold">{activeJob.coreCount}</span>
-                    </div>
-
-                    {/* Skill Tags Grid */}
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {activeJob.skills.map((s, i) => (
-                        <span key={i} className="inline-flex items-center gap-1 text-[11px] font-semibold bg-white text-slate-700 border border-amber-200/90 px-2.5 py-1 rounded-lg">
-                          <Check className="w-3 h-3 text-amber-600" />
-                          <span>{s}</span>
-                        </span>
-                      ))}
-                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold bg-white text-amber-800 border border-amber-200/90 px-2.5 py-1 rounded-lg">
-                        <AlertCircle className="w-3 h-3 text-amber-600" />
-                        <span>{activeJob.amberSkill}</span>
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Verification Highlight Box (Replaces unverified alumni contacts) */}
-                  <div className="p-3 rounded-2xl bg-slate-50/90 border border-slate-200/70 flex items-center justify-between gap-2 text-left">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
-                        <FileCheck2 className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-900 flex items-center gap-1">
-                          <span>AI Match Analysis</span>
-                        </p>
-                        <p className="text-[11px] text-slate-500">{activeJob.matchHighlight}</p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-md font-bold shrink-0">
-                      Top Match
-                    </span>
-                  </div>
-
-                </div>
-
-                {/* Live Timer & Timeline Slider */}
-                <div className="pt-3 border-t border-slate-100 space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-500 font-medium">
-                      Live for <span className="font-mono font-bold text-amber-600">{formatTimer(cardTimerSeconds)}</span>
-                    </span>
-                    <span className="font-bold text-theme-primary text-xs">
-                      Queue: {activeJob.estQueue}
-                    </span>
-                  </div>
-
-                  <div className="relative pt-1 pb-2">
-                    <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" style={{ width: activeJob.timelinePercent }}></div>
-                    </div>
-                    <div className="absolute top-1 -translate-x-1/2 w-4 h-4 rounded-full bg-white border-4 border-amber-500 shadow-xs pointer-events-none" style={{ left: activeJob.timelinePercent }}></div>
+                  {/* Zone 1: Left 7-Cols (Job Metadata & Application Action) */}
+                  <div className="md:col-span-7 flex flex-col justify-between space-y-4">
                     
-                    <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold pt-1.5 uppercase tracking-wider">
-                      <span>Early Bird</span>
-                      <span className="text-amber-700">First Review</span>
-                      <span>Open Pool</span>
+                    {/* Company Header */}
+                    <div className="flex items-start gap-3">
+                      <div className={`w-12 h-12 rounded-2xl ${activeJob.logoColor} font-black text-xl flex items-center justify-center shadow-xs shrink-0`}>
+                        {activeJob.logo}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold truncate">
+                          <span className="font-bold text-slate-900">{activeJob.company}</span>
+                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 fill-blue-500 shrink-0" />
+                          <span className="text-slate-400 truncate">• {activeJob.industry}</span>
+                        </div>
+                        <h3 className="font-black text-slate-900 text-base sm:text-lg leading-snug mt-0.5">
+                          {activeJob.title}
+                        </h3>
+                      </div>
                     </div>
+
+                    {/* 2-Row Metadata Grid */}
+                    <div className="space-y-2 pt-1 text-xs">
+                      {/* Row 1: Location & Employment Type */}
+                      <div className="flex flex-wrap items-center gap-2 text-slate-600">
+                        <span className="inline-flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/80 font-medium">
+                          <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span>{activeJob.location} • {activeJob.setup}</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/80 font-medium">
+                          <Briefcase className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span>{activeJob.type}</span>
+                        </span>
+                      </div>
+
+                      {/* Row 2: Seniority & Experience */}
+                      <div className="flex flex-wrap items-center gap-2 text-slate-600">
+                        <span className="inline-flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/80 font-medium">
+                          <TrendingUp className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span>{activeJob.level}</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/80 font-medium">
+                          <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span>{activeJob.experience}</span>
+                        </span>
+                      </div>
+
+                      {/* Salary Row: Option A Rule */}
+                      <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-amber-950 font-bold text-xs sm:text-[13px] flex items-center gap-2">
+                        <span className="text-sm">💰</span>
+                        <span className="font-extrabold">{activeJob.salary}</span>
+                      </div>
+                    </div>
+
+                    {/* Action Bar */}
+                    <div className="pt-2 flex items-center gap-2">
+                      <button
+                        onClick={() => onQuickApplyFromLanding(activeJob)}
+                        className="flex-1 py-3 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer text-sm"
+                      >
+                        <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
+                        <span>Apply (₱50)</span>
+                      </button>
+                      <button
+                        onClick={() => prevJob()}
+                        aria-label="Save role"
+                        className="p-3 rounded-xl border border-slate-200 text-slate-400 hover:text-rose-500 hover:bg-rose-50/50 hover:border-rose-200 transition-colors cursor-pointer shrink-0"
+                      >
+                        <Heart className="w-4 h-4" />
+                      </button>
+                    </div>
+
                   </div>
-                </div>
 
-                {/* Primary Action Button: Review, Tweak & 1-Click Apply */}
-                <div className="pt-2">
-                  <button 
-                    onClick={() => onQuickApplyFromLanding(activeJob)}
-                    className="w-full py-3.5 px-4 bg-theme-primary hover:bg-theme-primary-hover active:scale-[0.99] text-white font-bold rounded-2xl shadow-lg transition-all flex flex-col items-center justify-center cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2 text-sm sm:text-base font-extrabold">
-                      <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
-                      <span>Review, Tweak & 1-Click Apply</span>
+                  {/* Zone 2: Right 5-Cols (Circular Match Gauge & Fit Reasons) */}
+                  <div className="md:col-span-5 bg-slate-900 text-white rounded-2xl p-4 flex flex-col justify-between space-y-3.5 shadow-md border border-slate-800 text-left">
+                    
+                    {/* Top: Circular Gauge */}
+                    <div className="text-center pt-1">
+                      <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+                        <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                          <path
+                            className="text-slate-800"
+                            strokeWidth="3.5"
+                            stroke="currentColor"
+                            fill="none"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                          <path
+                            className="text-emerald-400 transition-all duration-700"
+                            strokeDasharray={`${activeJob.matchScore}, 100`}
+                            strokeWidth="3.5"
+                            strokeLinecap="round"
+                            stroke="currentColor"
+                            fill="none"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <span className="text-xl font-black text-white tracking-tight">{activeJob.matchScore}%</span>
+                        </div>
+                      </div>
+                      <p className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 mt-1">
+                        {activeJob.matchLabel}
+                      </p>
+                      <p className="text-[10px] text-slate-400 font-medium">Smart Match Score</p>
                     </div>
-                    <span className="text-[11px] font-medium text-white/80 mt-0.5">
-                      ₱50 • You approve every word before dispatch
-                    </span>
-                  </button>
+
+                    {/* 3 Checkmark Reasons */}
+                    <div className="space-y-2 py-1 border-t border-slate-800/80">
+                      {activeJob.fitReasons.map((reason, idx) => (
+                        <div key={idx} className="flex items-start gap-1.5 text-[11px] leading-snug">
+                          <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                          <span className="text-slate-200">{reason}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Bottom Zero Middleman Pill */}
+                    <div className="pt-2 border-t border-slate-800/80 flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span>Zero Middleman: Reply lands in your personal email</span>
+                    </div>
+
+                  </div>
+
                 </div>
 
-                {/* Trust Microcopy */}
-                <div className="flex items-center justify-between text-[11px] text-slate-500 pt-3 px-1">
-                  <span className="flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>Employer replies to your personal email</span>
-                  </span>
-                  <span className="font-bold text-slate-700">
-                    Wallet: <strong className="text-slate-900 font-extrabold">₱50 balance (1 free app)</strong>
-                  </span>
-                </div>
-
-                {/* Bottom Sample Match Controls */}
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                {/* Bottom Sample Role Switcher */}
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
                   <div className="flex items-center gap-2">
                     <button 
                       onClick={prevJob} 
-                      aria-label="Previous job" 
-                      className="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
+                      aria-label="Previous sample role" 
+                      className="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button 
                       onClick={nextJob} 
-                      aria-label="Next job" 
-                      className="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
+                      aria-label="Next sample role" 
+                      className="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
-                    <span className="text-xs text-slate-400 font-medium pl-1">
-                      Sample Role <strong className="text-slate-700 font-bold">{currentJobIdx + 1}</strong> of {LIVE_HERO_JOBS.length}
+                    <span className="text-slate-500 font-medium pl-1">
+                      Sample <strong className="text-slate-900 font-bold">{currentJobIdx + 1}</strong> of {LIVE_HERO_JOBS.length}
                     </span>
                   </div>
 
-                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Live Match Preview</span>
+                  <span className="text-[11px] font-semibold text-slate-500 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+                    <span>Real-Time Philippine Role Preview</span>
                   </span>
                 </div>
 
@@ -530,9 +564,97 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. THE CONTRAST: THE USUAL WAY VS CANDIDATE.PH */}
+      {/* 2. HOW IT WORKS: 3 SIMPLE STEPS + ZERO MIDDLEMAN GUARANTEE */}
       {/* ========================================================================= */}
-      <section id="comparison" className="py-20 bg-white border-y border-slate-200">
+      <section id="how-it-works" className="py-20 bg-white border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-xs font-bold uppercase tracking-widest text-theme-primary bg-theme-primary-light px-3 py-1 rounded-full border border-theme-primary-border">
+              Frictionless Setup
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">
+              Ready In 3 Minutes
+            </h2>
+            <p className="text-slate-600 text-base mt-2">
+              Upload your resume once. Let our matching engine search openings and deliver tailored applications on your command.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            
+            <div className="bg-slate-50 p-7 rounded-3xl border border-slate-200 flex flex-col justify-between shadow-xs">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
+                  1
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Upload Your Master Resume</h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  Upload your current resume once. Our engine extracts your real skills, years of experience, and credentials in 3 seconds.
+                </p>
+              </div>
+              <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
+                <Gift className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>₱50 Free Balance unlocked automatically on sign-up.</span>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 p-7 rounded-3xl border border-slate-200 flex flex-col justify-between shadow-xs">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
+                  2
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Set Your Salary & Hubs</h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  Specify your target monthly salary in ₱ (e.g. minimum ₱80,000/mo) and preferred setup (BGC, Makati, or 100% Remote). Lowball offers are hidden.
+                </p>
+              </div>
+              <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
+                <Filter className="w-4 h-4 text-blue-600 shrink-0" />
+                <span>Strict 60%+ Match: Only qualified roles appear in your feed.</span>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 p-7 rounded-3xl border border-slate-200 flex flex-col justify-between shadow-xs">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
+                  3
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Review, Tweak & Apply</h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  When a matched role appears, preview the tailored resume alongside your original. Approve every word, then dispatch directly to the employer for ₱50.
+                </p>
+              </div>
+              <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Always ₱0 to search; only ₱50 when you choose to apply.</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Prominent Zero-Middleman / We Don't Own The Employer Callout */}
+          <div className="mt-12 max-w-4xl mx-auto p-6 sm:p-7 rounded-3xl bg-emerald-50 border-2 border-emerald-200 text-emerald-950 flex flex-col sm:flex-row items-start sm:items-center gap-4 text-left shadow-xs">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <h4 className="text-base font-extrabold text-emerald-900">
+                Zero Middleman Guarantee: We Don't Own the Employer
+              </h4>
+              <p className="text-xs sm:text-sm text-emerald-800 leading-relaxed">
+                Employers receive your application directly in their official hiring channel with your personal email address. When they invite you to interview, their reply lands straight in your private inbox (Gmail, Outlook, Yahoo). We never intercept messages, gatekeep communications, or take a percentage of your salary. You maintain 100% direct control.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 3. THE CONTRAST: THE USUAL WAY VS CANDIDATE.PH */}
+      {/* ========================================================================= */}
+      <section id="comparison" className="py-20 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
@@ -907,37 +1029,52 @@ export default function LandingPage({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
             
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-theme-primary transition-all space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-2xl bg-theme-primary-light text-theme-primary flex items-center justify-center font-bold">
-                <Clock className="w-6 h-6" />
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-theme-primary transition-all space-y-4 shadow-xs flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-theme-primary-light text-theme-primary flex items-center justify-center font-bold">
+                  <Clock className="w-6 h-6" />
+                </div>
+                <div className="text-3xl font-black text-slate-900">4x–8x Callbacks</div>
+                <h3 className="text-base font-bold text-slate-900">The Early Bird Advantage</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Hiring teams don't read through 300 resumes—they interview qualified candidates from the first batch that arrives. Applying within the first few hours places your name on the recruiter's desk while their calendar is still completely open.
+                </p>
               </div>
-              <div className="text-3xl font-black text-slate-900">6x Callback Rate</div>
-              <h3 className="text-base font-bold text-slate-900">The Early Bird Advantage</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Hiring teams don't read through 300 resumes. They interview candidates from the first 25 that arrive. Applying within the first few hours places your name on the recruiter's desk while their calendar is still completely open.
-              </p>
+              <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-500 font-medium">
+                <span className="font-bold text-slate-800">TalentWorks Recruitment Study:</span> Applicants who submit within the first 96 hours are up to 8x more likely to secure an interview.
+              </div>
             </div>
 
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
-                <FileCheck2 className="w-6 h-6" />
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all space-y-4 shadow-xs flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                  <FileCheck2 className="w-6 h-6" />
+                </div>
+                <div className="text-3xl font-black text-emerald-600">First 25 Applicants</div>
+                <h3 className="text-base font-bold text-slate-900">The Critical Review Window</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Recruiters lock in their candidate shortlists rapidly. Being Candidate #1 to #25 gives you priority evaluation before hiring managers stop reviewing inbound resumes due to volume.
+                </p>
               </div>
-              <div className="text-3xl font-black text-emerald-600">Tailored Match Scoring</div>
-              <h3 className="text-base font-bold text-slate-900">Resume Keyword Alignment</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                If a company asks for specific competencies, a computer filter might discard a generic resume. We highlight your genuine matching skills for each opening so you never get filtered out prematurely.
-              </p>
+              <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-500 font-medium">
+                <span className="font-bold text-slate-800">LinkedIn Talent Insights:</span> Over 70% of professional hires are scheduled from the first 25 applicants reviewed.
+              </div>
             </div>
 
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-amber-300 transition-all space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-                <ShieldCheck className="w-6 h-6" />
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-amber-300 transition-all space-y-4 shadow-xs flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <div className="text-3xl font-black text-amber-600">100% Direct Replies</div>
+                <h3 className="text-base font-bold text-slate-900">Zero Middleman Delivery</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Your tailored application package lands directly in the company's official hiring inbox. Recruiters reply straight to your personal email address—giving you 100% direct control over your interview process.
+                </p>
               </div>
-              <div className="text-3xl font-black text-amber-600">Direct Recruiter Delivery</div>
-              <h3 className="text-base font-bold text-slate-900">Direct Personal Email Replies</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Your application package lands directly in the company's official hiring inbox. Recruiters reply directly to your personal email address—giving you 100% control over interview scheduling.
-              </p>
+              <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-500 font-medium">
+                <span className="font-bold text-slate-800">Direct Recruiter Channel:</span> Zero platform message gating and zero salary commissions taken from your compensation.
+              </div>
             </div>
 
           </div>
@@ -1006,95 +1143,7 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 6. HOW IT WORKS: 3 SIMPLE STEPS */}
-      {/* ========================================================================= */}
-      <section id="how-it-works" className="py-20 bg-white border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-theme-primary bg-theme-primary-light px-3 py-1 rounded-full border border-theme-primary-border">
-              Frictionless Setup
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">
-              Ready In 3 Minutes
-            </h2>
-            <p className="text-slate-600 text-base mt-2">
-              Create your profile once. Let our engine search openings and present matched opportunities to you.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            
-            <div className="bg-slate-50 p-7 rounded-3xl border border-slate-200 flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-theme-primary text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
-                  1
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Upload Your Resume</h3>
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  Upload your current resume once. Our matching engine reads your real skills and experience to find compatible openings.
-                </p>
-              </div>
-              <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
-                <Gift className="w-4 h-4 text-emerald-600" />
-                <span>₱50 Free Balance unlocked automatically on sign-up.</span>
-              </div>
-            </div>
-
-            <div className="bg-slate-50 p-7 rounded-3xl border border-slate-200 flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-theme-primary text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
-                  2
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Set Your Preferences</h3>
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  Specify your minimum monthly salary in ₱ (e.g., minimum ₱45,000/mo) and preferred setup (Remote, Hybrid BGC, or Makati). We hide underpaid roles.
-                </p>
-              </div>
-              <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
-                <Filter className="w-4 h-4 text-theme-primary" />
-                <span>Strict filtering: Only jobs with 60%+ qualification match appear.</span>
-              </div>
-            </div>
-
-            <div className="bg-slate-50 p-7 rounded-3xl border border-slate-200 flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-theme-primary text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
-                  3
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Review, Tweak & Apply</h3>
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  When a matched role appears, preview exactly what will be sent. Tweak your summary or bullet points, then approve and send in 1 click for ₱50.
-                </p>
-              </div>
-              <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span>Always ₱0 to search; only ₱50 when you choose to send.</span>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Prominent Zero-Middleman / We Don't Own The Employer Callout */}
-          <div className="mt-12 max-w-4xl mx-auto p-6 sm:p-7 rounded-3xl bg-emerald-50 border-2 border-emerald-200 text-emerald-950 flex flex-col sm:flex-row items-start sm:items-center gap-4 text-left shadow-xs">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div className="space-y-1 flex-1">
-              <h4 className="text-base font-extrabold text-emerald-900">
-                Zero Middleman Guarantee: We Don't Own the Employer
-              </h4>
-              <p className="text-xs sm:text-sm text-emerald-800 leading-relaxed">
-                Employers receive your application directly in their hiring inbox and reply straight to your personal email address. We never intercept messages, gatekeep communications, or take a cut of your salary. You maintain 100% direct control over your interview process.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 7. PRICING & THE 3 ZERO-RISK COMMITMENTS */}
+      {/* 5. PRICING & THE 3 ZERO-RISK COMMITMENTS */}
       {/* ========================================================================= */}
       <section id="pricing" className="py-20 md:py-28 bg-[#F8FAFC] border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1348,7 +1397,61 @@ export default function LandingPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* 8. FINAL CTA & 5-COLUMN FOOTER */}
+      {/* 6. ACCORDION FAQ */}
+      {/* ========================================================================= */}
+      <section id="faq" className="py-20 bg-white border-t border-slate-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-theme-primary bg-theme-primary-light px-3 py-1 rounded-full border border-theme-primary-border">
+              Frequently Asked Questions
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Everything You Need to Know
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base">
+              Clear, transparent answers about how CANDIDATE.ph works, our ₱50 unit economics, and our Zero Middleman Guarantee.
+            </p>
+          </div>
+
+          <div className="space-y-3 text-left">
+            {FAQ_ITEMS.map((item, idx) => {
+              const isOpen = openFaqIdx === idx;
+              return (
+                <div 
+                  key={idx}
+                  className={`rounded-2xl border transition-all overflow-hidden ${
+                    isOpen 
+                      ? 'border-blue-500 bg-blue-50/20 shadow-xs' 
+                      : 'border-slate-200 bg-white hover:border-slate-300'
+                  }`}
+                >
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full py-4 px-6 flex items-center justify-between gap-4 text-left font-bold text-slate-900 text-sm sm:text-base cursor-pointer"
+                  >
+                    <span>{item.q}</span>
+                    <ChevronDown className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-blue-600' : ''}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                      {item.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-12 text-center text-xs text-slate-500">
+            Have a different question? Email our team directly at <a href="mailto:hello@candidate.ph" className="text-blue-600 font-bold hover:underline">hello@candidate.ph</a>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 7. FINAL CTA & 5-COLUMN FOOTER */}
       {/* ========================================================================= */}
       <section className="py-20 bg-slate-900 text-white relative overflow-hidden text-center">
         <div className="max-w-4xl mx-auto px-4 space-y-8 relative z-10">
