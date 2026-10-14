@@ -255,44 +255,46 @@ export default function LandingPage({
               </div>
 
               {/* Main Headline with Breathing Room & Font Hierarchy */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 tracking-tight leading-[1.16]">
                   The Smart Job Matching Engine for <span className="text-theme-primary">Filipino Professionals.</span>
                 </h1>
-                <p className="text-xl sm:text-2xl lg:text-[25px] font-extrabold text-slate-700 tracking-tight leading-snug">
-                  Be <span className="text-theme-primary">Candidate #1</span> before the role gets flooded.
-                </p>
+                <div className="pt-2">
+                  <p className="text-xl sm:text-2xl lg:text-[25px] font-extrabold text-slate-800 tracking-tight leading-snug">
+                    Be <span className="text-theme-primary">Candidate #1</span> before the role gets flooded.
+                  </p>
+                </div>
               </div>
 
-              {/* Subheadline */}
-              <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed max-w-xl pt-1">
-                Upload your resume once. We search open roles at top employers, match them to your qualifications and skills, and deliver your tailored application directly to the hiring team.
+              {/* Subheadline with clear applicant control */}
+              <p className="text-sm sm:text-base text-slate-700 font-normal leading-relaxed max-w-xl pt-2">
+                Upload your resume once. We search open roles at top employers, match them to your qualifications and skills, and deliver your tailored application directly to the hiring team when you decide to apply.
               </p>
 
-              {/* 2 Mini Value Proposition Cards (Expanded with rich explanation) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-xl pt-2">
-                <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-1.5 text-left">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-700 uppercase tracking-wider">
-                    <Search className="w-3.5 h-3.5 text-amber-600" />
+              {/* 2 Mini Value Proposition Cards (Larger titles, prices, and high-contrast darker text) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl pt-3">
+                <div className="p-4 sm:p-4.5 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between space-y-2 text-left">
+                  <div className="flex items-center gap-1.5 text-xs sm:text-[13px] font-extrabold text-amber-800 uppercase tracking-wider">
+                    <Search className="w-4 h-4 text-amber-600" />
                     <span>SMART SEARCH & MATCH</span>
                   </div>
-                  <p className="text-xl font-black text-slate-900">
-                    ₱0 <span className="text-xs font-semibold text-amber-700">Free Forever</span>
+                  <p className="text-2xl font-black text-slate-900 flex items-baseline gap-2">
+                    ₱0 <span className="text-sm sm:text-base font-bold text-amber-700">Free Forever</span>
                   </p>
-                  <p className="text-xs text-slate-500 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-slate-700 font-medium leading-relaxed">
                     Always turned on. Our engine searches open roles and matches them to your background daily at zero cost.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-1.5 text-left">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-theme-primary uppercase tracking-wider">
-                    <Send className="w-3.5 h-3.5 text-theme-primary" />
+                <div className="p-4 sm:p-4.5 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between space-y-2 text-left">
+                  <div className="flex items-center gap-1.5 text-xs sm:text-[13px] font-extrabold text-theme-primary uppercase tracking-wider">
+                    <Send className="w-4 h-4 text-theme-primary" />
                     <span>YOU ONLY PAY WHEN YOU APPLY</span>
                   </div>
-                  <p className="text-xl font-black text-slate-900">
-                    ₱50 <span className="text-xs font-semibold text-slate-500">per application</span>
+                  <p className="text-2xl font-black text-slate-900 flex items-baseline gap-2">
+                    ₱50 <span className="text-sm sm:text-base font-bold text-slate-700">per application</span>
                   </p>
-                  <p className="text-xs text-slate-500 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-slate-700 font-medium leading-relaxed">
                     Zero subscriptions or monthly lock-ins. You only spend ₱50 when you decide to send your tailored application.
                   </p>
                 </div>
