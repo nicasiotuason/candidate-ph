@@ -193,7 +193,7 @@ export default function JobCard({
         {isApplied ? (
           <div className="w-full py-3 px-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-center gap-2 text-emerald-700 font-bold text-sm">
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-            <span>Applied • Sent to ATS</span>
+            <span>Applied • Delivered Directly</span>
           </div>
         ) : (
           <button

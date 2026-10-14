@@ -133,7 +133,7 @@ export default function DashboardPage({
 
           <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">APPLICATIONS SENT</span>
-            <span className="text-lg font-black text-emerald-600 mt-0.5 block">{appliedJobs.length} Sent to ATS</span>
+            <span className="text-lg font-black text-emerald-600 mt-0.5 block">{appliedJobs.length} Sent Directly</span>
           </div>
         </div>
 
@@ -311,7 +311,7 @@ export default function DashboardPage({
             <Mail className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
             <div className="text-xs text-emerald-950">
               <span className="font-bold block text-emerald-900">Direct Employer Response Policy:</span>
-              These applications were dispatched directly to the employer's official ATS. <strong>Employers will email you directly at your personal address: {user?.email}</strong>. Once sent, CANDIDATE.ph does not intercept or delay communication.
+              These applications were dispatched directly to the employer's official career portal. <strong>Employers will email you directly at your personal address: {user?.email}</strong>. Once sent, CANDIDATE.ph does not intercept or delay communication.
             </div>
           </div>
 
@@ -336,10 +336,10 @@ export default function DashboardPage({
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <span className="font-black text-slate-900 text-base">{app.company}</span>
-                        <span className="text-xs font-bold text-slate-400">• {app.portal} ATS</span>
+                        <span className="text-xs font-bold text-slate-400">• Official Portal</span>
                         <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                          <span>{app.status}</span>
+                          <span>Delivered Directly</span>
                         </span>
                       </div>
 
@@ -363,7 +363,7 @@ export default function DashboardPage({
                       </div>
                       
                       <div className="text-[11px] font-mono text-slate-400">
-                        Receipt: {app.atsReceiptId}
+                        Receipt: {app.atsReceiptId || `REC-DIR-${app.id}`}
                       </div>
 
                       <div className="text-[10px] text-slate-400">

@@ -146,7 +146,7 @@ export default function ReviewSignOffModal({
             <div>
               <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
                 <Eye className="w-4 h-4 text-blue-600" />
-                <span>What is going to be sent to {job.company} ATS</span>
+                <span>What is going to be sent to {job.company}</span>
               </h3>
               <p className="text-[11px] text-slate-500">
                 {isTweaking ? 'Edit your application details below, then click "One Last Look".' : 'Verify your details below before signing off.'}

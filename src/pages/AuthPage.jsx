@@ -48,8 +48,8 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
           </h2>
           <p className="text-xs text-slate-500 mt-1">
             {isSignUp
-              ? 'Create an account to scan 15,443+ tech roles and get AI-matched.'
-              : 'Log in to your dashboard and review active ATS matches.'}
+              ? 'Create an account to search 15,443+ professional roles and get matched.'
+              : 'Log in to your dashboard and review active matched roles.'}
           </p>
         </div>
 

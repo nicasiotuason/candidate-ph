@@ -1,7 +1,8 @@
-import React from 'react';
-import { Wallet, Plus, LogOut, ArrowRight, User, LayoutDashboard, Sparkles, ArrowLeft } from 'lucide-react';
+import React, { useState } from 'react';
+import { Wallet, Plus, LogOut, ArrowRight, User, LayoutDashboard, Sparkles, ArrowLeft, Menu, X } from 'lucide-react';
 
 export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp, onLogout }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isLanding = currentView === 'landing';
   const isAuth = currentView === 'auth';
   const isOnboarding = currentView === 'onboarding';
@@ -14,8 +15,11 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
           
           {/* Brand Wordmark */}
           <button
-            onClick={() => setCurrentView('landing')}
-            className="flex items-center gap-2.5 group text-left cursor-pointer"
+            onClick={() => {
+              setCurrentView('landing');
+              setMobileMenuOpen(false);
+            }}
+            className="flex items-center gap-2.5 group text-left cursor-pointer shrink-0"
           >
             <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
               <span className="font-black text-lg">C</span>
@@ -31,52 +35,62 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
           {/* 1. PUBLIC LANDING PAGE NAVIGATION (Only shown to public visitors) */}
           {isLanding && (
             <>
-              <nav className="hidden md:flex items-center space-x-1 lg:space-x-3 text-sm font-medium text-slate-600">
+              {/* Desktop Nav - only visible at lg and up to prevent any wrapping */}
+              <nav className="hidden lg:flex items-center space-x-1 xl:space-x-3 text-sm font-medium text-slate-600">
                 <a 
                   href="#how-it-works" 
-                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors whitespace-nowrap"
                 >
                   How It Works
                 </a>
                 <a 
                   href="#comparison" 
-                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors whitespace-nowrap"
                 >
                   Old Way vs Candidate
                 </a>
                 <a 
                   href="#dashboard-preview" 
-                  className="px-3 py-2 rounded-lg text-blue-600 font-bold hover:bg-blue-50 transition-colors"
+                  className="px-3 py-2 rounded-lg text-blue-600 font-bold hover:bg-blue-50 transition-colors whitespace-nowrap"
                 >
                   Inside the Dashboard
                 </a>
                 <a 
                   href="#the-science" 
-                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors whitespace-nowrap"
                 >
                   The Strategy
                 </a>
                 <a 
                   href="#pricing" 
-                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                  className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors whitespace-nowrap"
                 >
-                  Pricing (<span className="text-amber-600 font-bold">₱0 to Search</span>)
+                  Pricing
                 </a>
               </nav>
 
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
                 <button
                   onClick={() => setCurrentView('auth')}
-                  className="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer whitespace-nowrap"
                 >
                   Log In
                 </button>
                 <button
                   onClick={() => setCurrentView('auth')}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-95 rounded-xl shadow-sm transition-all cursor-pointer"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-95 rounded-xl shadow-sm transition-all cursor-pointer whitespace-nowrap"
                 >
                   <span>Claim ₱50 Free Balance</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                </button>
+
+                {/* Mobile Menu Hamburger (visible below lg) */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors lg:hidden"
+                  aria-label="Toggle Navigation Menu"
+                >
+                  {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
               </div>
             </>
@@ -158,6 +172,49 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
 
         </div>
       </div>
+
+      {/* Mobile Drawer Menu on Landing Page */}
+      {isLanding && mobileMenuOpen && (
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-5 space-y-2 shadow-lg animate-in slide-in-from-top-2 duration-150">
+          <nav className="flex flex-col space-y-1 text-sm font-semibold text-slate-700">
+            <a
+              href="#how-it-works"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors"
+            >
+              How It Works
+            </a>
+            <a
+              href="#comparison"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors"
+            >
+              Old Way vs Candidate
+            </a>
+            <a
+              href="#dashboard-preview"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2.5 rounded-xl text-blue-600 font-bold hover:bg-blue-50 transition-colors"
+            >
+              Inside the Dashboard
+            </a>
+            <a
+              href="#the-science"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors"
+            >
+              The Strategy
+            </a>
+            <a
+              href="#pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors"
+            >
+              Pricing (₱0 to Search)
+            </a>
+          </nav>
+        </div>
+      )}
 
     </header>
   );

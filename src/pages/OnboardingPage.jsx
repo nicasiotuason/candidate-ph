@@ -125,7 +125,7 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 Tell us about yourself
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                These core details are required by Philippine employers and ATS portals to route your application.
+                These core details are required by employers to route your application and contact you directly.
               </p>
             </div>
 
@@ -269,7 +269,7 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 Upload your Resume
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                Our AI parser will read your skills, years of experience, and ATS keywords to match open roles twice a day.
+                Our parser reads your skills and years of experience to match open roles that fit your background.
               </p>
             </div>
 
@@ -355,8 +355,8 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 </div>
                 <p className="text-xs text-slate-500 font-medium">
                   {parseProgress < 40 && "Extracting candidate profile and contact details..."}
-                  {parseProgress >= 40 && parseProgress < 80 && "Cataloging 6+ years of technical experience..."}
-                  {parseProgress >= 80 && "Calculating ATS matching fingerprints against 15,443+ scraped jobs..."}
+                  {parseProgress >= 40 && parseProgress < 80 && "Cataloging professional background and experience..."}
+                  {parseProgress >= 80 && "Matching your profile against 15,443+ monitored openings..."}
                 </p>
               </div>
             ) : (

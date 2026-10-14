@@ -491,63 +491,32 @@ export default function LandingPage({
                   </span>
                 </div>
 
-                {/* Bottom Controls & Theme Switcher */}
+                {/* Bottom Sample Match Controls */}
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-1">
-                    <button onClick={prevJob} aria-label="Previous job" className="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors">
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={prevJob} 
+                      aria-label="Previous job" 
+                      className="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
+                    >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
-                    <button onClick={nextJob} aria-label="Next job" className="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors">
+                    <button 
+                      onClick={nextJob} 
+                      aria-label="Next job" 
+                      className="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
+                    >
                       <ChevronRight className="w-4 h-4" />
                     </button>
-                  </div>
-
-                  {/* Theme Switcher */}
-                  <div className="flex items-center gap-2 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200 text-xs">
-                    <span className="text-[11px] font-semibold text-slate-600 hidden sm:inline">
-                      {THEMES[activeThemeKey]?.name}
+                    <span className="text-xs text-slate-400 font-medium pl-1">
+                      Sample Role <strong className="text-slate-700 font-bold">{currentJobIdx + 1}</strong> of {LIVE_HERO_JOBS.length}
                     </span>
-                    
-                    <div className="flex items-center gap-1.5">
-                      <button 
-                        onClick={() => applyTheme('indigo-mint')} 
-                        aria-label="Indigo & Mint" 
-                        className={`w-5 h-5 rounded-full border-2 hover:scale-110 flex overflow-hidden cursor-pointer transition-all ${activeThemeKey === 'indigo-mint' ? 'border-slate-900 ring-2 ring-blue-400' : 'border-transparent'}`} 
-                        title="Indigo & Mint"
-                      >
-                        <span className="w-1/2 h-full bg-[#4F46E5]"></span>
-                        <span className="w-1/2 h-full bg-[#10B981]"></span>
-                      </button>
-                      <button 
-                        onClick={() => applyTheme('cobalt-tangerine')} 
-                        aria-label="Cobalt & Tangerine" 
-                        className={`w-5 h-5 rounded-full border-2 hover:scale-110 flex overflow-hidden cursor-pointer transition-all ${activeThemeKey === 'cobalt-tangerine' ? 'border-slate-900 ring-2 ring-blue-400' : 'border-transparent'}`} 
-                        title="Cobalt & Tangerine"
-                      >
-                        <span className="w-1/2 h-full bg-[#2563EB]"></span>
-                        <span className="w-1/2 h-full bg-[#F97316]"></span>
-                      </button>
-                      <button 
-                        onClick={() => applyTheme('teal-emerald')} 
-                        aria-label="Teal & Emerald" 
-                        className={`w-5 h-5 rounded-full border-2 hover:scale-110 flex overflow-hidden cursor-pointer transition-all ${activeThemeKey === 'teal-emerald' ? 'border-slate-900 ring-2 ring-blue-400' : 'border-transparent'}`} 
-                        title="Teal & Emerald"
-                      >
-                        <span className="w-1/2 h-full bg-[#0F766E]"></span>
-                        <span className="w-1/2 h-full bg-[#059669]"></span>
-                      </button>
-                      <button 
-                        onClick={() => applyTheme('violet-lime')} 
-                        aria-label="Violet & Lime" 
-                        className={`w-5 h-5 rounded-full border-2 hover:scale-110 flex overflow-hidden cursor-pointer transition-all ${activeThemeKey === 'violet-lime' ? 'border-slate-900 ring-2 ring-blue-400' : 'border-transparent'}`} 
-                        title="Violet & Lime"
-                      >
-                        <span className="w-1/2 h-full bg-[#7C3AED]"></span>
-                        <span className="w-1/2 h-full bg-[#84CC16]"></span>
-                      </button>
-                    </div>
                   </div>
 
+                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Live Match Preview</span>
+                  </span>
                 </div>
 
               </div>
@@ -1215,7 +1184,7 @@ export default function LandingPage({
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Instant Early Bird notifications</span>
+                    <span>In-place resume tailoring & review</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
@@ -1251,7 +1220,7 @@ export default function LandingPage({
                     <span className="text-4xl font-extrabold text-slate-900">₱1,000</span>
                     <span className="text-slate-500 font-medium text-sm">one-time</span>
                   </div>
-                  <p className="text-xs text-theme-secondary font-semibold mt-1">₱41.60 per application (Includes 4 Free Applications)</p>
+                  <p className="text-xs text-theme-secondary font-semibold mt-1">₱41.67 per application (Includes 4 Free Applications)</p>
                 </div>
 
                 <div className="pt-4 pb-2 border-y border-slate-100">
@@ -1269,7 +1238,7 @@ export default function LandingPage({
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Priority matching queue</span>
+                    <span>In-place resume tailoring before every send</span>
                   </li>
                   <li className="flex items-center gap-2 font-bold text-slate-800">
                     <Check className="w-4 h-4 text-emerald-600" />
