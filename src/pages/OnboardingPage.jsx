@@ -131,23 +131,23 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
         
         {/* Step Progress Indicator */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+          <div className="flex items-center justify-between mb-3 text-xs font-bold text-slate-600 uppercase tracking-wider">
             <span>Fast-Track Candidate Setup</span>
-            <span className="text-blue-600 font-extrabold">Step {step} of 4</span>
+            <span className="text-blue-700 font-extrabold">Step {step} of 4</span>
           </div>
 
-          <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
             <div 
               className="bg-blue-600 h-full rounded-full transition-all duration-300"
               style={{ width: `${(step / 4) * 100}%` }}
             ></div>
           </div>
 
-          <div className="grid grid-cols-4 text-[11px] font-bold text-slate-400 mt-2 text-center">
-            <span className={step >= 1 ? 'text-blue-600 font-extrabold' : ''}>1. Target Role</span>
-            <span className={step >= 2 ? 'text-blue-600 font-extrabold' : ''}>2. Universal Fields</span>
-            <span className={step >= 3 ? 'text-blue-600 font-extrabold' : ''}>3. Master Resume</span>
-            <span className={step >= 4 ? 'text-blue-600 font-extrabold' : ''}>4. Live Matches</span>
+          <div className="grid grid-cols-4 text-xs font-bold text-slate-600 mt-2 text-center">
+            <span className={step >= 1 ? 'text-blue-700 font-extrabold' : ''}>1. Target Role</span>
+            <span className={step >= 2 ? 'text-blue-700 font-extrabold' : ''}>2. Universal Fields</span>
+            <span className={step >= 3 ? 'text-blue-700 font-extrabold' : ''}>3. Master Resume</span>
+            <span className={step >= 4 ? 'text-blue-700 font-extrabold' : ''}>4. Live Matches</span>
           </div>
         </div>
 
@@ -169,25 +169,25 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
             {/* Target Job Title Input */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label className="block text-xs font-black text-slate-900 mb-1.5">
                 Target Job Title:
               </label>
               <div className="relative">
-                <Briefcase className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Briefcase className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                 <input
                   type="text"
                   required
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
                   placeholder="e.g. Senior Frontend / Full-Stack Engineer"
-                  className="w-full pl-10 pr-3 py-2.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium"
+                  className="w-full pl-10 pr-3 py-2.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium text-slate-900 placeholder:text-slate-500"
                 />
               </div>
             </div>
 
             {/* Industry / Category Selection */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-2">
+              <label className="block text-xs font-black text-slate-900 mb-2">
                 Industry & Functional Domain:
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -196,16 +196,16 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                     key={cat.id}
                     type="button"
                     onClick={() => setTargetCategory(cat.id)}
-                    className={`p-3 rounded-2xl border text-left transition-all ${
+                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
                       targetCategory === cat.id
                         ? 'border-blue-600 bg-blue-50/70 shadow-xs ring-2 ring-blue-500/20'
                         : 'border-slate-200 hover:border-slate-300 bg-white'
                     }`}
                   >
-                    <p className={`text-xs font-bold ${targetCategory === cat.id ? 'text-blue-900' : 'text-slate-800'}`}>
+                    <p className={`text-xs font-bold ${targetCategory === cat.id ? 'text-blue-900 font-black' : 'text-slate-900'}`}>
                       {cat.label}
                     </p>
-                    <p className="text-[10px] text-slate-400 mt-0.5">{cat.count}</p>
+                    <p className="text-[11px] text-slate-600 font-semibold mt-0.5">{cat.count}</p>
                   </button>
                 ))}
               </div>
@@ -213,7 +213,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
             {/* Seniority Level */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-2">
+              <label className="block text-xs font-black text-slate-900 mb-2">
                 Seniority Level:
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -222,14 +222,14 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                     key={lvl.id}
                     type="button"
                     onClick={() => setSeniority(lvl.id)}
-                    className={`p-2.5 rounded-xl border text-center transition-all ${
+                    className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
                       seniority === lvl.id
                         ? 'border-blue-600 bg-blue-600 text-white font-black shadow-xs'
-                        : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700 font-bold'
+                        : 'border-slate-200 hover:border-slate-300 bg-white text-slate-800 font-bold'
                     }`}
                   >
                     <p className="text-xs">{lvl.label}</p>
-                    <p className={`text-[10px] mt-0.5 ${seniority === lvl.id ? 'text-blue-100' : 'text-slate-400'}`}>
+                    <p className={`text-[11px] font-semibold mt-0.5 ${seniority === lvl.id ? 'text-blue-100' : 'text-slate-600'}`}>
                       {lvl.exp}
                     </p>
                   </button>
@@ -270,34 +270,34 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               
               {/* 1. Monthly Salary Floor */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+                <label className="block text-xs font-black text-slate-900 mb-1 flex items-center justify-between">
                   <span>1. Expected Monthly Salary Floor (₱): *</span>
-                  <span className="text-[10px] text-slate-400">Never disclosed to peers</span>
+                  <span className="text-[11px] text-slate-600 font-semibold">Never disclosed to peers</span>
                 </label>
                 <div className="relative">
-                  <DollarSign className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <DollarSign className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                   <input
                     type="text"
                     required
                     value={salaryFloor}
                     onChange={(e) => setSalaryFloor(e.target.value)}
                     placeholder="e.g. ₱160,000 / mo"
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium"
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium text-slate-900 placeholder:text-slate-500"
                   />
                 </div>
               </div>
 
               {/* 2. Notice Period */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-black text-slate-900 mb-1">
                   2. Notice Period / Availability: *
                 </label>
                 <div className="relative">
-                  <Clock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <Clock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                   <select
                     value={noticePeriod}
                     onChange={(e) => setNoticePeriod(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium"
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900"
                   >
                     <option value="Immediate / Available Now">Immediate / Available Now</option>
                     <option value="15 Days">15 Days</option>
@@ -309,15 +309,15 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
               {/* 3. Work Authorization */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-black text-slate-900 mb-1">
                   3. Philippine Work Authorization: *
                 </label>
                 <div className="relative">
-                  <Flag className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <Flag className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                   <select
                     value={workAuth}
                     onChange={(e) => setWorkAuth(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium"
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900"
                   >
                     <option value="Filipino Citizen">Filipino Citizen (Default)</option>
                     <option value="Dual Citizen">Dual Citizen (PH / Other)</option>
@@ -328,15 +328,15 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
               {/* 4. Preferred Setup */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-black text-slate-900 mb-1">
                   4. Preferred Work Setup & Hub: *
                 </label>
                 <div className="relative">
-                  <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <MapPin className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                   <select
                     value={preferredSetup}
                     onChange={(e) => setPreferredSetup(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium"
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900"
                   >
                     <option value="Hybrid • BGC / Makati / Remote">Hybrid • BGC / Makati / Remote</option>
                     <option value="Fully Remote (PH or Worldwide)">Fully Remote (PH or Worldwide)</option>
@@ -349,15 +349,15 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
               {/* 5. Highest Educational Attainment */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-black text-slate-900 mb-1">
                   5. Highest Educational Attainment: *
                 </label>
                 <div className="relative">
-                  <GraduationCap className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <GraduationCap className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                   <select
                     value={education}
                     onChange={(e) => setEducation(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium"
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900"
                   >
                     <option value="Bachelor's Degree">Bachelor's Degree (College Graduate)</option>
                     <option value="Master's Degree">Master's Degree</option>
@@ -369,22 +369,22 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
               {/* 6. Application Contact Email */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+                <label className="block text-xs font-black text-slate-900 mb-1 flex items-center justify-between">
                   <span>6. Application Contact Email: *</span>
-                  <span className="text-[10px] text-blue-600 font-bold">Zero Middleman</span>
+                  <span className="text-[11px] text-blue-700 font-extrabold">Zero Middleman</span>
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                   <input
                     type="email"
                     required
                     value={contactEmail}
                     onChange={(e) => setContactEmail(e.target.value)}
                     placeholder="juan.delacruz@email.com"
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium"
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium text-slate-900 placeholder:text-slate-500"
                   />
                 </div>
-                <p className="text-[10px] text-slate-400 mt-1">
+                <p className="text-xs text-slate-700 font-medium mt-1">
                   Employers reply directly to this inbox — we never intercept your communications.
                 </p>
               </div>
@@ -437,7 +437,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               <h3 className="text-base font-extrabold text-slate-900">
                 Drag and drop your resume file here
               </h3>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-700 font-medium mt-1">
                 Accepted formats: PDF or DOCX (Max 10MB)
               </p>
 
@@ -448,10 +448,10 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                     <FileText className="w-5 h-5" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-bold text-slate-900 truncate">{resumeFile.name}</p>
-                    <p className="text-[10px] text-slate-400">{resumeFile.size} • 8 key competencies detected</p>
+                    <p className="text-xs font-black text-slate-900 truncate">{resumeFile.name}</p>
+                    <p className="text-xs text-slate-700 font-medium">{resumeFile.size} • 8 key competencies detected</p>
                   </div>
-                  <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full shrink-0">
+                  <span className="text-[10px] font-black bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full shrink-0">
                     Verified ✓
                   </span>
                 </div>
@@ -459,11 +459,11 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
             </div>
 
             {/* Privacy & Zero-Public Guarantee */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3 text-xs text-slate-600">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3 text-xs text-slate-700">
               <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-slate-900">Strict Privacy Guarantee:</p>
-                <p className="text-slate-500 mt-0.5">
+                <p className="text-slate-700 mt-0.5 font-medium">
                   Your resume is stored securely and is never broadcast to public job boards or recruiters. It is only dispatched to an employer when you explicitly click <strong>Apply (₱50)</strong> and sign off.
                 </p>
               </div>
@@ -557,7 +557,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                     </div>
                     <p className="text-xs font-black text-slate-900 truncate">Senior React Developer</p>
                     <p className="text-[11px] font-bold text-emerald-700">Maya</p>
-                    <p className="text-[10px] text-slate-400 mt-1 truncate">₱180,000 – ₱240,000 / mo</p>
+                    <p className="text-[11px] text-slate-700 font-semibold mt-1 truncate">₱180,000 – ₱240,000 / mo</p>
                   </div>
 
                   {/* Match 2: Coins.ph */}
@@ -570,7 +570,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                     </div>
                     <p className="text-xs font-black text-slate-900 truncate">Lead Web App Engineer</p>
                     <p className="text-[11px] font-bold text-blue-700">Coins.ph</p>
-                    <p className="text-[10px] text-slate-400 mt-1 truncate">₱200,000 – ₱260,000 / mo</p>
+                    <p className="text-[11px] text-slate-700 font-semibold mt-1 truncate">₱200,000 – ₱260,000 / mo</p>
                   </div>
 
                   {/* Match 3: Canva */}
@@ -583,7 +583,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                     </div>
                     <p className="text-xs font-black text-slate-900 truncate">Frontend Platform Dev</p>
                     <p className="text-[11px] font-bold text-cyan-700">Canva Manila</p>
-                    <p className="text-[10px] text-slate-400 mt-1 truncate">₱170,000 – ₱230,000 / mo</p>
+                    <p className="text-[11px] text-slate-700 font-semibold mt-1 truncate">₱170,000 – ₱230,000 / mo</p>
                   </div>
 
                 </div>
