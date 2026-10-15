@@ -63,11 +63,11 @@ export default function App() {
     }
   };
 
-  // Handle PayMongo reload
+  // Handle PayMongo credit purchase
   const handleTopUpSuccess = async (amount) => {
     const res = await api.topUpWallet(amount);
     setUser(api.getUser());
-    triggerToast(`💳 PayMongo Top-Up Successful! +₱${amount}.00 added to your wallet.`);
+    triggerToast(`💳 PayMongo Payment Successful! +₱${amount}.00 credits added to your wallet.`);
   };
 
   // Add community testimonial
@@ -96,7 +96,7 @@ export default function App() {
     await api.submitOnboarding(formData);
     refreshUser();
     setCurrentView('dashboard');
-    triggerToast(`✨ Onboarding complete! 8 High-Match roles ready for review.`);
+    triggerToast(`✨ Onboarding complete! 18 High-Match roles ready for review.`);
   };
 
   return (

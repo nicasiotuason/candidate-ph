@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   UploadCloud, 
   FileText, 
   CheckCircle2, 
-  Sparkles, 
   ArrowRight, 
+  ArrowLeft,
   ShieldCheck, 
   User, 
   Calendar, 
@@ -12,83 +12,115 @@ import {
   Clock, 
   Check, 
   AlertCircle,
-  Briefcase
+  Briefcase,
+  DollarSign,
+  GraduationCap,
+  MapPin,
+  Mail,
+  Layers,
+  Sparkles,
+  Zap,
+  Building2,
+  Lock
 } from 'lucide-react';
 
+const CATEGORIES = [
+  { id: 'tech', label: 'Tech & Engineering', count: '4,210 jobs' },
+  { id: 'finance', label: 'Finance & Banking', count: '2,890 jobs' },
+  { id: 'marketing', label: 'Marketing & Growth', count: '1,940 jobs' },
+  { id: 'hr', label: 'HR & Talent Ops', count: '1,320 jobs' },
+  { id: 'operations', label: 'Operations & Supply', count: '2,410 jobs' },
+  { id: 'creative', label: 'Product & Creative', count: '1,673 jobs' },
+];
+
+const SENIORITY_LEVELS = [
+  { id: 'junior', label: 'Junior', exp: '1–2 years' },
+  { id: 'mid', label: 'Mid-Level', exp: '3–5 years' },
+  { id: 'senior', label: 'Senior', exp: '6–8 years' },
+  { id: 'lead', label: 'Lead / Manager', exp: '8+ years' },
+  { id: 'executive', label: 'Executive / Director', exp: '10+ years' },
+];
+
 export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
-  const [step, setStep] = useState(1); // 1: Personal Info, 2: Resume Upload, 3: AI Parser Verification
+  const [step, setStep] = useState(1); // 1: Role & Domain, 2: Pareto 6 Universal Fields, 3: Resume Dropzone, 4: Matching Telemetry & Celebration
 
-  // Form states
-  const [name, setName] = useState('Juan Dela Cruz');
-  const [age, setAge] = useState(28);
-  const [birthdate, setBirthdate] = useState('1998-05-14');
-  const [citizenship, setCitizenship] = useState('Filipino');
-  const [targetRole, setTargetRole] = useState('Senior Frontend Developer');
-  const [desiredSalary, setDesiredSalary] = useState('₱160k - ₱220k/mo');
-  const [setupPreference, setSetupPreference] = useState('Hybrid • BGC / Remote');
+  // Step 1: Role & Domain
+  const [targetCategory, setTargetCategory] = useState('tech');
+  const [targetRole, setTargetRole] = useState('Senior Frontend Engineer');
+  const [seniority, setSeniority] = useState('senior');
 
-  // Resume state
+  // Step 2: Pareto 6 Universal Asterisk Fields
+  const [salaryFloor, setSalaryFloor] = useState('₱160,000 / mo');
+  const [noticePeriod, setNoticePeriod] = useState('30 Days');
+  const [workAuth, setWorkAuth] = useState('Filipino Citizen');
+  const [preferredSetup, setPreferredSetup] = useState('Hybrid • BGC / Makati / Remote');
+  const [education, setEducation] = useState("Bachelor's Degree");
+  const [contactEmail, setContactEmail] = useState(initialEmail || 'juan.delacruz@email.com');
+
+  // Step 3: Resume Dropzone
   const [resumeFile, setResumeFile] = useState({
     name: 'Juan_DelaCruz_Senior_Frontend_Resume.pdf',
-    size: '142 KB'
+    size: '148 KB',
+    parsedSkills: [
+      'React 18',
+      'TypeScript',
+      'Next.js SSR',
+      'Tailwind CSS',
+      'Node.js',
+      'REST APIs',
+      'Payments Integration',
+      'Design Systems'
+    ]
   });
 
-  // AI Parser simulation state
-  const [isParsing, setIsParsing] = useState(false);
-  const [parseProgress, setParseProgress] = useState(0);
-  const [parsedSkills, setParsedSkills] = useState([
-    'React 18',
-    'TypeScript',
-    'Next.js SSR',
-    'Tailwind CSS',
-    'Node.js',
-    'REST APIs',
-    'Payments Integration',
-    'Design Systems'
-  ]);
-  const [newSkill, setNewSkill] = useState('');
-  const [summary, setSummary] = useState(
-    'Results-driven Senior Frontend Engineer with 6+ years specializing in high-performance React and Next.js web applications in fintech and e-commerce. Proven track record building secure checkout flows and scalable design systems.'
-  );
+  // Step 4: Telemetry simulation
+  const [telemetryProgress, setTelemetryProgress] = useState(0);
+  const [telemetryStage, setTelemetryStage] = useState('Initiating search across 15,443+ career portals...');
+  const [isScanningComplete, setIsScanningComplete] = useState(false);
 
-  // Trigger parsing animation when moving from step 2 to step 3
-  const handleStartParsing = () => {
-    setStep(3);
-    setIsParsing(true);
-    setParseProgress(20);
+  // Trigger telemetry animation on step 4
+  useEffect(() => {
+    if (step === 4) {
+      setTelemetryProgress(15);
+      setTelemetryStage('Querying direct employer portals (Greenhouse, Lever, Workday)...');
 
-    setTimeout(() => setParseProgress(55), 400);
-    setTimeout(() => setParseProgress(85), 800);
-    setTimeout(() => {
-      setParseProgress(100);
-      setIsParsing(false);
-    }, 1200);
-  };
+      const t1 = setTimeout(() => {
+        setTelemetryProgress(48);
+        setTelemetryStage('Matching your Pareto 6 criteria & verified skills...');
+      }, 700);
 
-  const handleAddSkill = (e) => {
-    e.preventDefault();
-    if (newSkill.trim() && !parsedSkills.includes(newSkill.trim())) {
-      setParsedSkills([...parsedSkills, newSkill.trim()]);
-      setNewSkill('');
+      const t2 = setTimeout(() => {
+        setTelemetryProgress(82);
+        setTelemetryStage('Filtering roles with 60%+ qualification match...');
+      }, 1500);
+
+      const t3 = setTimeout(() => {
+        setTelemetryProgress(100);
+        setTelemetryStage('Matching complete! Verified high-match roles ready.');
+        setIsScanningComplete(true);
+      }, 2200);
+
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      };
     }
-  };
+  }, [step]);
 
-  const handleRemoveSkill = (skill) => {
-    setParsedSkills(parsedSkills.filter(s => s !== skill));
-  };
-
-  const handleFinalSubmit = () => {
+  const handleFinishOnboarding = () => {
     onCompleteOnboarding({
-      name,
-      age,
-      birthdate,
-      citizenship,
       targetRole,
-      desiredSalary,
-      setupPreference,
+      targetCategory,
+      seniority,
+      desiredSalary: salaryFloor,
+      noticePeriod,
+      citizenship: workAuth,
+      setupPreference: preferredSetup,
+      education,
+      email: contactEmail,
       resumeFileName: resumeFile.name,
-      skills: parsedSkills,
-      summary
+      skills: resumeFile.parsedSkills
     });
   };
 
@@ -96,155 +128,111 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
     <div className="min-h-[85vh] py-10 px-4 sm:px-6 max-w-3xl mx-auto grid-dot-pattern">
       <div className="bg-white rounded-3xl shadow-elevated border border-slate-200 p-6 sm:p-10 relative">
         
-        {/* Progress Header */}
+        {/* Step Progress Indicator */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-            <span>Candidate Onboarding</span>
-            <span className="text-blue-600">Step {step} of 3</span>
+            <span>Fast-Track Candidate Setup</span>
+            <span className="text-blue-600 font-extrabold">Step {step} of 4</span>
           </div>
 
           <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
             <div 
               className="bg-blue-600 h-full rounded-full transition-all duration-300"
-              style={{ width: `${(step / 3) * 100}%` }}
+              style={{ width: `${(step / 4) * 100}%` }}
             ></div>
           </div>
 
-          <div className="flex justify-between text-[11px] font-bold text-slate-500 mt-2">
-            <span className={step >= 1 ? 'text-blue-600' : ''}>1. Personal Info</span>
-            <span className={step >= 2 ? 'text-blue-600' : ''}>2. Resume Upload</span>
-            <span className={step >= 3 ? 'text-blue-600' : ''}>3. AI Matcher Scan</span>
+          <div className="grid grid-cols-4 text-[11px] font-bold text-slate-400 mt-2 text-center">
+            <span className={step >= 1 ? 'text-blue-600 font-extrabold' : ''}>1. Target Role</span>
+            <span className={step >= 2 ? 'text-blue-600 font-extrabold' : ''}>2. Universal Fields</span>
+            <span className={step >= 3 ? 'text-blue-600 font-extrabold' : ''}>3. Master Resume</span>
+            <span className={step >= 4 ? 'text-blue-600 font-extrabold' : ''}>4. Live Matches</span>
           </div>
         </div>
 
-        {/* STEP 1: Personal Details */}
+        {/* ================= STEP 1: TARGET ROLE & DOMAIN ================= */}
         {step === 1 && (
           <div className="space-y-6">
             <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-2">
+                <Briefcase className="w-3.5 h-3.5 text-blue-600" />
+                <span>STEP 1: CAREER FOCUS</span>
+              </div>
               <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-                Tell us about yourself
+                What role are you targeting next?
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                These core details are required by employers to route your application and contact you directly.
+                Our matching engine monitors direct career portals across the Philippines twice daily. Tell us what to watch for.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Full Name */}
-              <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Full Legal Name:
-                </label>
-                <div className="relative">
-                  <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Juan Dela Cruz"
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              {/* Age */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Age:
-                </label>
-                <input
-                  type="number"
-                  min="18"
-                  max="80"
-                  required
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  className="w-full px-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                />
-              </div>
-
-              {/* Birthdate */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Birthdate:
-                </label>
-                <div className="relative">
-                  <Calendar className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-                  <input
-                    type="date"
-                    required
-                    value={birthdate}
-                    onChange={(e) => setBirthdate(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              {/* Citizenship */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Citizenship:
-                </label>
-                <div className="relative">
-                  <Flag className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-                  <select
-                    value={citizenship}
-                    onChange={(e) => setCitizenship(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white"
-                  >
-                    <option value="Filipino">Filipino</option>
-                    <option value="Dual Citizen">Dual Citizen (PH / Other)</option>
-                    <option value="Foreign National with PH Work Visa">Foreign National (PH Visa)</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Target Role */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Target Job Title / Domain:
-                </label>
-                <div className="relative">
-                  <Briefcase className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-                  <input
-                    type="text"
-                    value={targetRole}
-                    onChange={(e) => setTargetRole(e.target.value)}
-                    placeholder="e.g. Senior Frontend / Full-Stack"
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              {/* Preferred Setup */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Preferred Work Setup:
-                </label>
-                <select
-                  value={setupPreference}
-                  onChange={(e) => setSetupPreference(e.target.value)}
-                  className="w-full px-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white"
-                >
-                  <option value="Hybrid • BGC / Remote">Hybrid • BGC / Remote</option>
-                  <option value="Fully Remote (PH or Global)">Fully Remote (PH or Global)</option>
-                  <option value="Makati / Ortigas / Alabang Hybrid">Makati / Ortigas / Alabang Hybrid</option>
-                </select>
-              </div>
-
-              {/* Desired Salary */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Expected Salary Range:
-                </label>
+            {/* Target Job Title Input */}
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Target Job Title:
+              </label>
+              <div className="relative">
+                <Briefcase className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 <input
                   type="text"
-                  value={desiredSalary}
-                  onChange={(e) => setDesiredSalary(e.target.value)}
-                  placeholder="e.g. ₱160,000 - ₱220,000 / mo"
-                  className="w-full px-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                  value={targetRole}
+                  onChange={(e) => setTargetRole(e.target.value)}
+                  placeholder="e.g. Senior Frontend / Full-Stack Engineer"
+                  className="w-full pl-10 pr-3 py-2.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium"
                 />
+              </div>
+            </div>
+
+            {/* Industry / Category Selection */}
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-2">
+                Industry & Functional Domain:
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setTargetCategory(cat.id)}
+                    className={`p-3 rounded-2xl border text-left transition-all ${
+                      targetCategory === cat.id
+                        ? 'border-blue-600 bg-blue-50/70 shadow-xs ring-2 ring-blue-500/20'
+                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                    }`}
+                  >
+                    <p className={`text-xs font-bold ${targetCategory === cat.id ? 'text-blue-900' : 'text-slate-800'}`}>
+                      {cat.label}
+                    </p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">{cat.count}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Seniority Level */}
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-2">
+                Seniority Level:
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                {SENIORITY_LEVELS.map((lvl) => (
+                  <button
+                    key={lvl.id}
+                    type="button"
+                    onClick={() => setSeniority(lvl.id)}
+                    className={`p-2.5 rounded-xl border text-center transition-all ${
+                      seniority === lvl.id
+                        ? 'border-blue-600 bg-blue-600 text-white font-black shadow-xs'
+                        : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700 font-bold'
+                    }`}
+                  >
+                    <p className="text-xs">{lvl.label}</p>
+                    <p className={`text-[10px] mt-0.5 ${seniority === lvl.id ? 'text-blue-100' : 'text-slate-400'}`}>
+                      {lvl.exp}
+                    </p>
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -254,26 +242,193 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 onClick={() => setStep(2)}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md"
               >
-                <span>Continue to Resume Upload</span>
+                <span>Continue to Universal Fields</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 2: Resume Upload */}
+        {/* ================= STEP 2: PARETO 6 UNIVERSAL ASTERISK FIELDS ================= */}
         {step === 2 && (
           <div className="space-y-6">
             <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold mb-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>STEP 2: UNIVERSAL ATS CLEARANCE</span>
+              </div>
               <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-                Upload your Resume
+                The Universal Asterisk Fields
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                Our parser reads your skills and years of experience to match open roles that fit your background.
+                Corporate career portals (Greenhouse, Lever, Workday) always mandate these 6 answers. Fill them once here, and your applications will never get stuck.
               </p>
             </div>
 
-            {/* Drag & Drop Area */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              {/* 1. Monthly Salary Floor */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+                  <span>1. Expected Monthly Salary Floor (₱): *</span>
+                  <span className="text-[10px] text-slate-400">Never disclosed to peers</span>
+                </label>
+                <div className="relative">
+                  <DollarSign className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <input
+                    type="text"
+                    required
+                    value={salaryFloor}
+                    onChange={(e) => setSalaryFloor(e.target.value)}
+                    placeholder="e.g. ₱160,000 / mo"
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium"
+                  />
+                </div>
+              </div>
+
+              {/* 2. Notice Period */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  2. Notice Period / Availability: *
+                </label>
+                <div className="relative">
+                  <Clock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <select
+                    value={noticePeriod}
+                    onChange={(e) => setNoticePeriod(e.target.value)}
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium"
+                  >
+                    <option value="Immediate / Available Now">Immediate / Available Now</option>
+                    <option value="15 Days">15 Days</option>
+                    <option value="30 Days">30 Days (Standard Philippine Corporate)</option>
+                    <option value="60 Days">60 Days</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* 3. Work Authorization */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  3. Philippine Work Authorization: *
+                </label>
+                <div className="relative">
+                  <Flag className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <select
+                    value={workAuth}
+                    onChange={(e) => setWorkAuth(e.target.value)}
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium"
+                  >
+                    <option value="Filipino Citizen">Filipino Citizen (Default)</option>
+                    <option value="Dual Citizen">Dual Citizen (PH / Other)</option>
+                    <option value="Foreign National with PH Work Visa">Foreign National (Valid PH Visa)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* 4. Preferred Setup */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  4. Preferred Work Setup & Hub: *
+                </label>
+                <div className="relative">
+                  <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <select
+                    value={preferredSetup}
+                    onChange={(e) => setPreferredSetup(e.target.value)}
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium"
+                  >
+                    <option value="Hybrid • BGC / Makati / Remote">Hybrid • BGC / Makati / Remote</option>
+                    <option value="Fully Remote (PH or Worldwide)">Fully Remote (PH or Worldwide)</option>
+                    <option value="Ortigas / Pasig / Mandaluyong">Ortigas / Pasig / Mandaluyong</option>
+                    <option value="Alabang / Muntinlupa Hub">Alabang / Muntinlupa Hub</option>
+                    <option value="Open to Any Setup">Open to Any Setup</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* 5. Highest Educational Attainment */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  5. Highest Educational Attainment: *
+                </label>
+                <div className="relative">
+                  <GraduationCap className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <select
+                    value={education}
+                    onChange={(e) => setEducation(e.target.value)}
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium"
+                  >
+                    <option value="Bachelor's Degree">Bachelor's Degree (College Graduate)</option>
+                    <option value="Master's Degree">Master's Degree</option>
+                    <option value="Doctorate / PhD">Doctorate / PhD</option>
+                    <option value="College Undergraduate">College Undergraduate</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* 6. Application Contact Email */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+                  <span>6. Application Contact Email: *</span>
+                  <span className="text-[10px] text-blue-600 font-bold">Zero Middleman</span>
+                </label>
+                <div className="relative">
+                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <input
+                    type="email"
+                    required
+                    value={contactEmail}
+                    onChange={(e) => setContactEmail(e.target.value)}
+                    placeholder="juan.delacruz@email.com"
+                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium"
+                  />
+                </div>
+                <p className="text-[10px] text-slate-400 mt-1">
+                  Employers reply directly to this inbox — we never intercept your communications.
+                </p>
+              </div>
+
+            </div>
+
+            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1.5"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Back</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setStep(3)}
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md"
+              >
+                <span>Continue to Master Resume</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ================= STEP 3: MASTER RESUME DROPZONE ================= */}
+        {step === 3 && (
+          <div className="space-y-6">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-2">
+                <FileText className="w-3.5 h-3.5 text-blue-600" />
+                <span>STEP 3: MASTER RESUME</span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+                Upload your Master Resume
+              </h2>
+              <p className="text-xs text-slate-500 mt-1">
+                Your Master Resume is your single source of truth. When you choose to apply for a role, you can choose between your Original Master Resume or an ATS Tailored Resume.
+              </p>
+            </div>
+
+            {/* Dropzone Container */}
             <div className="border-2 border-dashed border-blue-200 hover:border-blue-400 bg-blue-50/40 rounded-3xl p-8 sm:p-10 text-center transition-all flex flex-col items-center justify-center">
               <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md mb-4">
                 <UploadCloud className="w-7 h-7" />
@@ -282,175 +437,181 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 Drag and drop your resume file here
               </h3>
               <p className="text-xs text-slate-500 mt-1">
-                Supports PDF or DOCX (Max 10MB)
+                Accepted formats: PDF or DOCX (Max 10MB)
               </p>
 
-              {/* Current File Card */}
+              {/* Uploaded File Pill */}
               {resumeFile && (
-                <div className="mt-5 p-3.5 bg-white rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3 w-full max-w-sm text-left">
-                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                <div className="mt-5 p-3.5 bg-white rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3 w-full max-w-md text-left">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
                     <FileText className="w-5 h-5" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold text-slate-900 truncate">{resumeFile.name}</p>
-                    <p className="text-[10px] text-slate-400">{resumeFile.size} • Ready for AI Parse</p>
+                    <p className="text-[10px] text-slate-400">{resumeFile.size} • 8 key competencies detected</p>
                   </div>
-                  <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
-                    Loaded ✓
+                  <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full shrink-0">
+                    Verified ✓
                   </span>
                 </div>
               )}
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4">
+            {/* Privacy & Zero-Public Guarantee */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3 text-xs text-slate-600">
+              <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-slate-900">Strict Privacy Guarantee:</p>
+                <p className="text-slate-500 mt-0.5">
+                  Your resume is stored securely and is never broadcast to public job boards or recruiters. It is only dispatched to an employer when you explicitly click <strong>Apply (₱50)</strong> and sign off.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
               <button
                 type="button"
-                onClick={() => setStep(1)}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50"
+                onClick={() => setStep(2)}
+                className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1.5"
               >
-                Back to Details
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Back</span>
               </button>
 
               <button
                 type="button"
-                onClick={handleStartParsing}
-                className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-md"
+                onClick={() => setStep(4)}
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md"
               >
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>Parse Resume with AI</span>
+                <Zap className="w-4 h-4 text-amber-300" />
+                <span>Run Matching Engine</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 3: AI Resume Parsing & Verification */}
-        {step === 3 && (
+        {/* ================= STEP 4: LIVE TELEMETRY SCAN & CELEBRATION ================= */}
+        {step === 4 && (
           <div className="space-y-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold mb-2">
-                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                <span>AI PARSER SUMMARY</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                <span>MATCHING ENGINE TELEMETRY</span>
               </div>
               <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-                Review Your Parsed Profile
+                {isScanningComplete ? '🎉 18 High-Match Roles Found!' : 'Scanning 15,443+ Philippine Job Portals...'}
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                We've extracted your qualifications. You can tweak skills or summary before entering your matched jobs feed.
+                {isScanningComplete 
+                  ? 'We have matched your profile against live employer career portals with 60%+ qualification compatibility.'
+                  : 'Matching your Pareto 6 criteria and skills against fresh roles posted in the last 14 days.'}
               </p>
             </div>
 
-            {/* Dynamic Scanning Status Bar */}
-            {isParsing ? (
-              <div className="p-6 rounded-2xl bg-blue-50 border border-blue-200 text-center space-y-3">
-                <div className="flex items-center justify-center gap-2 text-blue-700 font-extrabold text-sm">
-                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                  <span>AI Agent is parsing {resumeFile.name}...</span>
-                </div>
-                <div className="w-full bg-blue-200 h-2 rounded-full overflow-hidden max-w-md mx-auto">
-                  <div 
-                    className="bg-blue-600 h-full rounded-full transition-all duration-300"
-                    style={{ width: `${parseProgress}%` }}
-                  ></div>
-                </div>
-                <p className="text-xs text-slate-500 font-medium">
-                  {parseProgress < 40 && "Extracting candidate profile and contact details..."}
-                  {parseProgress >= 40 && parseProgress < 80 && "Cataloging professional background and experience..."}
-                  {parseProgress >= 80 && "Matching your profile against 15,443+ monitored openings..."}
-                </p>
-              </div>
-            ) : (
-              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                  <div>
-                    <h4 className="text-xs font-bold text-emerald-950">Resume Successfully Parsed</h4>
-                    <p className="text-[11px] text-emerald-800">8 High-Demand Skills Found • 98% Highest Match (Maya)</p>
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-emerald-700 bg-white px-2.5 py-1 rounded-lg border border-emerald-200">
-                  Ready to Match
+            {/* Live Telemetry Progress Bar */}
+            <div className="p-6 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-3">
+              <div className="flex items-center justify-between text-xs font-bold text-blue-900">
+                <span className="flex items-center gap-2">
+                  {!isScanningComplete && (
+                    <div className="w-3.5 h-3.5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                  )}
+                  {telemetryStage}
                 </span>
+                <span>{telemetryProgress}%</span>
+              </div>
+
+              <div className="w-full bg-blue-200 h-2.5 rounded-full overflow-hidden">
+                <div 
+                  className="bg-blue-600 h-full rounded-full transition-all duration-300"
+                  style={{ width: `${telemetryProgress}%` }}
+                ></div>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+                <span>Direct ATS Portals: Greenhouse • Lever • Workday • Ashby</span>
+                <span className="font-bold text-slate-700">14-Day Freshness Filter</span>
+              </div>
+            </div>
+
+            {/* Celebration Preview of Top Matches */}
+            {isScanningComplete && (
+              <div className="space-y-3 animate-in fade-in slide-in-from-bottom-3 duration-300">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+                    Top Verified Roles Ready for You:
+                  </span>
+                  <span className="text-xs font-bold text-blue-600">Showing 60%+ matches</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  
+                  {/* Match 1: Maya */}
+                  <div className="p-4 rounded-2xl bg-white border border-emerald-200 shadow-xs relative">
+                    <span className="absolute top-3 right-3 text-[10px] font-black bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                      98% Match
+                    </span>
+                    <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white font-black text-sm flex items-center justify-center mb-2.5">
+                      M
+                    </div>
+                    <p className="text-xs font-black text-slate-900 truncate">Senior React Developer</p>
+                    <p className="text-[11px] font-bold text-emerald-700">Maya</p>
+                    <p className="text-[10px] text-slate-400 mt-1 truncate">₱180,000 – ₱240,000 / mo</p>
+                  </div>
+
+                  {/* Match 2: Coins.ph */}
+                  <div className="p-4 rounded-2xl bg-white border border-blue-200 shadow-xs relative">
+                    <span className="absolute top-3 right-3 text-[10px] font-black bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                      94% Match
+                    </span>
+                    <div className="w-9 h-9 rounded-xl bg-blue-600 text-white font-black text-sm flex items-center justify-center mb-2.5">
+                      C
+                    </div>
+                    <p className="text-xs font-black text-slate-900 truncate">Lead Web App Engineer</p>
+                    <p className="text-[11px] font-bold text-blue-700">Coins.ph</p>
+                    <p className="text-[10px] text-slate-400 mt-1 truncate">₱200,000 – ₱260,000 / mo</p>
+                  </div>
+
+                  {/* Match 3: Canva */}
+                  <div className="p-4 rounded-2xl bg-white border border-cyan-200 shadow-xs relative">
+                    <span className="absolute top-3 right-3 text-[10px] font-black bg-cyan-100 text-cyan-800 px-2 py-0.5 rounded-full">
+                      89% Match
+                    </span>
+                    <div className="w-9 h-9 rounded-xl bg-cyan-600 text-white font-black text-sm flex items-center justify-center mb-2.5">
+                      CA
+                    </div>
+                    <p className="text-xs font-black text-slate-900 truncate">Frontend Platform Dev</p>
+                    <p className="text-[11px] font-bold text-cyan-700">Canva Manila</p>
+                    <p className="text-[10px] text-slate-400 mt-1 truncate">₱170,000 – ₱230,000 / mo</p>
+                  </div>
+
+                </div>
+
+                <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200 flex items-center gap-2.5 text-xs text-amber-900 font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                  <span>
+                    Your <strong>₱50 Welcome Balance</strong> is ready — your 1st application is 100% on us!
+                  </span>
+                </div>
               </div>
             )}
 
-            {/* Extracted Skills Chips */}
-            <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3">
-              <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                Extracted Skills & Competencies:
-              </label>
-              
-              <div className="flex flex-wrap gap-1.5">
-                {parsedSkills.map((skill, i) => (
-                  <span
-                    key={i}
-                    className="inline-flex items-center gap-1.5 text-xs bg-slate-50 text-slate-800 border border-slate-200 px-3 py-1.5 rounded-xl font-medium"
-                  >
-                    <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
-                    <span>{skill}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveSkill(skill)}
-                      className="text-slate-400 hover:text-rose-500 ml-1 text-sm font-bold"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-
-              {/* Add custom skill input */}
-              <form onSubmit={handleAddSkill} className="flex gap-2 pt-1">
-                <input
-                  type="text"
-                  value={newSkill}
-                  onChange={(e) => setNewSkill(e.target.value)}
-                  placeholder="Add another skill (e.g. GraphQL, AWS, Docker)..."
-                  className="flex-1 px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl"
-                >
-                  Add Skill
-                </button>
-              </form>
-            </div>
-
-            {/* Professional Summary */}
-            <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-2">
-              <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                AI Generated Candidate Summary:
-              </label>
-              <textarea
-                rows={3}
-                value={summary}
-                onChange={(e) => setSummary(e.target.value)}
-                className="w-full p-3 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
-            </div>
-
-            {/* Submit to Dashboard */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+            {/* Big Primary CTA: "See My Matches" */}
+            <div className="pt-4 flex justify-end">
               <button
                 type="button"
-                onClick={() => setStep(2)}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50"
+                disabled={!isScanningComplete}
+                onClick={handleFinishOnboarding}
+                className={`w-full sm:w-auto px-8 py-4 text-white font-extrabold rounded-2xl text-base transition-all flex items-center justify-center gap-2.5 shadow-xl ${
+                  isScanningComplete
+                    ? 'bg-blue-600 hover:bg-blue-700 active:scale-95 cursor-pointer'
+                    : 'bg-slate-300 cursor-not-allowed'
+                }`}
               >
-                Back to Upload
-              </button>
-
-              <button
-                type="button"
-                onClick={handleFinalSubmit}
-                className="w-full sm:w-auto px-7 py-3.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg"
-              >
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>Complete Onboarding & Unlock Matched Jobs</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>See My Matches</span>
+                <ArrowRight className="w-5 h-5" />
               </button>
             </div>
-
           </div>
         )}
 

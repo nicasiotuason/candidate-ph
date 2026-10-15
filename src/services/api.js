@@ -64,25 +64,32 @@ export const api = {
     });
   },
 
-  // Onboarding submission + AI parsing simulation
+  // Onboarding submission simulation
   submitOnboarding(formData) {
     return new Promise((resolve) => {
       setTimeout(() => {
         const user = this.updateUser({
-          name: formData.name,
-          age: Number(formData.age),
-          birthdate: formData.birthdate,
-          citizenship: formData.citizenship,
+          name: formData.name || formData.email?.split('@')[0] || 'Applicant',
           targetRole: formData.targetRole,
+          targetCategory: formData.targetCategory,
+          seniority: formData.seniority,
           desiredSalary: formData.desiredSalary,
+          salaryFloor: formData.desiredSalary,
+          noticePeriod: formData.noticePeriod,
+          citizenship: formData.citizenship,
           setupPreference: formData.setupPreference,
+          education: formData.education,
+          email: formData.email || this.getUser().email,
           skills: formData.skills || INITIAL_USER.skills,
           summary: formData.summary || INITIAL_USER.summary,
           resumeFileName: formData.resumeFileName || "Uploaded_Resume.pdf",
-          isOnboarded: true
+          profileStrength: 90,
+          isOnboarded: true,
+          isPaused: false,
+          lastActive: "Just now"
         });
         resolve({ success: true, user });
-      }, 700);
+      }, 500);
     });
   },
 

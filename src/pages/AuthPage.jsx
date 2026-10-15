@@ -53,12 +53,12 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
           </p>
         </div>
 
-        {/* 50 Bonus Credits Promotion Banner */}
+        {/* ₱50 Welcome Balance Promotion Banner */}
         {isSignUp && (
           <div className="mb-6 p-3 rounded-2xl bg-amber-50 border border-amber-200 flex items-center gap-2.5 text-xs text-amber-900 font-semibold">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
             <span>
-              🎉 <strong>50 Free Bonus Credits</strong> included automatically with your sign-up!
+              🎉 <strong>₱50 Welcome Balance</strong> included automatically (1st application is 100% on us).
             </span>
           </div>
         )}
@@ -90,9 +90,12 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">
-              Email Address:
-            </label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-bold text-slate-700">
+                Professional Email Address:
+              </label>
+              <span className="text-[10px] text-blue-600 font-medium">Direct reply target</span>
+            </div>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
               <input
@@ -100,21 +103,28 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="juan@email.com"
+                placeholder="juan.delacruz@email.com"
                 className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
+            <p className="text-[11px] text-slate-500 mt-1">
+              Employers will reply directly to this inbox — CANDIDATE.ph never acts as a middleman.
+            </p>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">
-              Password:
-            </label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-bold text-slate-700">
+                Password:
+              </label>
+              <span className="text-[10px] text-slate-400">Min. 8 characters</span>
+            </div>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
               <input
                 type="password"
                 required
+                minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
@@ -132,7 +142,7 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             ) : (
               <>
-                <span>{isSignUp ? 'Continue to Onboarding & Resume Upload' : 'Log In to Dashboard'}</span>
+                <span>{isSignUp ? 'Continue to Fast-Track Onboarding' : 'Log In to Dashboard'}</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}

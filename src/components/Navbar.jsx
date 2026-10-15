@@ -132,10 +132,10 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                   <button
                     onClick={onOpenTopUp}
                     className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-xs transition-colors cursor-pointer"
-                    title="Reload with PayMongo"
+                    title="Buy Credits via PayMongo"
                   >
                     <Plus className="w-3 h-3 stroke-[3]" />
-                    <span>Top Up</span>
+                    <span>Buy Credits</span>
                   </button>
                 </div>
 
