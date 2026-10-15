@@ -25,10 +25,10 @@ export default function FeedbackBox({ testimonials, onAddTestimonial, userName }
             <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
             <span>COMMUNITY WALL</span>
           </div>
-          <h3 className="text-2xl font-black text-slate-900 tracking-tight">
+          <h3 className="text-2xl font-black text-slate-900 tracking-normal">
             Nice Things Said About Us
           </h3>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-slate-700 font-normal">
             Real feedback from Filipino tech candidates who got interview invites through CANDIDATE.ph.
           </p>
         </div>
@@ -46,11 +46,11 @@ export default function FeedbackBox({ testimonials, onAddTestimonial, userName }
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-slate-900">{item.author}</h4>
-                  <p className="text-[10px] text-slate-500">{item.role}</p>
+                  <p className="text-[10px] text-slate-600 font-medium">{item.role}</p>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-700 leading-relaxed italic">
+              <p className="text-xs text-slate-800 leading-relaxed italic">
                 "{item.comment}"
               </p>
 

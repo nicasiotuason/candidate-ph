@@ -21,6 +21,19 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Large headers per section: widened letter spacing & generous word spacing so words never feel stuck together */
+h1, h2 {
+  letter-spacing: 0.025em;
+  word-spacing: 0.16em;
+}
+
+h3, h4 {
+  letter-spacing: 0.015em;
+  word-spacing: 0.08em;
 }
 
 #root {

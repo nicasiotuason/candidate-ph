@@ -155,7 +155,7 @@ export default function DashboardPage({
               <span>Search & Match Drop: Twice Daily (6:00 AM & 6:00 PM PHT)</span>
             </div>
             
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2.5">
               <span>Kumusta, {user?.name || 'Juan'}</span>
               {profileForm.isPaused ? (
                 <span className="text-xs font-bold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full border border-amber-200 flex items-center gap-1">
@@ -170,8 +170,8 @@ export default function DashboardPage({
               )}
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
-              Targeting: <strong className="text-slate-800">{user?.targetRole || 'Senior Frontend / Full-Stack Engineer'}</strong> • Showing roles with ≥ 60% match score posted in the last 14 days.
+            <p className="text-xs sm:text-sm text-slate-700 mt-1 max-w-2xl">
+              Targeting: <strong className="text-slate-900">{user?.targetRole || 'Senior Frontend / Full-Stack Engineer'}</strong> • Showing roles with ≥ 60% match score posted in the last 14 days.
             </p>
           </div>
 
@@ -205,22 +205,22 @@ export default function DashboardPage({
         {/* 4 Summary Telemetry Pills */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 mt-6 border-t border-slate-100">
           <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">ACTIVE PORTALS MONITORED</span>
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">ACTIVE PORTALS MONITORED</span>
             <span className="text-lg font-black text-slate-900 mt-0.5 block">15,443+</span>
           </div>
 
           <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">MATCHED (≥ 60%)</span>
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">MATCHED (≥ 60%)</span>
             <span className="text-lg font-black text-blue-600 mt-0.5 block">{jobs.length} Opportunities</span>
           </div>
 
           <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">BOOKMARKS</span>
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">BOOKMARKS</span>
             <span className="text-lg font-black text-amber-500 mt-0.5 block">{savedJobIds.length} Saved</span>
           </div>
 
           <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">APPLICATIONS SENT</span>
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">APPLICATIONS SENT</span>
             <span className="text-lg font-black text-emerald-600 mt-0.5 block">{appliedJobs.length} Dispatched</span>
           </div>
         </div>

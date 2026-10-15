@@ -43,10 +43,10 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-600 text-white font-black text-2xl shadow-md mb-3">
             C
           </div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl font-black text-slate-900">
             {isSignUp ? 'Join CANDIDATE.ph' : 'Welcome Back'}
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-700 mt-1">
             {isSignUp
               ? 'Create an account to search 15,443+ professional roles and get matched.'
               : 'Log in to your dashboard and review active matched roles.'}

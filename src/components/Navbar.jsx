@@ -26,7 +26,7 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1">
-                <span className="text-xl font-extrabold tracking-tight text-slate-900">CANDIDATE</span>
+                <span className="text-xl font-extrabold tracking-wider text-slate-900">CANDIDATE</span>
                 <span className="text-xs px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 font-bold border border-blue-200">.ph</span>
               </div>
             </div>
@@ -36,7 +36,7 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
           {isLanding && (
             <>
               {/* Desktop Nav - only visible at lg and up to prevent any wrapping */}
-              <nav className="hidden lg:flex items-center space-x-1 xl:space-x-3 text-sm font-medium text-slate-600">
+              <nav className="hidden lg:flex items-center space-x-1 xl:space-x-3 text-sm font-medium text-slate-700">
                 <a 
                   href="#how-it-works" 
                   className="px-3 py-2 rounded-lg hover:text-slate-900 hover:bg-slate-50 transition-colors whitespace-nowrap"
@@ -111,8 +111,8 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                   <span>Applicant Portal</span>
                 </span>
                 <span className="text-slate-400">•</span>
-                <span className="text-slate-500 font-medium">
-                  Candidate ID: <strong className="text-slate-800">{user?.id || 'USR-01'}</strong>
+                <span className="text-slate-700 font-medium">
+                  Candidate ID: <strong className="text-slate-900">{user?.id || 'USR-01'}</strong>
                 </span>
               </nav>
 
@@ -121,11 +121,11 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                 <div className="flex items-center bg-slate-50 border border-slate-200 rounded-2xl p-1 pr-1.5">
                   <div className="flex items-center gap-1.5 px-2.5 py-1 text-xs">
                     <Wallet className="w-3.5 h-3.5 text-blue-600" />
-                    <span className="text-slate-500 font-medium">Wallet:</span>
+                    <span className="text-slate-700 font-medium">Wallet:</span>
                     <span className="font-extrabold text-slate-900 text-sm">
                       ₱{user?.walletBalance ?? 250}.00
                     </span>
-                    <span className="text-[10px] text-slate-400 font-medium hidden sm:inline">
+                    <span className="text-[10px] text-slate-500 font-medium hidden sm:inline">
                       ({Math.floor((user?.walletBalance ?? 250) / 50)} apps)
                     </span>
                   </div>
@@ -147,7 +147,7 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                     </div>
                     <div className="hidden lg:block">
                       <p className="text-xs font-bold text-slate-900 leading-none">{user?.name || 'Juan Dela Cruz'}</p>
-                      <p className="text-[10px] text-slate-500 leading-none mt-1">Verified Candidate</p>
+                      <p className="text-[10px] text-slate-600 leading-none mt-1">Verified Candidate</p>
                     </div>
                   </div>
 

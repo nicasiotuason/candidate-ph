@@ -158,10 +158,10 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 <Briefcase className="w-3.5 h-3.5 text-blue-600" />
                 <span>STEP 1: CAREER FOCUS</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl font-black text-slate-900">
                 What role are you targeting next?
               </h2>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-700 mt-1">
                 Our matching engine monitors direct career portals across the Philippines twice daily. Tell us what to watch for.
               </p>
             </div>
@@ -257,10 +257,10 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                 <span>STEP 2: UNIVERSAL ATS CLEARANCE</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl font-black text-slate-900">
                 The Universal Asterisk Fields
               </h2>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-700 mt-1">
                 Corporate career portals (Greenhouse, Lever, Workday) always mandate these 6 answers. Fill them once here, and your applications will never get stuck.
               </p>
             </div>
@@ -420,10 +420,10 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 <FileText className="w-3.5 h-3.5 text-blue-600" />
                 <span>STEP 3: MASTER RESUME</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl font-black text-slate-900">
                 Upload your Master Resume
               </h2>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-700 mt-1">
                 Your Master Resume is your single source of truth. When you choose to apply for a role, you can choose between your Original Master Resume or an ATS Tailored Resume.
               </p>
             </div>
@@ -499,10 +499,10 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
                 <Sparkles className="w-3.5 h-3.5 text-blue-600" />
                 <span>MATCHING ENGINE TELEMETRY</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl font-black text-slate-900">
                 {isScanningComplete ? '🎉 18 High-Match Roles Found!' : 'Scanning 15,443+ Philippine Job Portals...'}
               </h2>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-700 mt-1">
                 {isScanningComplete 
                   ? 'We have matched your profile against live employer career portals with 60%+ qualification compatibility.'
                   : 'Matching your Pareto 6 criteria and skills against fresh roles posted in the last 14 days.'}
