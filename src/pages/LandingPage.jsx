@@ -376,10 +376,13 @@ export default function LandingPage({
                   </div>
                   <button 
                     type="submit"
-                    className="px-5 py-3 bg-theme-primary hover:bg-theme-primary-hover active:scale-95 text-white font-bold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-md whitespace-nowrap cursor-pointer"
+                    className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-md whitespace-nowrap cursor-pointer"
                   >
-                    <span>Claim ₱50 Free Balance</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <div className="flex flex-col text-left leading-tight">
+                      <span className="text-xs sm:text-sm font-black tracking-wide">SIGN UP</span>
+                      <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Claim ₱50 First Application</span>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-amber-300" />
                   </button>
                 </form>
 
@@ -1175,9 +1178,13 @@ export default function LandingPage({
             />
             <button 
               type="submit" 
-              className="px-6 py-3.5 bg-theme-primary hover:bg-theme-primary-hover text-white font-bold text-sm rounded-xl transition-all shadow-md whitespace-nowrap cursor-pointer"
+              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-md whitespace-nowrap cursor-pointer flex items-center justify-center gap-2"
             >
-              Claim ₱50 Balance
+              <div className="flex flex-col text-left leading-tight">
+                <span className="text-xs sm:text-sm font-black tracking-wide">SIGN UP</span>
+                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Claim ₱50 First Application</span>
+              </div>
+              <ArrowRight className="w-4 h-4 text-amber-300" />
             </button>
           </form>
 

@@ -142,8 +142,8 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             ) : (
               <>
-                <span>{isSignUp ? 'Continue to Fast-Track Onboarding' : 'Log In to Dashboard'}</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>{isSignUp ? 'SIGN UP — Claim ₱50 First Application' : 'Log In to Dashboard'}</span>
+                <ArrowRight className="w-4 h-4 text-amber-300" />
               </>
             )}
           </button>

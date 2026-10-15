@@ -85,10 +85,13 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                 </button>
                 <button
                   onClick={() => setCurrentView('auth')}
-                  className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-95 rounded-xl shadow-sm transition-all cursor-pointer whitespace-nowrap"
+                  className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 text-white bg-blue-600 hover:bg-blue-700 active:scale-95 rounded-xl shadow-sm transition-all cursor-pointer whitespace-nowrap"
                 >
-                  <span>Claim ₱50 Free Balance</span>
-                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                  <div className="flex flex-col text-left leading-tight">
+                    <span className="text-xs sm:text-[13px] font-black tracking-wide">SIGN UP</span>
+                    <span className="text-[9px] sm:text-[10px] font-semibold text-blue-100">Claim ₱50 First Application</span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 text-amber-300" />
                 </button>
 
                 {/* Mobile Menu Hamburger (visible below lg) */}
