@@ -45,9 +45,14 @@ const SENIORITY_LEVELS = [
 ];
 
 export default function OnboardingPage({ initialEmail, initialName, onCompleteOnboarding }) {
-  const [step, setStep] = useState(1); // 1: Role & Domain, 2: Pareto 6 Universal Fields, 3: Resume Dropzone, 4: Matching Telemetry & Celebration
+  const [step, setStep] = useState(1); // 1: Resume / Credentials, 2: Role & Domain, 3: Universal ATS Fields, 4: Matching Telemetry & Celebration
 
-  // Step 1: Role & Domain
+  // Step 1: Resume / Credentials Selection
+  const [cvChoice, setCvChoice] = useState(null); // 'uploaded' | 'choice_a' | 'choice_b' | null
+  const [uploadedResume, setUploadedResume] = useState(null);
+  const [isSimulatingUpload, setIsSimulatingUpload] = useState(false);
+
+  // Step 2: Role & Domain
   const [targetCategories, setTargetCategories] = useState(['tech']);
   const [targetRole, setTargetRole] = useState('Senior Frontend Engineer');
   const [seniority, setSeniority] = useState('senior');
@@ -69,7 +74,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
     }
   };
 
-  // Step 2: Pareto 6 Universal Asterisk Fields
+  // Step 3: Pareto 6 Universal Asterisk Fields
   const [salaryFloor, setSalaryFloor] = useState('₱160,000 / mo');
   const [noticePeriod, setNoticePeriod] = useState('30 Days');
   const [workAuth, setWorkAuth] = useState('Filipino Citizen');
@@ -77,7 +82,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
   const [education, setEducation] = useState("Bachelor's Degree");
   const [contactEmail, setContactEmail] = useState(initialEmail || 'juan.delacruz@email.com');
 
-  // Step 3: Resume Dropzone
+  // Resume File representation (persisted to profile)
   const [resumeFile, setResumeFile] = useState({
     name: 'Juan_DelaCruz_Senior_Frontend_Resume.pdf',
     size: '148 KB',
@@ -141,8 +146,9 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
       setupPreference: preferredSetup,
       education,
       email: contactEmail,
-      resumeFileName: resumeFile.name,
-      skills: resumeFile.parsedSkills
+      resumeFileName: uploadedResume ? uploadedResume.name : resumeFile.name,
+      skills: resumeFile.parsedSkills,
+      cvChoice: cvChoice || 'uploaded'
     });
   };
 
@@ -152,7 +158,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
         
         {/* Step Progress Indicator */}
         <div className="mb-5">
-          <div className="flex items-center justify-between mb-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
+          <div className="flex items-center justify-between mb-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
             <span>Fast-Track Candidate Setup</span>
             <span className="text-blue-700 font-extrabold">Step {step} of 4</span>
           </div>
@@ -164,21 +170,216 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
             ></div>
           </div>
 
-          <div className="grid grid-cols-4 text-xs font-bold text-slate-600 mt-2 text-center">
-            <span className={step >= 1 ? 'text-blue-700 font-extrabold' : ''}>1. Target Role</span>
-            <span className={step >= 2 ? 'text-blue-700 font-extrabold' : ''}>2. Universal Fields</span>
-            <span className={step >= 3 ? 'text-blue-700 font-extrabold' : ''}>3. Master Resume</span>
-            <span className={step >= 4 ? 'text-blue-700 font-extrabold' : ''}>4. Live Matches</span>
+          <div className="grid grid-cols-4 text-xs font-bold text-slate-700 mt-2 text-center">
+            <span className={step >= 1 ? 'text-blue-700 font-extrabold' : 'text-slate-500'}>1. Resume / CV</span>
+            <span className={step >= 2 ? 'text-blue-700 font-extrabold' : 'text-slate-500'}>2. Target Role</span>
+            <span className={step >= 3 ? 'text-blue-700 font-extrabold' : 'text-slate-500'}>3. Universal Fields</span>
+            <span className={step >= 4 ? 'text-blue-700 font-extrabold' : 'text-slate-500'}>4. Live Matches</span>
           </div>
         </div>
 
-        {/* ================= STEP 1: TARGET ROLE & DOMAIN ================= */}
+        {/* ================= STEP 1: RESUME & CREDENTIALS ================= */}
         {step === 1 && (
+          <div className="space-y-4 sm:space-y-5">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-1.5">
+                <FileText className="w-3.5 h-3.5 text-blue-600" />
+                <span>STEP 1: YOUR RESUME & CREDENTIALS</span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-900">
+                How would you like to start?
+              </h2>
+              <p className="text-xs text-slate-800 font-medium mt-1">
+                Upload your existing resume for instant auto-fill, or choose how you'd like us to prepare one for you.
+              </p>
+            </div>
+
+            {/* TOP OPTION: Upload Existing CV */}
+            <div 
+              onClick={() => {
+                if (!uploadedResume) {
+                  setIsSimulatingUpload(true);
+                  setTimeout(() => {
+                    setUploadedResume({
+                      name: 'Juan_DelaCruz_Resume.pdf',
+                      size: '148 KB',
+                      parsedSkills: ['React 18', 'TypeScript', 'Node.js', 'REST APIs']
+                    });
+                    setCvChoice('uploaded');
+                    setIsSimulatingUpload(false);
+                  }, 400);
+                } else {
+                  setCvChoice('uploaded');
+                }
+              }}
+              className={`p-5 sm:p-6 rounded-2xl border-2 border-dashed transition-all cursor-pointer text-center ${
+                cvChoice === 'uploaded'
+                  ? 'border-blue-600 bg-blue-50/70 ring-2 ring-blue-500/20'
+                  : 'border-slate-300 hover:border-blue-400 bg-white hover:bg-slate-50'
+              }`}
+            >
+              <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center mx-auto mb-2.5 shadow-md">
+                <UploadCloud className="w-6 h-6" />
+              </div>
+
+              <h3 className="text-sm sm:text-base font-black text-slate-900">
+                Upload Existing CV (PDF or Word)
+              </h3>
+              <p className="text-xs text-slate-700 font-semibold mt-1">
+                Already have a resume? Upload for instant 5-second auto-fill
+              </p>
+
+              {isSimulatingUpload && (
+                <div className="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-blue-700">
+                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                  <span>Parsing CV credentials...</span>
+                </div>
+              )}
+
+              {uploadedResume && !isSimulatingUpload && (
+                <div className="mt-3.5 p-3 bg-white rounded-xl border border-emerald-300 shadow-xs flex items-center justify-between text-left max-w-md mx-auto">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                      <FileText className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-black text-slate-900">{uploadedResume.name}</p>
+                      <p className="text-[11px] text-slate-600 font-semibold">{uploadedResume.size} • Verified ✓</p>
+                    </div>
+                  </div>
+                  <span className="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                    Ready to Auto-Fill
+                  </span>
+                </div>
+              )}
+
+              {!uploadedResume && !isSimulatingUpload && (
+                <p className="text-[11px] text-blue-700 font-bold mt-2">
+                  Click to drop or test with sample PDF
+                </p>
+              )}
+            </div>
+
+            {/* DIVIDER: OR */}
+            <div className="relative flex items-center justify-center">
+              <div className="border-t border-slate-300 w-full"></div>
+              <span className="bg-white px-3 text-xs font-black text-slate-600 tracking-wider shrink-0 uppercase">
+                OR
+              </span>
+              <div className="border-t border-slate-300 w-full"></div>
+            </div>
+
+            {/* BOTTOM SECTION: Don't have an updated CV ready? */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-3">
+              <h3 className="text-sm font-black text-slate-900">
+                Don't have an updated CV ready?
+              </h3>
+
+              {/* Informational Callout */}
+              <div className="p-3.5 rounded-xl bg-amber-50/90 border border-amber-200 flex items-start gap-2.5 text-xs">
+                <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                <p className="text-slate-800 font-semibold leading-relaxed">
+                  A Resume File is <strong className="text-slate-950 font-black">100% Mandatory</strong> across every single <strong className="text-slate-950 font-black">Applicant Tracking System (ATS)</strong>. We cannot dispatch your Application to any employer without an attached CV file.
+                </p>
+              </div>
+
+              <p className="text-xs font-black text-slate-800">
+                You have two choices:
+              </p>
+
+              {/* Choice A & Choice B Buttons */}
+              <div className="grid grid-cols-1 gap-2.5">
+                
+                {/* Choice A */}
+                <button
+                  type="button"
+                  onClick={() => setCvChoice('choice_a')}
+                  className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                    cvChoice === 'choice_a'
+                      ? 'border-blue-600 bg-blue-50/90 ring-2 ring-blue-500/30'
+                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-xs font-black text-slate-900">
+                        Choice A: Build one now with our Resume Builder in 5 minutes
+                      </p>
+                      <p className="text-[11px] text-slate-700 font-medium mt-0.5">
+                        Interactive guided builder that generates a professional PDF ready to download.
+                      </p>
+                    </div>
+                    {cvChoice === 'choice_a' && (
+                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
+                        ✓
+                      </span>
+                    )}
+                  </div>
+                </button>
+
+                {/* Choice B */}
+                <button
+                  type="button"
+                  onClick={() => setCvChoice('choice_b')}
+                  className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                    cvChoice === 'choice_b'
+                      ? 'border-blue-600 bg-blue-50/90 ring-2 ring-blue-500/30'
+                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-xs font-black text-slate-900">
+                        Choice B: Build one together as we complete your onboarding questions
+                      </p>
+                      <p className="text-[11px] text-slate-700 font-medium mt-0.5">
+                        Answer your career, role, and clearance questions—we compile your ATS resume automatically.
+                      </p>
+                    </div>
+                    {cvChoice === 'choice_b' && (
+                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
+                        ✓
+                      </span>
+                    )}
+                  </div>
+                </button>
+
+              </div>
+            </div>
+
+            {/* Action Bar */}
+            <div className="pt-2 flex items-center justify-between">
+              <span className="text-[11px] text-slate-700 font-bold">
+                {cvChoice === 'uploaded' && '✓ CV attached for auto-fill'}
+                {cvChoice === 'choice_a' && 'Selected: 5-Minute Resume Builder'}
+                {cvChoice === 'choice_b' && 'Selected: Build Together as We Go'}
+                {!cvChoice && 'Select an option above to proceed'}
+              </span>
+
+              <button
+                type="button"
+                disabled={!cvChoice}
+                onClick={() => setStep(2)}
+                className={`px-5 py-2.5 font-extrabold rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 shadow-md cursor-pointer ${
+                  cvChoice 
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white active:scale-95' 
+                    : 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+                }`}
+              >
+                <span>Continue</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ================= STEP 2: TARGET ROLE & DOMAIN ================= */}
+        {step === 2 && (
           <div className="space-y-4">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-1.5">
                 <Briefcase className="w-3.5 h-3.5 text-blue-600" />
-                <span>STEP 1: CAREER FOCUS</span>
+                <span>STEP 2: CAREER FOCUS</span>
               </div>
               <h2 className="text-2xl font-black text-slate-900">
                 What role are you targeting next?
@@ -273,10 +474,19 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               </div>
             </div>
 
-            <div className="pt-2 flex justify-end">
+            <div className="pt-2 flex items-center justify-between">
               <button
                 type="button"
-                onClick={() => setStep(2)}
+                onClick={() => setStep(1)}
+                className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 cursor-pointer"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Back</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setStep(3)}
                 className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 shadow-md cursor-pointer"
               >
                 <span>Continue to Universal Fields</span>
@@ -286,13 +496,13 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
           </div>
         )}
 
-        {/* ================= STEP 2: PARETO 6 UNIVERSAL ASTERISK FIELDS ================= */}
-        {step === 2 && (
+        {/* ================= STEP 3: PARETO 6 UNIVERSAL ASTERISK FIELDS ================= */}
+        {step === 3 && (
           <div className="space-y-6">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold mb-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>STEP 2: UNIVERSAL ATS CLEARANCE</span>
+                <span>STEP 3: UNIVERSAL ATS CLEARANCE</span>
               </div>
               <h2 className="text-2xl font-black text-slate-900">
                 The Universal Asterisk Fields
@@ -430,86 +640,8 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
             <div className="flex items-center justify-between pt-4 border-t border-slate-100">
               <button
                 type="button"
-                onClick={() => setStep(1)}
-                className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1.5"
-              >
-                <ArrowLeft className="w-3.5 h-3.5" />
-                <span>Back</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setStep(3)}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md"
-              >
-                <span>Continue to Master Resume</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ================= STEP 3: MASTER RESUME DROPZONE ================= */}
-        {step === 3 && (
-          <div className="space-y-6">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-2">
-                <FileText className="w-3.5 h-3.5 text-blue-600" />
-                <span>STEP 3: MASTER RESUME</span>
-              </div>
-              <h2 className="text-2xl font-black text-slate-900">
-                Upload your Master Resume
-              </h2>
-              <p className="text-xs text-slate-700 mt-1">
-                Your Master Resume is your single source of truth. When you choose to apply for a role, you can choose between your Original Master Resume or an ATS Tailored Resume.
-              </p>
-            </div>
-
-            {/* Dropzone Container */}
-            <div className="border-2 border-dashed border-blue-200 hover:border-blue-400 bg-blue-50/40 rounded-3xl p-8 sm:p-10 text-center transition-all flex flex-col items-center justify-center">
-              <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md mb-4">
-                <UploadCloud className="w-7 h-7" />
-              </div>
-              <h3 className="text-base font-extrabold text-slate-900">
-                Drag and drop your resume file here
-              </h3>
-              <p className="text-xs text-slate-700 font-medium mt-1">
-                Accepted formats: PDF or DOCX (Max 10MB)
-              </p>
-
-              {/* Uploaded File Pill */}
-              {resumeFile && (
-                <div className="mt-5 p-3.5 bg-white rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3 w-full max-w-md text-left">
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                    <FileText className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-black text-slate-900 truncate">{resumeFile.name}</p>
-                    <p className="text-xs text-slate-700 font-medium">{resumeFile.size} • 8 key competencies detected</p>
-                  </div>
-                  <span className="text-[10px] font-black bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full shrink-0">
-                    Verified ✓
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Privacy & Zero-Public Guarantee */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3 text-xs text-slate-700">
-              <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-              <div>
-                <p className="font-bold text-slate-900">Strict Privacy Guarantee:</p>
-                <p className="text-slate-700 mt-0.5 font-medium">
-                  Your resume is stored securely and is never broadcast to public job boards or recruiters. It is only dispatched to an employer when you explicitly click <strong>Apply (₱50)</strong> and sign off.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-              <button
-                type="button"
                 onClick={() => setStep(2)}
-                className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1.5"
+                className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Back</span>
@@ -518,7 +650,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               <button
                 type="button"
                 onClick={() => setStep(4)}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md"
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md cursor-pointer"
               >
                 <Zap className="w-4 h-4 text-amber-300" />
                 <span>Run Matching Engine</span>
