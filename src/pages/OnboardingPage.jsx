@@ -25,29 +25,49 @@ import {
 } from 'lucide-react';
 
 const CATEGORIES = [
+  { id: 'all', label: '🌐 Open to All Domains', count: '15,443+ active roles' },
   { id: 'tech', label: 'Tech & Engineering', count: '4,210 jobs' },
-  { id: 'finance', label: 'Finance & Banking', count: '2,890 jobs' },
-  { id: 'marketing', label: 'Marketing & Growth', count: '1,940 jobs' },
-  { id: 'hr', label: 'HR & Talent Ops', count: '1,320 jobs' },
-  { id: 'operations', label: 'Operations & Supply', count: '2,410 jobs' },
-  { id: 'creative', label: 'Product & Creative', count: '1,673 jobs' },
+  { id: 'bpo', label: 'BPO, Customer Support & CX', count: '3,820 jobs' },
+  { id: 'finance', label: 'Finance, Banking & Accounting', count: '2,890 jobs' },
+  { id: 'sales', label: 'Sales & Business Development', count: '2,150 jobs' },
+  { id: 'marketing', label: 'Marketing, Growth & Creative', count: '1,940 jobs' },
+  { id: 'admin', label: 'Virtual Assistance & Admin', count: '2,410 jobs' },
+  { id: 'hr', label: 'HR, Talent Ops & People', count: '1,320 jobs' },
+  { id: 'healthcare', label: 'Healthcare & Medical Ops', count: '1,180 jobs' },
 ];
 
 const SENIORITY_LEVELS = [
-  { id: 'junior', label: 'Junior', exp: '1–2 years' },
+  { id: 'entry', label: 'Entry / Fresh Grad', exp: '0–1 year' },
+  { id: 'junior', label: 'Junior', exp: '1–3 years' },
   { id: 'mid', label: 'Mid-Level', exp: '3–5 years' },
-  { id: 'senior', label: 'Senior', exp: '6–8 years' },
-  { id: 'lead', label: 'Lead / Manager', exp: '8+ years' },
-  { id: 'executive', label: 'Executive / Director', exp: '10+ years' },
+  { id: 'senior', label: 'Senior', exp: '5–8 years' },
+  { id: 'lead', label: 'Lead / Executive', exp: '8+ years' },
 ];
 
 export default function OnboardingPage({ initialEmail, initialName, onCompleteOnboarding }) {
   const [step, setStep] = useState(1); // 1: Role & Domain, 2: Pareto 6 Universal Fields, 3: Resume Dropzone, 4: Matching Telemetry & Celebration
 
   // Step 1: Role & Domain
-  const [targetCategory, setTargetCategory] = useState('tech');
+  const [targetCategories, setTargetCategories] = useState(['tech']);
   const [targetRole, setTargetRole] = useState('Senior Frontend Engineer');
   const [seniority, setSeniority] = useState('senior');
+
+  const toggleCategory = (catId) => {
+    if (catId === 'all') {
+      setTargetCategories(['all']);
+      return;
+    }
+    if (targetCategories.includes('all')) {
+      setTargetCategories([catId]);
+      return;
+    }
+    if (targetCategories.includes(catId)) {
+      const remaining = targetCategories.filter(c => c !== catId);
+      setTargetCategories(remaining.length === 0 ? ['all'] : remaining);
+    } else {
+      setTargetCategories([...targetCategories, catId]);
+    }
+  };
 
   // Step 2: Pareto 6 Universal Asterisk Fields
   const [salaryFloor, setSalaryFloor] = useState('₱160,000 / mo');
@@ -112,7 +132,8 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
     onCompleteOnboarding({
       name: initialName,
       targetRole,
-      targetCategory,
+      targetCategory: targetCategories.includes('all') ? 'All Industries' : targetCategories.join(', '),
+      targetCategories,
       seniority,
       desiredSalary: salaryFloor,
       noticePeriod,
@@ -126,12 +147,12 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
   };
 
   return (
-    <div className="min-h-[85vh] py-10 px-4 sm:px-6 max-w-3xl mx-auto grid-dot-pattern">
-      <div className="bg-white rounded-3xl shadow-elevated border border-slate-200 p-6 sm:p-10 relative">
+    <div className="min-h-[80vh] py-4 sm:py-6 px-4 sm:px-6 max-w-3xl mx-auto grid-dot-pattern">
+      <div className="bg-white rounded-3xl shadow-elevated border border-slate-200 p-5 sm:p-7 relative">
         
         {/* Step Progress Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-3 text-xs font-bold text-slate-600 uppercase tracking-wider">
+        <div className="mb-5">
+          <div className="flex items-center justify-between mb-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
             <span>Fast-Track Candidate Setup</span>
             <span className="text-blue-700 font-extrabold">Step {step} of 4</span>
           </div>
@@ -153,16 +174,16 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
         {/* ================= STEP 1: TARGET ROLE & DOMAIN ================= */}
         {step === 1 && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-1.5">
                 <Briefcase className="w-3.5 h-3.5 text-blue-600" />
                 <span>STEP 1: CAREER FOCUS</span>
               </div>
               <h2 className="text-2xl font-black text-slate-900">
                 What role are you targeting next?
               </h2>
-              <p className="text-xs text-slate-700 mt-1">
+              <p className="text-xs text-slate-800 font-medium mt-1">
                 Our matching engine monitors direct career portals across the Philippines twice daily. Tell us what to watch for.
               </p>
             </div>
@@ -179,50 +200,65 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                   required
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  placeholder="e.g. Senior Frontend / Full-Stack Engineer"
+                  placeholder="e.g. Senior Frontend / Full-Stack Engineer, BPO Team Lead, Account Executive"
                   className="w-full pl-10 pr-3 py-2.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium text-slate-900 placeholder:text-slate-500"
                 />
               </div>
             </div>
 
-            {/* Industry / Category Selection */}
+            {/* Industry / Category Selection (Multi-Select) */}
             <div>
-              <label className="block text-xs font-black text-slate-900 mb-2">
-                Industry & Functional Domain:
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => setTargetCategory(cat.id)}
-                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
-                      targetCategory === cat.id
-                        ? 'border-blue-600 bg-blue-50/70 shadow-xs ring-2 ring-blue-500/20'
-                        : 'border-slate-200 hover:border-slate-300 bg-white'
-                    }`}
-                  >
-                    <p className={`text-xs font-bold ${targetCategory === cat.id ? 'text-blue-900 font-black' : 'text-slate-900'}`}>
-                      {cat.label}
-                    </p>
-                    <p className="text-[11px] text-slate-600 font-semibold mt-0.5">{cat.count}</p>
-                  </button>
-                ))}
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-black text-slate-900">
+                  Industry & Functional Domain:
+                </label>
+                <span className="text-[11px] text-blue-700 font-bold">
+                  {targetCategories.includes('all') ? 'Open to All Domains' : `${targetCategories.length} selected (multi-select)`}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {CATEGORIES.map((cat) => {
+                  const isSelected = targetCategories.includes(cat.id);
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => toggleCategory(cat.id)}
+                      className={`p-2 sm:p-2.5 rounded-2xl border text-left transition-all cursor-pointer relative ${
+                        isSelected
+                          ? 'border-blue-600 bg-blue-50/80 shadow-xs ring-2 ring-blue-500/20'
+                          : 'border-slate-200 hover:border-slate-300 bg-white'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-1.5">
+                        <p className={`text-xs font-bold leading-snug ${isSelected ? 'text-blue-950 font-black' : 'text-slate-900'}`}>
+                          {cat.label}
+                        </p>
+                        {isSelected && (
+                          <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5 shadow-xs">
+                            ✓
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-slate-600 font-semibold mt-0.5">{cat.count}</p>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
             {/* Seniority Level */}
             <div>
-              <label className="block text-xs font-black text-slate-900 mb-2">
+              <label className="block text-xs font-black text-slate-900 mb-1.5">
                 Seniority Level:
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2">
                 {SENIORITY_LEVELS.map((lvl) => (
                   <button
                     key={lvl.id}
                     type="button"
                     onClick={() => setSeniority(lvl.id)}
-                    className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
+                    className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
                       seniority === lvl.id
                         ? 'border-blue-600 bg-blue-600 text-white font-black shadow-xs'
                         : 'border-slate-200 hover:border-slate-300 bg-white text-slate-800 font-bold'
@@ -237,11 +273,11 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               </div>
             </div>
 
-            <div className="pt-4 flex justify-end">
+            <div className="pt-2 flex justify-end">
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md"
+                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 shadow-md cursor-pointer"
               >
                 <span>Continue to Universal Fields</span>
                 <ArrowRight className="w-4 h-4" />
