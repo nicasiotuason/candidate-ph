@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Zap, CheckCircle2, ShieldCheck, Sparkles, UserPlus, LogIn } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, ShieldCheck, UserPlus, LogIn } from 'lucide-react';
 
 export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnboarding }) {
   const [isSignUp, setIsSignUp] = useState(true);
@@ -8,6 +8,10 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (initialEmail) {
@@ -33,37 +37,19 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
     }, 450);
   };
 
-  // Demo shortcut helper
-  const handleQuickDemo = (type) => {
-    if (type === 'existing') {
-      setEmail('juan.delacruz@email.com');
-      setPassword('password123');
-      onLoginSuccess({ email: 'juan.delacruz@email.com' });
-    } else {
-      setFullName('Maria Santos');
-      setEmail('maria.santos@email.com');
-      setPassword('password123');
-      onStartOnboarding({ 
-        email: 'maria.santos@email.com',
-        name: 'Maria Santos',
-        password: 'password123'
-      });
-    }
-  };
-
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 grid-dot-pattern">
-      <div className="bg-white rounded-3xl shadow-elevated border border-slate-200 w-full max-w-md p-6 sm:p-8 relative">
+    <div className="min-h-[75vh] flex items-center justify-center px-4 py-2 sm:py-4 grid-dot-pattern">
+      <div className="bg-white rounded-3xl shadow-elevated border border-slate-200 w-full max-w-md p-5 sm:p-6 relative">
         
         {/* Brand Header */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-600 text-white font-black text-2xl shadow-md mb-3">
+        <div className="text-center mb-2.5">
+          <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-blue-600 text-white font-black text-lg shadow-md mb-1.5">
             C
           </div>
-          <h2 className="text-2xl font-black text-slate-900">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
             {isSignUp ? 'Join CANDIDATE.ph' : 'Welcome Back'}
           </h2>
-          <p className="text-xs text-slate-700 mt-1">
+          <p className="text-xs text-slate-800 font-medium mt-0.5">
             {isSignUp
               ? 'Create your candidate account to search 15,443+ professional roles.'
               : 'Log in to your dashboard and review active matched roles.'}
@@ -72,7 +58,7 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
 
         {/* ₱50 Welcome Balance Promotion Banner */}
         {isSignUp && (
-          <div className="mb-6 p-3 rounded-2xl bg-amber-50 border border-amber-200 flex items-center gap-2.5 text-xs text-amber-900 font-semibold">
+          <div className="mb-3 p-2 rounded-2xl bg-amber-50 border border-amber-300 flex items-center gap-2 text-xs text-amber-950 font-semibold shadow-xs">
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
             <span>
               🎉 <strong>₱50 Welcome Balance</strong> included automatically (1st application is 100% on us).
@@ -81,12 +67,12 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
         )}
 
         {/* Mode Switcher Tabs */}
-        <div className="grid grid-cols-2 p-1 bg-slate-100 rounded-2xl mb-6 text-xs font-bold">
+        <div className="grid grid-cols-2 p-1 bg-slate-100 rounded-2xl mb-3 text-xs font-bold border border-slate-200">
           <button
             type="button"
             onClick={() => setIsSignUp(true)}
-            className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-              isSignUp ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`py-1.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              isSignUp ? 'bg-white text-blue-700 shadow-sm font-black' : 'text-slate-700 hover:text-slate-950 font-semibold'
             }`}
           >
             <UserPlus className="w-3.5 h-3.5" />
@@ -95,8 +81,8 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
           <button
             type="button"
             onClick={() => setIsSignUp(false)}
-            className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-              !isSignUp ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`py-1.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              !isSignUp ? 'bg-white text-blue-700 shadow-sm font-black' : 'text-slate-700 hover:text-slate-950 font-semibold'
             }`}
           >
             <LogIn className="w-3.5 h-3.5" />
@@ -105,25 +91,25 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-2.5">
           {/* Full Name field (Only for Sign Up) */}
           {isSignUp && (
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="block text-xs font-bold text-slate-700">
+                <label className="block text-xs font-black text-slate-900">
                   Full Legal Name:
                 </label>
-                <span className="text-[10px] text-slate-400">As shown on your resume</span>
+                <span className="text-[11px] text-slate-700 font-semibold">As shown on your resume</span>
               </div>
               <div className="relative">
-                <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+                <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-2.5 pointer-events-none" />
                 <input
                   type="text"
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Juan Dela Cruz"
-                  className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  className="w-full pl-10 pr-3 py-2 text-xs text-slate-900 font-medium placeholder:text-slate-500 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-600 focus:outline-none transition-all"
                 />
               </div>
             </div>
@@ -132,23 +118,23 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
           {/* Email field */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-bold text-slate-700">
+              <label className="block text-xs font-black text-slate-900">
                 Professional Email Address:
               </label>
-              <span className="text-[10px] text-blue-600 font-semibold">Direct reply target</span>
+              <span className="text-[11px] text-blue-700 font-bold">Direct reply target</span>
             </div>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+              <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-2.5 pointer-events-none" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="juan.delacruz@email.com"
-                className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full pl-10 pr-3 py-2 text-xs text-slate-900 font-medium placeholder:text-slate-500 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-600 focus:outline-none transition-all"
               />
             </div>
-            <p className="text-[11px] text-slate-500 mt-1">
+            <p className="text-[11px] sm:text-xs text-slate-700 font-medium mt-1 leading-normal">
               Employers reply directly to this inbox — CANDIDATE.ph never acts as a middleman.
             </p>
           </div>
@@ -156,20 +142,20 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
           {/* Password field */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-bold text-slate-700">
+              <label className="block text-xs font-black text-slate-900">
                 Password:
               </label>
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="text-[11px] text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 cursor-pointer"
+                className="text-xs text-blue-700 hover:text-blue-900 font-bold flex items-center gap-1 cursor-pointer"
               >
                 {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                 <span>{showPassword ? 'Hide' : 'Show'}</span>
               </button>
             </div>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+              <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-2.5 pointer-events-none" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
@@ -177,17 +163,17 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full pl-10 pr-10 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full pl-10 pr-10 py-2 text-xs text-slate-900 font-medium placeholder:text-slate-500 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-600 focus:outline-none transition-all"
               />
             </div>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <p className="text-[11px] sm:text-xs text-slate-700 font-medium mt-1">
               Must be at least 8 characters
             </p>
           </div>
 
           {/* Terms & Privacy Guarantee micro-copy */}
           {isSignUp && (
-            <p className="text-[11px] text-slate-500 leading-relaxed text-center pt-1">
+            <p className="text-[11px] sm:text-xs text-slate-700 leading-normal text-center pt-0.5 font-medium">
               By creating an account, you agree to CANDIDATE.ph's Terms of Service & Privacy Guarantee. Your profile is private and never broadcast without your consent.
             </p>
           )}
@@ -196,7 +182,7 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer mt-1.5"
           >
             {isLoading ? (
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -217,42 +203,10 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
           </button>
         </form>
 
-        {/* Quick Demo Pre-fill Box for Pair Programming Testing */}
-        <div className="mt-6 pt-5 border-t border-slate-200">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 text-center">
-            ⚡ Quick Demo Buttons (One-Click Test):
-          </p>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <button
-              type="button"
-              onClick={() => handleQuickDemo('existing')}
-              className="p-2.5 rounded-xl border border-blue-200 bg-blue-50/60 hover:bg-blue-100/60 text-blue-800 font-bold text-left transition-colors cursor-pointer"
-            >
-              <div className="flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-blue-600" />
-                <span>Existing User</span>
-              </div>
-              <p className="text-[10px] text-blue-600/80 font-normal mt-0.5">Juan (Go to Dashboard)</p>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleQuickDemo('new')}
-              className="p-2.5 rounded-xl border border-emerald-200 bg-emerald-50/60 hover:bg-emerald-100/60 text-emerald-800 font-bold text-left transition-colors cursor-pointer"
-            >
-              <div className="flex items-center gap-1">
-                <UserPlus className="w-3 h-3 text-emerald-600" />
-                <span>New Applicant</span>
-              </div>
-              <p className="text-[10px] text-emerald-600/80 font-normal mt-0.5">Maria (Try Onboarding)</p>
-            </button>
-          </div>
-        </div>
-
         {/* Trust Guarantees */}
-        <div className="mt-5 text-center text-[11px] text-slate-400 font-medium space-y-1">
-          <p className="flex items-center justify-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+        <div className="mt-3.5 text-center text-xs text-slate-700 font-semibold">
+          <p className="flex items-center justify-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
             <span>Encrypted credentials • Zero third-party trackers</span>
           </p>
         </div>

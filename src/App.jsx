@@ -180,17 +180,17 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-8 px-4 text-center text-xs text-slate-500">
+      <footer className="bg-white border-t border-slate-200 py-6 px-4 text-center text-xs text-slate-700 font-medium">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-slate-900">CANDIDATE.ph</span>
-            <span>• High-Speed Job Matching Platform</span>
+            <span className="text-slate-700">• High-Speed Job Matching Platform</span>
           </div>
-          <div className="flex items-center gap-4 text-slate-400">
+          <div className="flex items-center gap-4 text-slate-600 font-semibold">
             <span>₱0 Free Forever to Scan & Match</span>
-            <span>•</span>
+            <span className="text-slate-400">•</span>
             <span>₱50 per Quick Apply</span>
-            <span>•</span>
+            <span className="text-slate-400">•</span>
             <span>Secured via PayMongo</span>
           </div>
         </div>
