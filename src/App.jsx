@@ -128,6 +128,15 @@ export default function App() {
       <main className="flex-1">
         {currentView === 'landing' && (
           <LandingPage
+            user={user}
+            jobs={jobs}
+            savedJobIds={savedJobIds}
+            appliedJobs={appliedJobs}
+            testimonials={testimonials}
+            onToggleSaveJob={handleToggleSaveJob}
+            onConfirmApply={handleConfirmApply}
+            onTopUpSuccess={handleTopUpSuccess}
+            onAddTestimonial={handleAddTestimonial}
             onStartSignUp={(email) => handleStartOnboarding({ email })}
             onLoginClick={() => setCurrentView('auth')}
             onOpenDashboard={() => setCurrentView('dashboard')}

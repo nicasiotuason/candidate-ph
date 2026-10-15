@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Wallet, Plus, LogOut, ArrowRight, User, LayoutDashboard, Sparkles, ArrowLeft, Menu, X } from 'lucide-react';
+import { formatProperName } from '../utils/formatters';
 
 export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -143,10 +144,10 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                 <div className="flex items-center gap-2 pl-1 border-l border-slate-200">
                   <div className="flex items-center gap-2 p-1.5 text-left">
                     <div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                      {user?.name ? user.name.substring(0, 2).toUpperCase() : 'JD'}
+                      {formatProperName(user?.name || 'Juan Dela Cruz').split(' ').map(w => w[0]).slice(0, 2).join('')}
                     </div>
                     <div className="hidden lg:block">
-                      <p className="text-xs font-bold text-slate-900 leading-none">{user?.name || 'Juan Dela Cruz'}</p>
+                      <p className="text-xs font-bold text-slate-900 leading-none">{formatProperName(user?.name || 'Juan Dela Cruz')}</p>
                       <p className="text-[10px] text-slate-600 leading-none mt-1">Verified Candidate</p>
                     </div>
                   </div>

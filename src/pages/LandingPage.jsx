@@ -28,6 +28,9 @@ import {
   TrendingUp,
   X
 } from 'lucide-react';
+import DashboardPage from './DashboardPage';
+import JobCard from '../components/JobCard';
+import { formatProperName } from '../utils/formatters';
 
 const THEMES = {
   'indigo-mint': {
@@ -199,6 +202,15 @@ const FAQ_ITEMS = [
 ];
 
 export default function LandingPage({ 
+  user,
+  jobs,
+  savedJobIds,
+  appliedJobs,
+  testimonials,
+  onToggleSaveJob,
+  onConfirmApply,
+  onTopUpSuccess,
+  onAddTestimonial,
   onStartSignUp, 
   onLoginClick, 
   onOpenDashboard, 
@@ -382,181 +394,40 @@ export default function LandingPage({
 
             {/* Right: The Two-Zone Match Card (Jobright-Inspired Pattern) */}
             <div className="lg:col-span-6 w-full">
-              <div className="relative bg-white rounded-3xl p-5 sm:p-6 shadow-elevated border border-slate-200 transition-all text-left">
-                
-                {/* Top Timing & Urgency Header */}
-                <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-                    <span className="text-xs font-bold text-amber-900">
-                      Early Applicant • {activeJob.postedAgo} • <span className="font-extrabold text-amber-950">{activeJob.applicantCount}</span>
+              <JobCard
+                job={activeJob}
+                isSaved={savedJobIds?.includes(activeJob.id)}
+                onToggleSave={() => onToggleSaveJob && onToggleSaveJob(activeJob.id)}
+                onQuickApply={() => onQuickApplyFromLanding(activeJob)}
+                footerChildren={
+                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
+                    <div className="flex items-center gap-2">
+                      <button 
+                        onClick={prevJob} 
+                        aria-label="Previous sample role" 
+                        className="w-8 h-8 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button 
+                        onClick={nextJob} 
+                        aria-label="Next sample role" 
+                        className="w-8 h-8 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                      <span className="text-slate-700 font-medium pl-1">
+                        Sample <strong className="text-slate-900 font-bold">{currentJobIdx + 1}</strong> of {LIVE_HERO_JOBS.length}
+                      </span>
+                    </div>
+
+                    <span className="text-[11px] font-semibold text-slate-700 flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+                      <span>Real-Time Philippine Role Preview</span>
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span>ACTIVE ROLE</span>
-                  </div>
-                </div>
-
-                {/* The Two-Zone Grid */}
-                <div className="pt-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
-                  
-                  {/* Zone 1: Left 7-Cols (Job Metadata & Application Action) */}
-                  <div className="md:col-span-7 flex flex-col justify-between space-y-4">
-                    
-                    {/* Company Header */}
-                    <div className="flex items-start gap-3">
-                      <div className={`w-12 h-12 rounded-2xl ${activeJob.logoColor} font-black text-xl flex items-center justify-center shadow-xs shrink-0`}>
-                        {activeJob.logo}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-700 font-semibold truncate">
-                          <span className="font-bold text-slate-900">{activeJob.company}</span>
-                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 fill-blue-500 shrink-0" />
-                          <span className="text-slate-500 truncate">• {activeJob.industry}</span>
-                        </div>
-                        <h3 className="font-black text-slate-900 text-base sm:text-lg leading-snug mt-0.5">
-                          {activeJob.title}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* 2-Row Metadata Grid */}
-                    <div className="space-y-2 pt-1 text-xs">
-                      {/* Row 1: Location & Employment Type */}
-                      <div className="flex flex-wrap items-center gap-2 text-slate-800">
-                        <span className="inline-flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/80 font-medium">
-                          <MapPin className="w-3.5 h-3.5 text-slate-600 shrink-0" />
-                          <span>{activeJob.location} • {activeJob.setup}</span>
-                        </span>
-                        <span className="inline-flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/80 font-medium">
-                          <Briefcase className="w-3.5 h-3.5 text-slate-600 shrink-0" />
-                          <span>{activeJob.type}</span>
-                        </span>
-                      </div>
-
-                      {/* Row 2: Seniority & Experience */}
-                      <div className="flex flex-wrap items-center gap-2 text-slate-800">
-                        <span className="inline-flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/80 font-medium">
-                          <TrendingUp className="w-3.5 h-3.5 text-slate-600 shrink-0" />
-                          <span>{activeJob.level}</span>
-                        </span>
-                        <span className="inline-flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/80 font-medium">
-                          <Clock className="w-3.5 h-3.5 text-slate-600 shrink-0" />
-                          <span>{activeJob.experience}</span>
-                        </span>
-                      </div>
-
-                      {/* Salary Row: Option A Rule */}
-                      <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-amber-950 font-bold text-xs sm:text-[13px] flex items-center gap-2">
-                        <span className="text-sm">💰</span>
-                        <span className="font-extrabold">{activeJob.salary}</span>
-                      </div>
-                    </div>
-
-                    {/* Action Bar */}
-                    <div className="pt-2 flex items-center gap-2">
-                      <button
-                        onClick={() => onQuickApplyFromLanding(activeJob)}
-                        className="flex-1 py-3 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer text-sm"
-                      >
-                        <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
-                        <span>Apply (₱50)</span>
-                      </button>
-                      <button
-                        onClick={() => prevJob()}
-                        aria-label="Save role"
-                        className="p-3 rounded-xl border border-slate-200 text-slate-400 hover:text-rose-500 hover:bg-rose-50/50 hover:border-rose-200 transition-colors cursor-pointer shrink-0"
-                      >
-                        <Heart className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                  </div>
-
-                  {/* Zone 2: Right 5-Cols (Circular Match Gauge & Fit Reasons) */}
-                  <div className="md:col-span-5 bg-slate-900 text-white rounded-2xl p-4 flex flex-col justify-between space-y-3.5 shadow-md border border-slate-800 text-left">
-                    
-                    {/* Top: Circular Gauge */}
-                    <div className="text-center pt-1">
-                      <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
-                        <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                          <path
-                            className="text-slate-800"
-                            strokeWidth="3.5"
-                            stroke="currentColor"
-                            fill="none"
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          />
-                          <path
-                            className="text-emerald-400 transition-all duration-700"
-                            strokeDasharray={`${activeJob.matchScore}, 100`}
-                            strokeWidth="3.5"
-                            strokeLinecap="round"
-                            stroke="currentColor"
-                            fill="none"
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          />
-                        </svg>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <span className="text-xl font-black text-white tracking-tight">{activeJob.matchScore}%</span>
-                        </div>
-                      </div>
-                      <p className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 mt-1">
-                        {activeJob.matchLabel}
-                      </p>
-                      <p className="text-[10px] text-slate-400 font-medium">Smart Match Score</p>
-                    </div>
-
-                    {/* 3 Checkmark Reasons */}
-                    <div className="space-y-2 py-1 border-t border-slate-800/80">
-                      {activeJob.fitReasons.map((reason, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5 text-[11px] leading-snug">
-                          <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                          <span className="text-slate-200">{reason}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Bottom Zero Middleman Pill */}
-                    <div className="pt-2 border-t border-slate-800/80 flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
-                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>Zero Middleman: Reply lands in your personal email</span>
-                    </div>
-
-                  </div>
-
-                </div>
-
-                {/* Bottom Sample Role Switcher */}
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
-                  <div className="flex items-center gap-2">
-                    <button 
-                      onClick={prevJob} 
-                      aria-label="Previous sample role" 
-                      className="w-8 h-8 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    <button 
-                      onClick={nextJob} 
-                      aria-label="Next sample role" 
-                      className="w-8 h-8 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                    <span className="text-slate-700 font-medium pl-1">
-                      Sample <strong className="text-slate-900 font-bold">{currentJobIdx + 1}</strong> of {LIVE_HERO_JOBS.length}
-                    </span>
-                  </div>
-
-                  <span className="text-[11px] font-semibold text-slate-700 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
-                    <span>Real-Time Philippine Role Preview</span>
-                  </span>
-                </div>
-
-              </div>
+                }
+              />
             </div>
 
           </div>
@@ -799,211 +670,29 @@ export default function LandingPage({
           
           <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
             <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Product Experience
+              Live Product Experience
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Inside Your Candidate.ph Dashboard
             </h2>
             <p className="text-slate-800 text-base sm:text-lg">
-              Here is what you see when you log in. Browse your real-time matches, track application stages, and review your Early Bird timestamps.
+              Here is the actual Dashboard you experience as a verified candidate. Real-time matched roles, application tracking, and direct recruiter delivery receipts.
             </p>
           </div>
 
-          {/* Dashboard Mockup Frame */}
-          <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-elevated border border-slate-200 overflow-hidden">
-            
-            {/* Window Top Bar */}
-            <div className="bg-slate-900 text-white p-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-red-500"></span>
-                  <span className="w-3 h-3 rounded-full bg-amber-500"></span>
-                  <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
-                </div>
-                <div className="h-4 w-px bg-slate-700 mx-1"></div>
-                <span className="text-xs font-mono text-slate-400">candidate.ph/app/dashboard</span>
-              </div>
-
-              <div className="flex items-center gap-3 text-xs">
-                <span className="hidden sm:inline text-slate-400">Candidate: <strong className="text-white">Juan Dela Cruz (Verified)</strong></span>
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-semibold">
-                  <span>₱250 Balance (5 Apps)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Dashboard Sub-Navigation Tabs */}
-            <div className="bg-slate-50 border-b border-slate-200 px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-700">
-              <div className="flex items-center gap-4">
-                <button onClick={onOpenDashboard} className="text-theme-primary border-b-2 border-theme-primary py-1 font-bold">Live Matched Roles (4)</button>
-                <button onClick={onOpenDashboard} className="hover:text-slate-900 py-1 text-slate-700">Applications Sent (3)</button>
-                <button onClick={onOpenDashboard} className="hover:text-slate-900 py-1 text-slate-700 hidden sm:inline">Preferences & Salary Floor</button>
-              </div>
-              <div className="flex items-center gap-1 text-[11px] text-slate-700">
-                <span>Floor:</span>
-                <span className="font-bold text-slate-900 bg-white px-2 py-0.5 rounded border border-slate-200">₱45,000/mo min</span>
-              </div>
-            </div>
-
-            {/* Dashboard Grid */}
-            <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-              
-              {/* Left 7 Cols: Matches Feed */}
-              <div className="lg:col-span-7 space-y-4">
-                <div className="flex items-center justify-between pb-2">
-                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Your Live Matches (60%+)</h3>
-                  <span className="text-xs text-slate-500">Sorted by match score</span>
-                </div>
-
-                {/* Card 1: SeaMoney */}
-                <div className="p-4 rounded-2xl border-2 border-slate-100 hover:border-theme-primary bg-white hover:shadow-card transition-all space-y-3 text-left">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-orange-600 text-white font-bold text-base flex items-center justify-center">S</div>
-                      <div>
-                        <h4 className="font-bold text-slate-900 text-sm">Lead Cloud & Backend Architect</h4>
-                        <p className="text-xs text-slate-700 font-medium">SeaMoney • Ortigas or Remote</p>
-                      </div>
-                    </div>
-                    <span className="text-xs font-extrabold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
-                      99% Match
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center justify-between text-xs pt-1 border-t border-slate-100 text-slate-700 gap-2">
-                    <span className="font-black text-emerald-600 text-sm">₱140,000 – ₱195,000 / mo</span>
-                    <span className="text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded text-[11px]">Posted 12m ago • Early Bird</span>
-                    <button 
-                      onClick={() => onQuickApplyFromLanding(LIVE_HERO_JOBS[1])} 
-                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors cursor-pointer"
-                    >
-                      Quick Apply (₱50)
-                    </button>
-                  </div>
-                </div>
-
-                {/* Card 2: Maya */}
-                <div className="p-4 rounded-2xl border-2 border-slate-100 hover:border-theme-primary bg-white hover:shadow-card transition-all space-y-3 text-left">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white font-bold text-base flex items-center justify-center">M</div>
-                      <div>
-                        <h4 className="font-bold text-slate-900 text-sm">Senior React Developer</h4>
-                        <p className="text-xs text-slate-700 font-medium">Maya • Hybrid BGC</p>
-                      </div>
-                    </div>
-                    <span className="text-xs font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                      98% Match
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center justify-between text-xs pt-1 border-t border-slate-100 text-slate-700 gap-2">
-                    <span className="font-black text-emerald-600 text-sm">₱180,000 – ₱240,000 / mo</span>
-                    <span className="text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded text-[11px]">Posted 1h ago • Batch #1</span>
-                    <button 
-                      onClick={() => onQuickApplyFromLanding(LIVE_HERO_JOBS[0])} 
-                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors cursor-pointer"
-                    >
-                      Quick Apply (₱50)
-                    </button>
-                  </div>
-                </div>
-
-                {/* Card 3: GCash */}
-                <div className="p-4 rounded-2xl border-2 border-slate-100 hover:border-theme-primary bg-white hover:shadow-card transition-all space-y-3 text-left">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold text-base flex items-center justify-center">G</div>
-                      <div>
-                        <h4 className="font-bold text-slate-900 text-sm">Junior Web Developer</h4>
-                        <p className="text-xs text-slate-700 font-medium">GCash • Hybrid BGC</p>
-                      </div>
-                    </div>
-                    <span className="text-xs font-extrabold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
-                      96% Match
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center justify-between text-xs pt-1 border-t border-slate-100 text-slate-700 gap-2">
-                    <span className="font-black text-emerald-600 text-sm">₱45,000 – ₱60,000 / mo</span>
-                    <span className="text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded text-[11px]">Posted 25m ago • Early Bird</span>
-                    <button 
-                      onClick={() => onQuickApplyFromLanding(LIVE_HERO_JOBS[2])} 
-                      className="px-3 py-1.5 bg-theme-primary text-white rounded-lg font-bold text-xs hover:bg-theme-primary-hover transition-colors cursor-pointer"
-                    >
-                      Quick Apply (₱50)
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Right 5 Cols: Application Tracker Widget */}
-              <div className="lg:col-span-5 space-y-4 text-left">
-                <div className="flex items-center justify-between pb-2">
-                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Live Application Tracker</h3>
-                  <span className="text-xs font-bold text-emerald-600">3 Sent Directly</span>
-                </div>
-
-                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-4 text-xs">
-                  
-                  {/* Item 1 */}
-                  <div className="p-3 bg-white rounded-xl border border-emerald-200 shadow-xs space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900">Canva Manila</span>
-                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                        Interview Requested 📅
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-700">Associate UI/UX Designer • ₱40k–₱55k/mo</p>
-                    <div className="flex items-center justify-between text-[10px] text-slate-600 pt-1 border-t border-slate-100">
-                      <span>Applied: 18 mins after listing</span>
-                      <span className="text-emerald-700 font-bold">Employer Replied via Email</span>
-                    </div>
-                  </div>
-
-                  {/* Item 2 */}
-                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900">Maya</span>
-                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
-                        Hiring Team Reviewing
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-700">Senior React Developer • ₱180k–₱240k/mo</p>
-                    <div className="flex items-center justify-between text-[10px] text-slate-600 pt-1 border-t border-slate-100">
-                      <span>Applied: 40 mins after listing</span>
-                      <span className="text-slate-700">Batch 1 (&lt; 25 applicants)</span>
-                    </div>
-                  </div>
-
-                  {/* Item 3 */}
-                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900">Globe Telecom</span>
-                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
-                        Receipt Confirmed
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-700">Digital Solutions Analyst • ₱50k–₱70k/mo</p>
-                    <div className="flex items-center justify-between text-[10px] text-slate-600 pt-1 border-t border-slate-100">
-                      <span>Direct Portal Delivery</span>
-                      <span className="text-emerald-700 font-bold">₱50 Debited</span>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* Candidate Protection Guarantee */}
-                <div className="p-3.5 bg-theme-primary-light rounded-xl border border-theme-primary-border text-[11px] text-slate-800 space-y-1">
-                  <p className="font-bold text-slate-900 flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-theme-primary" />
-                    <span>Candidate Protection Guarantee:</span>
-                  </p>
-                  <p>₱50 is only deducted once the employer's official career portal confirms successful receipt of your application.</p>
-                </div>
-
-              </div>
-
-            </div>
-
+          {/* The Actual Live Dashboard */}
+          <div className="bg-white/80 rounded-3xl border border-slate-200/90 shadow-elevated p-2 sm:p-6">
+            <DashboardPage
+              user={user}
+              jobs={jobs || []}
+              savedJobIds={savedJobIds || []}
+              appliedJobs={appliedJobs || []}
+              testimonials={testimonials || []}
+              onToggleSaveJob={onToggleSaveJob}
+              onConfirmApply={onConfirmApply}
+              onTopUpSuccess={onTopUpSuccess}
+              onAddTestimonial={onAddTestimonial}
+            />
           </div>
 
         </div>

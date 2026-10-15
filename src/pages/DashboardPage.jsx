@@ -37,6 +37,7 @@ import ReviewSignOffModal from '../components/ReviewSignOffModal';
 import TopUpModal from '../components/TopUpModal';
 import FeedbackBox from '../components/FeedbackBox';
 import { api } from '../services/api';
+import { formatProperName } from '../utils/formatters';
 
 export default function DashboardPage({ 
   user, 
@@ -75,7 +76,7 @@ export default function DashboardPage({
 
   // Profile editable form state (Pareto 6)
   const [profileForm, setProfileForm] = useState({
-    name: user?.name || 'Juan Dela Cruz',
+    name: user?.name ? formatProperName(user.name) : 'Juan Dela Cruz',
     email: user?.email || 'juan.delacruz@email.com',
     targetRole: user?.targetRole || 'Senior Frontend Engineer',
     salaryFloor: user?.salaryFloor || user?.desiredSalary || '₱160,000 / mo',
@@ -113,7 +114,7 @@ export default function DashboardPage({
 
     onAddTestimonial(
       `🎉 Received an interview invite from ${reportingInterviewApp.company} for ${reportingInterviewApp.title} (${interviewStage})! ${interviewNote ? `Tip: "${interviewNote}"` : 'Direct ATS dispatch worked seamlessly.'}`,
-      user?.name || 'Candidate Member'
+      formatProperName(user?.name || 'Juan Dela Cruz')
     );
 
     setInterviewReportedSuccess(true);
@@ -156,7 +157,7 @@ export default function DashboardPage({
             </div>
             
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2.5">
-              <span>Kumusta, {user?.name || 'Juan'}</span>
+              <span>Welcome, {formatProperName(user?.name || 'Juan Dela Cruz')}</span>
               {profileForm.isPaused ? (
                 <span className="text-xs font-bold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full border border-amber-200 flex items-center gap-1">
                   <PauseCircle className="w-3.5 h-3.5" />
@@ -342,7 +343,7 @@ export default function DashboardPage({
                 }`}
               >
                 <Send className="w-3.5 h-3.5" />
-                <span>Applied Delivery History</span>
+                <span>Applications Sent</span>
                 <span className="px-1.5 py-0.2 rounded-full bg-white/20 text-[10px]">
                   {appliedJobs.length}
                 </span>
