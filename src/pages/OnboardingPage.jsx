@@ -41,7 +41,7 @@ const SENIORITY_LEVELS = [
   { id: 'executive', label: 'Executive / Director', exp: '10+ years' },
 ];
 
-export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
+export default function OnboardingPage({ initialEmail, initialName, onCompleteOnboarding }) {
   const [step, setStep] = useState(1); // 1: Role & Domain, 2: Pareto 6 Universal Fields, 3: Resume Dropzone, 4: Matching Telemetry & Celebration
 
   // Step 1: Role & Domain
@@ -110,6 +110,7 @@ export default function OnboardingPage({ initialEmail, onCompleteOnboarding }) {
 
   const handleFinishOnboarding = () => {
     onCompleteOnboarding({
+      name: initialName,
       targetRole,
       targetCategory,
       seniority,

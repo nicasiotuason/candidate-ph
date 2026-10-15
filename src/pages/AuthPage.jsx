@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import { Mail, Lock, ArrowRight, Zap, CheckCircle2, ShieldCheck, Sparkles, UserPlus, LogIn } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Zap, CheckCircle2, ShieldCheck, Sparkles, UserPlus, LogIn } from 'lucide-react';
 
-export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
+export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnboarding }) {
   const [isSignUp, setIsSignUp] = useState(true);
-  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState(initialEmail || '');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (initialEmail) {
+      setEmail(initialEmail);
+    }
+  }, [initialEmail]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,9 +22,13 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
     setTimeout(() => {
       setIsLoading(false);
       if (isSignUp) {
-        onStartOnboarding({ email: email || 'new.applicant@email.com' });
+        onStartOnboarding({ 
+          email: email.trim() || 'new.applicant@email.com',
+          name: fullName.trim() || (email ? email.split('@')[0] : 'Applicant'),
+          password 
+        });
       } else {
-        onLoginSuccess({ email: email || 'juan.delacruz@email.com' });
+        onLoginSuccess({ email: email.trim() || 'juan.delacruz@email.com' });
       }
     }, 450);
   };
@@ -28,9 +40,14 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
       setPassword('password123');
       onLoginSuccess({ email: 'juan.delacruz@email.com' });
     } else {
+      setFullName('Maria Santos');
       setEmail('maria.santos@email.com');
       setPassword('password123');
-      onStartOnboarding({ email: 'maria.santos@email.com' });
+      onStartOnboarding({ 
+        email: 'maria.santos@email.com',
+        name: 'Maria Santos',
+        password: 'password123'
+      });
     }
   };
 
@@ -48,7 +65,7 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
           </h2>
           <p className="text-xs text-slate-700 mt-1">
             {isSignUp
-              ? 'Create an account to search 15,443+ professional roles and get matched.'
+              ? 'Create your candidate account to search 15,443+ professional roles.'
               : 'Log in to your dashboard and review active matched roles.'}
           </p>
         </div>
@@ -68,7 +85,7 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
           <button
             type="button"
             onClick={() => setIsSignUp(true)}
-            className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+            className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               isSignUp ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -78,7 +95,7 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
           <button
             type="button"
             onClick={() => setIsSignUp(false)}
-            className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+            className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               !isSignUp ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -89,12 +106,36 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Full Name field (Only for Sign Up) */}
+          {isSignUp && (
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-bold text-slate-700">
+                  Full Legal Name:
+                </label>
+                <span className="text-[10px] text-slate-400">As shown on your resume</span>
+              </div>
+              <div className="relative">
+                <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+                <input
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Juan Dela Cruz"
+                  className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Email field */}
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="block text-xs font-bold text-slate-700">
                 Professional Email Address:
               </label>
-              <span className="text-[10px] text-blue-600 font-medium">Direct reply target</span>
+              <span className="text-[10px] text-blue-600 font-semibold">Direct reply target</span>
             </div>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
@@ -108,43 +149,70 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
               />
             </div>
             <p className="text-[11px] text-slate-500 mt-1">
-              Employers will reply directly to this inbox — CANDIDATE.ph never acts as a middleman.
+              Employers reply directly to this inbox — CANDIDATE.ph never acts as a middleman.
             </p>
           </div>
 
+          {/* Password field */}
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="block text-xs font-bold text-slate-700">
                 Password:
               </label>
-              <span className="text-[10px] text-slate-400">Min. 8 characters</span>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-[11px] text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 cursor-pointer"
+              >
+                {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                <span>{showPassword ? 'Hide' : 'Show'}</span>
+              </button>
             </div>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full pl-10 pr-10 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
+            <p className="text-[11px] text-slate-400 mt-1">
+              Must be at least 8 characters
+            </p>
           </div>
 
+          {/* Terms & Privacy Guarantee micro-copy */}
+          {isSignUp && (
+            <p className="text-[11px] text-slate-500 leading-relaxed text-center pt-1">
+              By creating an account, you agree to CANDIDATE.ph's Terms of Service & Privacy Guarantee. Your profile is private and never broadcast without your consent.
+            </p>
+          )}
+
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm"
+            className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             {isLoading ? (
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : isSignUp ? (
+              <div className="flex flex-col items-center justify-center leading-tight py-0.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs sm:text-sm font-black tracking-wide">SIGN UP</span>
+                  <ArrowRight className="w-4 h-4 text-amber-300" />
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Claim ₱50 First Application</span>
+              </div>
             ) : (
-              <>
-                <span>{isSignUp ? 'SIGN UP — Claim ₱50 First Application' : 'Log In to Dashboard'}</span>
-                <ArrowRight className="w-4 h-4 text-amber-300" />
-              </>
+              <div className="flex items-center gap-2 py-1">
+                <span className="text-xs sm:text-sm font-bold">Log In to Dashboard</span>
+                <ArrowRight className="w-4 h-4" />
+              </div>
             )}
           </button>
         </form>
@@ -158,7 +226,7 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
             <button
               type="button"
               onClick={() => handleQuickDemo('existing')}
-              className="p-2.5 rounded-xl border border-blue-200 bg-blue-50/60 hover:bg-blue-100/60 text-blue-800 font-bold text-left transition-colors"
+              className="p-2.5 rounded-xl border border-blue-200 bg-blue-50/60 hover:bg-blue-100/60 text-blue-800 font-bold text-left transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-blue-600" />
@@ -170,13 +238,13 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
             <button
               type="button"
               onClick={() => handleQuickDemo('new')}
-              className="p-2.5 rounded-xl border border-emerald-200 bg-emerald-50/60 hover:bg-emerald-100/60 text-emerald-800 font-bold text-left transition-colors"
+              className="p-2.5 rounded-xl border border-emerald-200 bg-emerald-50/60 hover:bg-emerald-100/60 text-emerald-800 font-bold text-left transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-1">
                 <UserPlus className="w-3 h-3 text-emerald-600" />
                 <span>New Applicant</span>
               </div>
-              <p className="text-[10px] text-emerald-600/80 font-normal mt-0.5">Try Onboarding Flow</p>
+              <p className="text-[10px] text-emerald-600/80 font-normal mt-0.5">Maria (Try Onboarding)</p>
             </button>
           </div>
         </div>
@@ -185,7 +253,7 @@ export default function AuthPage({ onLoginSuccess, onStartOnboarding }) {
         <div className="mt-5 text-center text-[11px] text-slate-400 font-medium space-y-1">
           <p className="flex items-center justify-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Encrypted data • Never sold to third parties</span>
+            <span>Encrypted credentials • Zero third-party trackers</span>
           </p>
         </div>
 

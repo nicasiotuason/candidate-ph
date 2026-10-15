@@ -48,15 +48,15 @@ export const api = {
     });
   },
 
-  register(email, password) {
+  register(email, password, name) {
     return new Promise((resolve) => {
       setTimeout(() => {
         const newUser = {
           ...INITIAL_USER,
           email,
-          name: email.split('@')[0],
+          name: name || (email ? email.split('@')[0] : 'Applicant'),
           isOnboarded: false,
-          walletBalance: 250 // 50 bonus credits = 5 applications
+          walletBalance: 250 // includes ₱50 bonus credits
         };
         setStored(STORAGE_USER_KEY, newUser);
         resolve({ success: true, user: newUser, token: 'mock-jwt-token-new' });

@@ -19,6 +19,7 @@ export default function App() {
   // Global modals
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
   const [selectedJobForLandingApply, setSelectedJobForLandingApply] = useState(null);
+  const [initialAuthEmail, setInitialAuthEmail] = useState('');
 
   // Toast Notification state
   const [toastMessage, setToastMessage] = useState('');
@@ -86,10 +87,10 @@ export default function App() {
   };
 
   const handleStartOnboarding = (signupData) => {
-    api.register(signupData.email);
+    api.register(signupData.email, signupData.password, signupData.name);
     refreshUser();
     setCurrentView('onboarding');
-    triggerToast(`🎉 Account created! Let's set up your profile and parse your resume.`);
+    triggerToast(`🎉 Account created for ${signupData.name || signupData.email}! Let's set up your profile and parse your resume.`);
   };
 
   const handleCompleteOnboarding = async (formData) => {
@@ -137,7 +138,10 @@ export default function App() {
             onConfirmApply={handleConfirmApply}
             onTopUpSuccess={handleTopUpSuccess}
             onAddTestimonial={handleAddTestimonial}
-            onStartSignUp={(email) => handleStartOnboarding({ email })}
+            onStartSignUp={(email) => {
+              setInitialAuthEmail(email || '');
+              setCurrentView('auth');
+            }}
             onLoginClick={() => setCurrentView('auth')}
             onOpenDashboard={() => setCurrentView('dashboard')}
             onQuickApplyFromLanding={(job) => setSelectedJobForLandingApply(job)}
@@ -146,6 +150,7 @@ export default function App() {
 
         {currentView === 'auth' && (
           <AuthPage
+            initialEmail={initialAuthEmail}
             onLoginSuccess={handleLoginSuccess}
             onStartOnboarding={handleStartOnboarding}
           />
@@ -154,6 +159,7 @@ export default function App() {
         {currentView === 'onboarding' && (
           <OnboardingPage
             initialEmail={user?.email}
+            initialName={user?.name}
             onCompleteOnboarding={handleCompleteOnboarding}
           />
         )}
