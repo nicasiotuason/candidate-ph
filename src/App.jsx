@@ -9,7 +9,50 @@ import ReviewSignOffModal from './components/ReviewSignOffModal';
 import { api } from './services/api';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('landing'); // 'landing' | 'auth' | 'onboarding' | 'dashboard'
+  const getInitialView = () => {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    if (path.includes('signup') || path.includes('auth') || hash.includes('auth') || hash.includes('signup')) {
+      return 'auth';
+    }
+    if (path.includes('onboarding') || hash.includes('onboarding')) {
+      return 'onboarding';
+    }
+    if (path.includes('dashboard') || hash.includes('dashboard')) {
+      return 'dashboard';
+    }
+    return 'landing';
+  };
+
+  const [currentView, setCurrentViewState] = useState(getInitialView);
+
+  const setCurrentView = (view) => {
+    setCurrentViewState(view);
+    const pathMap = {
+      landing: '/',
+      auth: '/signup',
+      onboarding: '/onboarding',
+      dashboard: '/dashboard'
+    };
+    const targetPath = pathMap[view] || '/';
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState({ view }, '', targetPath);
+    }
+  };
+
+  // Listen to browser Back/Forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentViewState(getInitialView());
+    };
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handlePopState);
+    };
+  }, []);
+
   const [user, setUser] = useState(api.getUser());
   const [jobs, setJobs] = useState([]);
   const [savedJobIds, setSavedJobIds] = useState(api.getSavedJobIds());
