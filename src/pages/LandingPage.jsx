@@ -97,6 +97,11 @@ const LIVE_HERO_JOBS = [
     applicantCount: "< 20 applicants",
     matchScore: 98,
     matchLabel: "STRONG MATCH",
+    jobDescription: "Architect and scale high-throughput digital wallet architectures, QR payment gateways, and checkout micro-frontends serving 10M+ daily consumer transactions.",
+    responsibilities: [
+      "Design secure React 18 & Go payment microservices with sub-second latency",
+      "Optimize web client performance and core user checkout flows"
+    ],
     fitReasons: [
       "4/4 Core Skills Met (React 18, TypeScript, Node.js, Go)",
       "Salary exceeds your ₱150k monthly floor",
@@ -120,6 +125,11 @@ const LIVE_HERO_JOBS = [
     applicantCount: "< 15 applicants",
     matchScore: 94,
     matchLabel: "STRONG MATCH",
+    jobDescription: "Own end-to-end subscriber retention, churn prediction experiments, and automated lifecycle CRM campaigns across postpaid and broadband digital subscribers.",
+    responsibilities: [
+      "Lead omni-channel campaigns across push, SMS, and in-app triggers",
+      "Analyze cohort retention metrics with data science and product teams"
+    ],
     fitReasons: [
       "Verified B2C retention & lifecycle marketing skills",
       "Salary exceeds your ₱120k monthly floor",
@@ -143,6 +153,11 @@ const LIVE_HERO_JOBS = [
     applicantCount: "< 25 applicants",
     matchScore: 96,
     matchLabel: "STRONG MATCH",
+    jobDescription: "Lead operational cadences, cross-functional tooling readiness, and product release enablement across Canva’s Asia-Pacific design platform.",
+    responsibilities: [
+      "Streamline engineering-to-product roadmaps and release gates",
+      "Drive cross-hub operational alignment between Manila and Sydney"
+    ],
     fitReasons: [
       "Product operations & cross-functional leadership fit",
       "Salary estimated in top-quartile market band",
@@ -166,6 +181,11 @@ const LIVE_HERO_JOBS = [
     applicantCount: "< 5 applicants",
     matchScore: 99,
     matchLabel: "EXCEPTIONAL MATCH",
+    jobDescription: "Architect scalable cloud infrastructure, Kafka event-streaming pipelines, and low-latency microservices for ShopeePay digital lending and consumer credit.",
+    responsibilities: [
+      "Lead zero-downtime database migrations and microservice decoupled architecture",
+      "Maintain 99.99% system availability during national 11.11 / 12.12 flash sales"
+    ],
     fitReasons: [
       "High-concurrency systems expertise (Kafka, Go, AWS)",
       "Top-tier compensation exceeding senior band",
@@ -1133,10 +1153,6 @@ export default function LandingPage({
                 </div>
               );
             })}
-          </div>
-
-          <div className="mt-12 text-center text-xs text-slate-800 font-medium">
-            Have a different question? Email our team directly at <a href="mailto:hello@candidate.ph" className="text-blue-600 font-bold hover:underline">hello@candidate.ph</a>
           </div>
 
         </div>

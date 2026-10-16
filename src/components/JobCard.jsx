@@ -102,6 +102,25 @@ export default function JobCard({
             </div>
           </div>
 
+          {/* Role Description & Key Responsibilities */}
+          {job.jobDescription && (
+            <div className="bg-slate-50/80 rounded-xl p-2.5 border border-slate-200/80 space-y-1.5">
+              <p className="text-xs text-slate-800 font-medium leading-relaxed">
+                {job.jobDescription}
+              </p>
+              {job.responsibilities && job.responsibilities.length > 0 && (
+                <div className="space-y-1 pt-1 border-t border-slate-200/60">
+                  {job.responsibilities.slice(0, 2).map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-700 font-medium leading-snug">
+                      <span className="text-blue-600 font-bold shrink-0 mt-0.5">•</span>
+                      <span className="line-clamp-1">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* 2-Row Metadata Grid */}
           <div className="space-y-2 pt-1 text-xs">
             {/* Row 1: Location & Employment Type */}
