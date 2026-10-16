@@ -323,7 +323,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                           Option A: Build one now with our Resume Builder in 5 minutes
                         </p>
                         <span className="text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
-                          CANDIDATE.ph Studio
+                          Candidate Resume Studio
                         </span>
                       </div>
                       <p className="text-[11px] text-slate-700 font-medium mt-0.5">
@@ -364,7 +364,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                             className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs rounded-lg transition-all inline-flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95"
                           >
                             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                            <span>Launch CANDIDATE.ph Resume Studio ⚡</span>
+                            <span>Launch Candidate Resume Studio ⚡</span>
                           </button>
                         </div>
                       )}
