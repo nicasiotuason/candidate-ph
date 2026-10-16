@@ -752,6 +752,7 @@ export default function LandingPage({
               onTopUpSuccess={null}
               onAddTestimonial={null}
               isLandingPreview={true}
+              onStartSignUp={onStartSignUp}
             />
           </div>
 
