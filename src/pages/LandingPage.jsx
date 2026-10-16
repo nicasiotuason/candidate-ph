@@ -269,8 +269,7 @@ export default function LandingPage({
   onAddTestimonial,
   onStartSignUp, 
   onLoginClick, 
-  onOpenDashboard, 
-  onQuickApplyFromLanding 
+  onOpenDashboard
 }) {
   const [currentJobIdx, setCurrentJobIdx] = useState(0);
   const [heroEmail, setHeroEmail] = useState('');
@@ -451,13 +450,14 @@ export default function LandingPage({
 
             </div>
 
-            {/* Right: The Two-Zone Match Card (Jobright-Inspired Pattern) */}
+            {/* Right: The Two-Zone Match Card (Jobright-Inspired Pattern - Non-clickable Sample) */}
             <div className="lg:col-span-6 w-full">
               <JobCard
                 job={activeJob}
-                isSaved={savedJobIds?.includes(activeJob.id)}
-                onToggleSave={() => onToggleSaveJob && onToggleSaveJob(activeJob.id)}
-                onQuickApply={() => onQuickApplyFromLanding(activeJob)}
+                isSaved={false}
+                onToggleSave={null}
+                onQuickApply={null}
+                isLandingPreview={true}
                 footerChildren={
                   <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
                     <div className="flex items-center gap-2">
@@ -739,8 +739,8 @@ export default function LandingPage({
             </p>
           </div>
 
-          {/* The Actual Live Dashboard (Preview Mode: Non-clickable, exactly 1 applied check, ₱250 balance) */}
-          <div className="bg-white/80 rounded-3xl border border-slate-200/90 shadow-elevated p-2 sm:p-6">
+          {/* The Actual Live Dashboard (Preview Mode: 100% Non-clickable display, exactly 1 applied check, ₱250 balance) */}
+          <div className="bg-white/80 rounded-3xl border border-slate-200/90 shadow-elevated p-2 sm:p-6 pointer-events-none select-none">
             <DashboardPage
               user={PREVIEW_USER}
               jobs={jobs || []}
@@ -959,12 +959,11 @@ export default function LandingPage({
               </div>
 
               <div className="pt-6 mt-6">
-                <button 
-                  onClick={() => onStartSignUp('applicant@email.com')} 
-                  className="w-full py-3 rounded-xl border-2 border-slate-300 font-bold text-slate-900 text-sm hover:border-slate-800 transition-colors cursor-pointer"
+                <div 
+                  className="w-full py-3 rounded-xl border-2 border-slate-200 bg-slate-50 font-bold text-slate-600 text-sm text-center select-none pointer-events-none cursor-default"
                 >
-                  Select ₱200 Bundle
-                </button>
+                  Starter Pack (4 Applications)
+                </div>
               </div>
             </div>
 
@@ -1018,12 +1017,11 @@ export default function LandingPage({
               </div>
 
               <div className="pt-6 mt-6">
-                <button 
-                  onClick={() => onStartSignUp('applicant@email.com')} 
-                  className="w-full py-3 rounded-xl bg-theme-primary hover:bg-theme-primary-hover text-white font-bold text-sm shadow-md transition-all cursor-pointer"
+                <div 
+                  className="w-full py-3 rounded-xl bg-blue-50 border-2 border-blue-200 font-bold text-blue-700 text-sm text-center select-none pointer-events-none cursor-default shadow-xs"
                 >
-                  Claim ₱500 Bundle
-                </button>
+                  Job Hunter Pack (11 Applications)
+                </div>
               </div>
             </div>
 
@@ -1072,12 +1070,11 @@ export default function LandingPage({
               </div>
 
               <div className="pt-6 mt-6">
-                <button 
-                  onClick={() => onStartSignUp('applicant@email.com')} 
-                  className="w-full py-3 rounded-xl border-2 border-slate-300 font-bold text-slate-900 text-sm hover:border-slate-800 transition-colors cursor-pointer"
+                <div 
+                  className="w-full py-3 rounded-xl border-2 border-slate-200 bg-slate-50 font-bold text-slate-600 text-sm text-center select-none pointer-events-none cursor-default"
                 >
-                  Select ₱1,000 Pack
-                </button>
+                  Career Sprint Pack (24 Applications)
+                </div>
               </div>
             </div>
 

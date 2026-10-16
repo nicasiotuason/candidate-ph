@@ -5,7 +5,6 @@ import AuthPage from './pages/AuthPage';
 import OnboardingPage from './pages/OnboardingPage';
 import DashboardPage from './pages/DashboardPage';
 import TopUpModal from './components/TopUpModal';
-import ReviewSignOffModal from './components/ReviewSignOffModal';
 import { api } from './services/api';
 
 export default function App() {
@@ -61,7 +60,6 @@ export default function App() {
 
   // Global modals
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
-  const [selectedJobForLandingApply, setSelectedJobForLandingApply] = useState(null);
   const [initialAuthEmail, setInitialAuthEmail] = useState('');
 
   // Toast Notification state
@@ -194,7 +192,6 @@ export default function App() {
             }}
             onLoginClick={() => setCurrentView('auth')}
             onOpenDashboard={() => setCurrentView('dashboard')}
-            onQuickApplyFromLanding={(job) => setSelectedJobForLandingApply(job)}
           />
         )}
 
@@ -254,20 +251,6 @@ export default function App() {
         onTopUpSuccess={handleTopUpSuccess}
       />
 
-      {/* Quick Apply Sign-Off Modal triggered from Landing Page */}
-      {selectedJobForLandingApply && (
-        <ReviewSignOffModal
-          job={selectedJobForLandingApply}
-          user={user}
-          isOpen={Boolean(selectedJobForLandingApply)}
-          onClose={() => setSelectedJobForLandingApply(null)}
-          onConfirmApply={handleConfirmApply}
-          onOpenTopUp={() => {
-            setSelectedJobForLandingApply(null);
-            setIsTopUpOpen(true);
-          }}
-        />
-      )}
 
     </div>
   );
