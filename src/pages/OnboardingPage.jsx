@@ -214,8 +214,8 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               }}
               className={`p-5 sm:p-6 rounded-2xl border-2 border-dashed transition-all cursor-pointer text-center ${
                 cvChoice === 'uploaded'
-                  ? 'border-blue-600 bg-blue-50/70 ring-2 ring-blue-500/20'
-                  : 'border-slate-300 hover:border-blue-400 bg-white hover:bg-slate-50'
+                  ? 'border-blue-600 bg-blue-100/60 ring-2 ring-blue-500/20'
+                  : 'border-blue-300 hover:border-blue-500 bg-blue-50/50 hover:bg-blue-50/80'
               }`}
             >
               <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center mx-auto mb-2.5 shadow-md">
@@ -254,8 +254,8 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               )}
 
               {!uploadedResume && !isSimulatingUpload && (
-                <p className="text-[11px] text-blue-700 font-bold mt-2">
-                  Click to drop or test with sample PDF
+                <p className="text-[11px] text-slate-600 font-medium mt-2">
+                  Accepted formats: PDF or DOCX (Max 10MB)
                 </p>
               )}
             </div>
@@ -284,13 +284,13 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               </div>
 
               <p className="text-xs font-black text-slate-800">
-                You have two choices:
+                You have two options:
               </p>
 
-              {/* Choice A & Choice B Buttons */}
+              {/* Option A & Option B Buttons */}
               <div className="grid grid-cols-1 gap-2.5">
                 
-                {/* Choice A */}
+                {/* Option A */}
                 <button
                   type="button"
                   onClick={() => setCvChoice('choice_a')}
@@ -303,7 +303,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-xs font-black text-slate-900">
-                        Choice A: Build one now with our Resume Builder in 5 minutes
+                        Option A: Build one now with our Resume Builder in 5 minutes
                       </p>
                       <p className="text-[11px] text-slate-700 font-medium mt-0.5">
                         Interactive guided builder that generates a professional PDF ready to download.
@@ -317,7 +317,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                   </div>
                 </button>
 
-                {/* Choice B */}
+                {/* Option B */}
                 <button
                   type="button"
                   onClick={() => setCvChoice('choice_b')}
@@ -330,7 +330,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-xs font-black text-slate-900">
-                        Choice B: Build one together as we complete your onboarding questions
+                        Option B: Build one together as we complete your onboarding questions
                       </p>
                       <p className="text-[11px] text-slate-700 font-medium mt-0.5">
                         Answer your career, role, and clearance questions—we compile your ATS resume automatically.
@@ -351,8 +351,8 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
             <div className="pt-2 flex items-center justify-between">
               <span className="text-[11px] text-slate-700 font-bold">
                 {cvChoice === 'uploaded' && '✓ CV attached for auto-fill'}
-                {cvChoice === 'choice_a' && 'Selected: 5-Minute Resume Builder'}
-                {cvChoice === 'choice_b' && 'Selected: Build Together as We Go'}
+                {cvChoice === 'choice_a' && 'Selected: Option A (5-Minute Resume Builder)'}
+                {cvChoice === 'choice_b' && 'Selected: Option B (Build Together as We Go)'}
                 {!cvChoice && 'Select an option above to proceed'}
               </span>
 
