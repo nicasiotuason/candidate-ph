@@ -23,6 +23,7 @@ import {
   Building2,
   Lock
 } from 'lucide-react';
+import ResumeBuilderModal from '../components/ResumeBuilderModal';
 
 const CATEGORIES = [
   { id: 'all', label: '🌐 Open to All Domains', count: '15,443+ active roles' },
@@ -51,6 +52,22 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
   const [cvChoice, setCvChoice] = useState(null); // 'uploaded' | 'choice_a' | 'choice_b' | null
   const [uploadedResume, setUploadedResume] = useState(null);
   const [isSimulatingUpload, setIsSimulatingUpload] = useState(false);
+  const [showResumeBuilderModal, setShowResumeBuilderModal] = useState(false);
+
+  const handleResumeBuilt = (builtResume) => {
+    setUploadedResume(builtResume);
+    setResumeFile({
+      name: builtResume.name,
+      size: builtResume.size,
+      parsedSkills: builtResume.parsedSkills
+    });
+    if (builtResume.resumeData?.roleTitle) {
+      setTargetRole(builtResume.resumeData.roleTitle);
+    }
+    setCvChoice('choice_a');
+    setShowResumeBuilderModal(false);
+    setStep(2); // Automatically advance to Step 2
+  };
 
   // Step 2: Role & Domain
   const [targetCategories, setTargetCategories] = useState(['tech']);
@@ -291,31 +308,75 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               <div className="grid grid-cols-1 gap-2.5">
                 
                 {/* Option A */}
-                <button
-                  type="button"
+                <div
                   onClick={() => setCvChoice('choice_a')}
-                  className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                  className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
                     cvChoice === 'choice_a'
                       ? 'border-blue-600 bg-blue-50/90 ring-2 ring-blue-500/30'
                       : 'border-slate-200 hover:border-slate-300 bg-white'
                   }`}
                 >
                   <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-xs font-black text-slate-900">
-                        Option A: Build one now with our Resume Builder in 5 minutes
-                      </p>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs font-black text-slate-900">
+                          Option A: Build one now with our Resume Builder in 5 minutes
+                        </p>
+                        <span className="text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                          CANDIDATE.ph Studio
+                        </span>
+                      </div>
                       <p className="text-[11px] text-slate-700 font-medium mt-0.5">
-                        Interactive guided builder that generates a professional PDF ready to download.
+                        Interactive guided builder with real-time document preview and automated ATS bullet optimization.
                       </p>
+
+                      {/* Attached badge if built */}
+                      {uploadedResume && cvChoice === 'choice_a' && (
+                        <div className="mt-2.5 p-2 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                            <span className="text-xs font-black text-emerald-950">
+                              {uploadedResume.name} (Ready & Attached)
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowResumeBuilderModal(true);
+                            }}
+                            className="text-[11px] font-black text-blue-700 hover:text-blue-900 underline cursor-pointer"
+                          >
+                            Edit in Studio
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Launch Button when selected and not yet attached */}
+                      {(!uploadedResume || cvChoice !== 'choice_a') && cvChoice === 'choice_a' && (
+                        <div className="mt-2.5">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowResumeBuilderModal(true);
+                            }}
+                            className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs rounded-lg transition-all inline-flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95"
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                            <span>Launch CANDIDATE.ph Resume Studio ⚡</span>
+                          </button>
+                        </div>
+                      )}
                     </div>
+
                     {cvChoice === 'choice_a' && (
-                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
+                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shrink-0 ml-2">
                         ✓
                       </span>
                     )}
                   </div>
-                </button>
+                </div>
 
                 {/* Option B */}
                 <button
@@ -351,7 +412,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
             <div className="pt-2 flex items-center justify-between">
               <span className="text-[11px] text-slate-700 font-bold">
                 {cvChoice === 'uploaded' && '✓ CV attached for auto-fill'}
-                {cvChoice === 'choice_a' && 'Selected: Option A (5-Minute Resume Builder)'}
+                {cvChoice === 'choice_a' && (uploadedResume ? '✓ Studio Resume Attached' : 'Selected: Option A (Resume Builder)')}
                 {cvChoice === 'choice_b' && 'Selected: Option B (Build Together as We Go)'}
                 {!cvChoice && 'Select an option above to proceed'}
               </span>
@@ -359,14 +420,20 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               <button
                 type="button"
                 disabled={!cvChoice}
-                onClick={() => setStep(2)}
+                onClick={() => {
+                  if (cvChoice === 'choice_a' && !uploadedResume) {
+                    setShowResumeBuilderModal(true);
+                  } else {
+                    setStep(2);
+                  }
+                }}
                 className={`px-5 py-2.5 font-extrabold rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 shadow-md cursor-pointer ${
                   cvChoice 
                     ? 'bg-blue-600 hover:bg-blue-700 text-white active:scale-95' 
                     : 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
                 }`}
               >
-                <span>Continue</span>
+                <span>{cvChoice === 'choice_a' && !uploadedResume ? 'Launch Resume Studio' : 'Continue'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -783,6 +850,15 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
             </div>
           </div>
         )}
+
+        {/* CANDIDATE.ph Resume Studio Modal (Option A) */}
+        <ResumeBuilderModal
+          isOpen={showResumeBuilderModal}
+          onClose={() => setShowResumeBuilderModal(false)}
+          candidateName={initialName || 'Juan Dela Cruz'}
+          candidateEmail={contactEmail || initialEmail || 'juan.delacruz@email.com'}
+          onAttachResume={handleResumeBuilt}
+        />
 
       </div>
     </div>
