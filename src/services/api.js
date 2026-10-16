@@ -25,6 +25,17 @@ function setStored(key, val) {
 }
 
 export const api = {
+  // Reset demo state back to pristine ₱250 balance and 1 sample application
+  resetDemoState() {
+    try {
+      localStorage.removeItem(STORAGE_USER_KEY);
+      localStorage.removeItem(STORAGE_APPLIED_KEY);
+      localStorage.removeItem(STORAGE_SAVED_KEY);
+    } catch (e) {
+      console.error("Storage reset error:", e);
+    }
+  },
+
   // Current user state
   getUser() {
     return getStored(STORAGE_USER_KEY, INITIAL_USER);

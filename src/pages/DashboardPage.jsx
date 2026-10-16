@@ -195,8 +195,13 @@ export default function DashboardPage({
 
             <button
               type="button"
-              onClick={() => setIsTopUpOpen(true)}
-              className="px-4 py-3 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-black text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 shrink-0"
+              disabled={isLandingPreview}
+              onClick={() => !isLandingPreview && setIsTopUpOpen(true)}
+              className={`px-4 py-3 bg-blue-600 text-white font-black text-xs rounded-xl shadow-xs flex items-center gap-1.5 shrink-0 ${
+                isLandingPreview 
+                  ? 'cursor-default pointer-events-none opacity-90' 
+                  : 'hover:bg-blue-500 active:scale-95 transition-all cursor-pointer'
+              }`}
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span>Buy Credits</span>
@@ -417,11 +422,12 @@ export default function DashboardPage({
                       <JobCard
                         key={job.id}
                         job={job}
-                        isSaved={savedJobIds.includes(job.id)}
-                        isApplied={appliedJobIds.has(job.id)}
-                        onToggleSave={onToggleSaveJob}
-                        onQuickApply={(j) => setSelectedJobForApply(j)}
+                        isSaved={isLandingPreview ? job.id === 'job_02' : savedJobIds.includes(job.id)}
+                        isApplied={isLandingPreview ? job.id === 'job_04' : appliedJobIds.has(job.id)}
+                        onToggleSave={isLandingPreview ? null : onToggleSaveJob}
+                        onQuickApply={isLandingPreview ? null : (j) => setSelectedJobForApply(j)}
                         isDashboard={true}
+                        isLandingPreview={isLandingPreview}
                       />
                     ))}
                   </div>
@@ -980,31 +986,34 @@ export default function DashboardPage({
         />
       )}
 
-      {/* 4. MODALS */}
+      {/* 4. MODALS (Disabled completely in Landing Preview) */}
+      {!isLandingPreview && (
+        <>
+          {/* Review & Sign-Off Modal */}
+          <ReviewSignOffModal
+            job={selectedJobForApply}
+            user={user}
+            isOpen={Boolean(selectedJobForApply)}
+            onClose={() => setSelectedJobForApply(null)}
+            onConfirmApply={async (job, tailoredData) => {
+              await onConfirmApply(job, tailoredData);
+              setSelectedJobForApply(null);
+            }}
+            onOpenTopUp={() => {
+              setSelectedJobForApply(null);
+              setIsTopUpOpen(true);
+            }}
+          />
 
-      {/* Review & Sign-Off Modal */}
-      <ReviewSignOffModal
-        job={selectedJobForApply}
-        user={user}
-        isOpen={Boolean(selectedJobForApply)}
-        onClose={() => setSelectedJobForApply(null)}
-        onConfirmApply={async (job, tailoredData) => {
-          await onConfirmApply(job, tailoredData);
-          setSelectedJobForApply(null);
-        }}
-        onOpenTopUp={() => {
-          setSelectedJobForApply(null);
-          setIsTopUpOpen(true);
-        }}
-      />
-
-      {/* Buy Credits Modal (PayMongo) */}
-      <TopUpModal
-        isOpen={isTopUpOpen}
-        onClose={() => setIsTopUpOpen(false)}
-        currentBalance={user?.walletBalance ?? 250}
-        onTopUpSuccess={onTopUpSuccess}
-      />
+          {/* Buy Credits Modal (PayMongo) */}
+          <TopUpModal
+            isOpen={isTopUpOpen}
+            onClose={() => setIsTopUpOpen(false)}
+            currentBalance={user?.walletBalance ?? 250}
+            onTopUpSuccess={onTopUpSuccess}
+          />
+        </>
+      )}
 
       {/* "I Got an Interview!" Modal (Zero ₱50 credit bounty per user instruction) */}
       {reportingInterviewApp && (

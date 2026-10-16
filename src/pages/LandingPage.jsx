@@ -221,6 +221,42 @@ const FAQ_ITEMS = [
   }
 ];
 
+// Pristine static state for landing page dashboard preview (non-clickable, always ₱250 balance)
+const PREVIEW_USER = {
+  id: "usr_01",
+  name: "Juan Dela Cruz",
+  email: "juan.delacruz@email.com",
+  phone: "+63 917 123 4567",
+  targetRole: "Senior Frontend / Full-Stack Engineer",
+  seniority: "senior",
+  experienceYears: 6,
+  desiredSalary: "₱160,000 / mo",
+  salaryFloor: "₱160,000 / mo",
+  noticePeriod: "30 Days (Standard Philippine Corporate)",
+  education: "Bachelor's Degree (Computer Science)",
+  setupPreference: "Hybrid • BGC / Makati / Remote",
+  walletBalance: 250,
+  profileStrength: 85,
+  isPaused: false
+};
+
+const PREVIEW_APPLIED_JOBS = [
+  {
+    id: "app_prev_01",
+    jobId: "job_04", // Sprout Solutions has the Applied Check!
+    company: "Sprout Solutions",
+    title: "Senior Full-Stack Developer",
+    salary: "₱140,000 – ₱190,000 / mo",
+    portal: "Direct Employer ATS",
+    appliedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+    deductionPhp: 50,
+    atsReceiptId: "ATS-DIR-998241",
+    status: "Delivered to ATS",
+    employerReplyTarget: "juan.delacruz@email.com",
+    tailoredHeadline: "Full-Stack Engineer with React & Node.js expertise"
+  }
+];
+
 export default function LandingPage({ 
   user,
   jobs,
@@ -703,18 +739,18 @@ export default function LandingPage({
             </p>
           </div>
 
-          {/* The Actual Live Dashboard */}
+          {/* The Actual Live Dashboard (Preview Mode: Non-clickable, exactly 1 applied check, ₱250 balance) */}
           <div className="bg-white/80 rounded-3xl border border-slate-200/90 shadow-elevated p-2 sm:p-6">
             <DashboardPage
-              user={user}
+              user={PREVIEW_USER}
               jobs={jobs || []}
-              savedJobIds={savedJobIds || []}
-              appliedJobs={appliedJobs || []}
+              savedJobIds={['job_02']}
+              appliedJobs={PREVIEW_APPLIED_JOBS}
               testimonials={testimonials || []}
-              onToggleSaveJob={onToggleSaveJob}
-              onConfirmApply={onConfirmApply}
-              onTopUpSuccess={onTopUpSuccess}
-              onAddTestimonial={onAddTestimonial}
+              onToggleSaveJob={null}
+              onConfirmApply={null}
+              onTopUpSuccess={null}
+              onAddTestimonial={null}
               isLandingPreview={true}
             />
           </div>

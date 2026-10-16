@@ -22,7 +22,8 @@ export default function JobCard({
   onQuickApply, 
   isApplied = false,
   footerChildren = null,
-  isDashboard = false
+  isDashboard = false,
+  isLandingPreview = false
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   if (!job) return null;
@@ -60,7 +61,7 @@ export default function JobCard({
           </span>
 
           {/* Bookmark Star Button */}
-          {onToggleSave && (
+          {onToggleSave && !isLandingPreview && (
             <button
               type="button"
               onClick={() => onToggleSave(job.id)}
@@ -332,15 +333,20 @@ export default function JobCard({
           {/* Action Bar */}
           <div className="pt-2 flex items-center gap-2">
             {isApplied ? (
-              <div className="flex-1 py-3 px-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-center gap-2 text-emerald-800 font-extrabold text-sm">
+              <div className="flex-1 py-3 px-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-center gap-2 text-emerald-800 font-extrabold text-sm shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>Applied ✓</span>
               </div>
             ) : (
               <button
                 type="button"
-                onClick={() => onQuickApply && onQuickApply(job)}
-                className="flex-1 py-3 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer text-sm group/btn"
+                disabled={isLandingPreview || !onQuickApply}
+                onClick={() => !isLandingPreview && onQuickApply && onQuickApply(job)}
+                className={`flex-1 py-3 px-4 bg-blue-600 text-white font-extrabold rounded-xl shadow-md flex items-center justify-center gap-2 text-sm ${
+                  isLandingPreview 
+                    ? 'cursor-default pointer-events-none opacity-95' 
+                    : 'hover:bg-blue-700 active:scale-[0.98] cursor-pointer group/btn transition-all'
+                }`}
               >
                 <Zap className="w-4 h-4 text-amber-300 fill-amber-300 group-hover/btn:scale-110 transition-transform" />
                 <span>Apply (₱50)</span>

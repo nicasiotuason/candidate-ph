@@ -76,8 +76,15 @@ export default function App() {
     }, 4500);
   };
 
-  // Load initial jobs
+  // Load initial jobs and self-heal demo state if needed
   useEffect(() => {
+    const curUser = api.getUser();
+    const curApplied = api.getAppliedJobs();
+    if ((curUser && curUser.walletBalance < 250) || (curApplied && curApplied.length > 1)) {
+      api.resetDemoState();
+      setUser(api.getUser());
+      setAppliedJobs(api.getAppliedJobs());
+    }
     api.getJobs(60).then(data => setJobs(data));
   }, []);
 
