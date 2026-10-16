@@ -695,7 +695,7 @@ export default function DashboardPage({
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-900">Profile Clearance</p>
-                <p className="text-[10px] text-emerald-700 font-semibold">Ready for Greenhouse & Workday</p>
+                <p className="text-[10px] text-emerald-700 font-semibold">Ready for Direct ATS Portals</p>
               </div>
             </div>
           </div>
@@ -892,7 +892,7 @@ export default function DashboardPage({
             <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">DISPATCHED (₱50)</span>
               <span className="text-2xl font-black text-blue-400 mt-1 block">11,420</span>
-              <span className="text-[10px] text-slate-400 font-medium mt-1 block">Across Greenhouse & Lever</span>
+              <span className="text-[10px] text-slate-400 font-medium mt-1 block">Across Direct Employer Portals</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700">

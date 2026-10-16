@@ -24,6 +24,7 @@ import {
   Lock
 } from 'lucide-react';
 import ResumeBuilderModal from '../components/ResumeBuilderModal';
+import OptionBPayoffModal from '../components/OptionBPayoffModal';
 
 const CATEGORIES = [
   { id: 'all', label: '🌐 Open to All Domains', count: '15,443+ active roles' },
@@ -54,6 +55,14 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
   const [isSimulatingUpload, setIsSimulatingUpload] = useState(false);
   const [showResumeBuilderModal, setShowResumeBuilderModal] = useState(false);
 
+  // Option B: Background Details & Live Assembly
+  const [optionBCompany, setOptionBCompany] = useState('Concentrix Philippines');
+  const [optionBYearsExp, setOptionBYearsExp] = useState('1–2 years');
+  const [optionBSkills, setOptionBSkills] = useState('Customer Support, Zendesk, CRM Escalations, Communication');
+  const [optionBDuty, setOptionBDuty] = useState('Handled 40+ inbound customer inquiries daily, maintaining 96% CSAT rating');
+  const [optionBSchool, setOptionBSchool] = useState('Polytechnic University of the Philippines');
+  const [showOptionBPayoff, setShowOptionBPayoff] = useState(false);
+
   const handleResumeBuilt = (builtResume) => {
     setUploadedResume(builtResume);
     setResumeFile({
@@ -67,6 +76,45 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
     setCvChoice('choice_a');
     setShowResumeBuilderModal(false);
     setStep(2); // Automatically advance to Step 2
+  };
+
+  const handleTriggerOptionBPayoff = () => {
+    setShowOptionBPayoff(true);
+    const compiledSkills = optionBSkills
+      ? optionBSkills.split(/[,/]/).map(s => s.trim()).filter(Boolean)
+      : ['Customer Support', 'Communication', 'Problem Resolution', 'Zendesk'];
+
+    const compiledName = `${(initialName || 'Juan Dela Cruz').replace(/\s+/g, '_')}_Base_ATS_Resume.pdf`;
+
+    const compiledResume = {
+      name: compiledName,
+      size: '138 KB',
+      parsedSkills: compiledSkills,
+      cvChoice: 'choice_b',
+      resumeData: {
+        candidateName: initialName || 'Juan Dela Cruz',
+        candidateEmail: contactEmail || initialEmail || 'juan.delacruz@email.com',
+        roleTitle: targetRole,
+        companyName: optionBCompany || 'Concentrix Philippines',
+        duration: optionBYearsExp,
+        duty: optionBDuty || 'Handled 40+ inbound customer inquiries daily, maintaining 96% CSAT rating',
+        degree: education,
+        school: optionBSchool || 'Polytechnic University of the Philippines',
+        skills: compiledSkills
+      }
+    };
+
+    setUploadedResume(compiledResume);
+    setResumeFile({
+      name: compiledResume.name,
+      size: compiledResume.size,
+      parsedSkills: compiledResume.parsedSkills
+    });
+  };
+
+  const handleProceedFromOptionBPayoff = () => {
+    setShowOptionBPayoff(false);
+    setStep(4);
   };
 
   // Step 2: Role & Domain
@@ -124,7 +172,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
   useEffect(() => {
     if (step === 4) {
       setTelemetryProgress(15);
-      setTelemetryStage('Querying direct employer portals (Greenhouse, Lever, Workday)...');
+      setTelemetryStage('Querying direct employer portals...');
 
       const t1 = setTimeout(() => {
         setTelemetryProgress(48);
@@ -379,8 +427,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                 </div>
 
                 {/* Option B */}
-                <button
-                  type="button"
+                <div
                   onClick={() => setCvChoice('choice_b')}
                   className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                     cvChoice === 'choice_b'
@@ -389,21 +436,43 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                   }`}
                 >
                   <div className="flex items-start justify-between">
-                    <div>
+                    <div className="flex-1">
                       <p className="text-xs font-black text-slate-900">
                         Option B: Build one together as we complete your onboarding questions
                       </p>
                       <p className="text-[11px] text-slate-700 font-medium mt-0.5">
                         Answer your career, role, and clearance questions—we compile your ATS resume automatically.
                       </p>
+
+                      {/* Attached badge if auto-assembled */}
+                      {uploadedResume && cvChoice === 'choice_b' && (
+                        <div className="mt-2.5 p-2 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                            <span className="text-xs font-black text-emerald-950">
+                              {uploadedResume.name} (Auto-Assembled)
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowOptionBPayoff(true);
+                            }}
+                            className="text-[11px] font-black text-blue-700 hover:text-blue-900 underline cursor-pointer"
+                          >
+                            View Resume Payoff
+                          </button>
+                        </div>
+                      )}
                     </div>
                     {cvChoice === 'choice_b' && (
-                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
+                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shrink-0 ml-2">
                         ✓
                       </span>
                     )}
                   </div>
-                </button>
+                </div>
 
               </div>
             </div>
@@ -413,7 +482,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               <span className="text-[11px] text-slate-700 font-bold">
                 {cvChoice === 'uploaded' && '✓ CV attached for auto-fill'}
                 {cvChoice === 'choice_a' && (uploadedResume ? '✓ Studio Resume Attached' : 'Selected: Option A (Resume Builder)')}
-                {cvChoice === 'choice_b' && 'Selected: Option B (Build Together as We Go)'}
+                {cvChoice === 'choice_b' && (uploadedResume ? '✓ Auto-Assembled Resume Attached' : 'Selected: Option B (Build Together as We Go)')}
                 {!cvChoice && 'Select an option above to proceed'}
               </span>
 
@@ -541,6 +610,103 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               </div>
             </div>
 
+            {/* Option B Background Booster Card */}
+            {cvChoice === 'choice_b' && (
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50/70 border border-blue-200 rounded-2xl p-4 sm:p-5 space-y-3.5 animate-in fade-in">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-blue-600" />
+                    <h3 className="text-xs sm:text-sm font-black text-slate-900">
+                      Career Background (For Your Auto-Built Resume)
+                    </h3>
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                    Option B
+                  </span>
+                </div>
+                <p className="text-xs text-slate-700 font-medium">
+                  We use these 3 quick details to assemble your ATS-compliant resume experience section in the background.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-black text-slate-800 mb-1">
+                      Most Recent Employer / Company: *
+                    </label>
+                    <input
+                      type="text"
+                      value={optionBCompany}
+                      onChange={(e) => setOptionBCompany(e.target.value)}
+                      placeholder="e.g. Concentrix, TaskUs, Freelance, or PUP Project"
+                      className="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium text-slate-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-black text-slate-800 mb-1">
+                      Years of Experience in this Field: *
+                    </label>
+                    <select
+                      value={optionBYearsExp}
+                      onChange={(e) => setOptionBYearsExp(e.target.value)}
+                      className="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium text-slate-900"
+                    >
+                      <option value="0–1 year (Entry / Fresh Grad)">0–1 year (Entry / Fresh Grad)</option>
+                      <option value="1–2 years">1–2 years</option>
+                      <option value="3–5 years">3–5 years</option>
+                      <option value="5+ years">5+ years</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-slate-800 mb-1">
+                    Top 3 Skills / Software Tools Used: *
+                  </label>
+                  <input
+                    type="text"
+                    value={optionBSkills}
+                    onChange={(e) => setOptionBSkills(e.target.value)}
+                    placeholder="e.g. Customer Support, Zendesk, Excel, English Communication"
+                    className="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium text-slate-900"
+                  />
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    <span className="text-[10px] font-bold text-slate-600">Quick-tap to add:</span>
+                    {['Zendesk', 'Excel', 'Customer Support', 'Communication', 'Salesforce', 'Jira'].map((tool) => (
+                      <button
+                        key={tool}
+                        type="button"
+                        onClick={() => {
+                          if (!optionBSkills.includes(tool)) {
+                            setOptionBSkills(prev => prev ? `${prev}, ${tool}` : tool);
+                          }
+                        }}
+                        className="text-[10px] font-bold bg-white hover:bg-blue-100 text-blue-900 px-2 py-0.5 rounded border border-blue-200 transition-colors cursor-pointer"
+                      >
+                        + {tool}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-slate-800 mb-1">
+                    Primary Responsibility or Achievement (Rough Notes): *
+                  </label>
+                  <input
+                    type="text"
+                    value={optionBDuty}
+                    onChange={(e) => setOptionBDuty(e.target.value)}
+                    placeholder="e.g. Handled 40+ customer calls daily with 95% CSAT rating"
+                    className="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium text-slate-900"
+                  />
+                  <p className="text-[11px] text-slate-600 font-medium mt-1">
+                    No formal prose needed. Our engine formats this into action verbs automatically.
+                  </p>
+                </div>
+              </div>
+            )}
+
             <div className="pt-2 flex items-center justify-between">
               <button
                 type="button"
@@ -575,7 +741,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                 The Universal Asterisk Fields
               </h2>
               <p className="text-xs text-slate-700 mt-1">
-                Corporate career portals (Greenhouse, Lever, Workday) always mandate these 6 answers. Fill them once here, and your applications will never get stuck.
+                Direct employer career portals always mandate these 6 answers. Fill them once here, and your applications will never get stuck.
               </p>
             </div>
 
@@ -660,28 +826,44 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                 </div>
               </div>
 
-              {/* 5. Highest Educational Attainment */}
-              <div>
-                <label className="block text-xs font-black text-slate-900 mb-1">
-                  5. Highest Educational Attainment: *
-                </label>
-                <div className="relative">
-                  <GraduationCap className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
-                  <select
-                    value={education}
-                    onChange={(e) => setEducation(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900"
-                  >
-                    <option value="Bachelor's Degree">Bachelor's Degree (College Graduate)</option>
-                    <option value="Master's Degree">Master's Degree</option>
-                    <option value="Doctorate / PhD">Doctorate / PhD</option>
-                    <option value="College Undergraduate">College Undergraduate</option>
-                  </select>
+              {/* 5. Highest Educational Attainment & School */}
+              <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-black text-slate-900 mb-1">
+                    5. Highest Educational Attainment: *
+                  </label>
+                  <div className="relative">
+                    <GraduationCap className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                    <select
+                      value={education}
+                      onChange={(e) => setEducation(e.target.value)}
+                      className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900"
+                    >
+                      <option value="Bachelor's Degree">Bachelor's Degree (College Graduate)</option>
+                      <option value="Master's Degree">Master's Degree</option>
+                      <option value="Doctorate / PhD">Doctorate / PhD</option>
+                      <option value="College Undergraduate">College Undergraduate</option>
+                      <option value="Vocational / Tech Certificate">Vocational / Tech Certificate</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-slate-900 mb-1">
+                    School / University: *
+                  </label>
+                  <input
+                    type="text"
+                    value={optionBSchool}
+                    onChange={(e) => setOptionBSchool(e.target.value)}
+                    placeholder="e.g. PUP Manila, UST, UP, Ateneo"
+                    className="w-full px-3.5 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900 placeholder:text-slate-500"
+                  />
                 </div>
               </div>
 
               {/* 6. Application Contact Email */}
-              <div>
+              <div className="sm:col-span-2">
                 <label className="block text-xs font-black text-slate-900 mb-1 flex items-center justify-between">
                   <span>6. Application Contact Email: *</span>
                   <span className="text-[11px] text-blue-700 font-extrabold">Zero Middleman</span>
@@ -716,11 +898,17 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
               <button
                 type="button"
-                onClick={() => setStep(4)}
+                onClick={() => {
+                  if (cvChoice === 'choice_b' && !uploadedResume) {
+                    handleTriggerOptionBPayoff();
+                  } else {
+                    setStep(4);
+                  }
+                }}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md cursor-pointer"
               >
                 <Zap className="w-4 h-4 text-amber-300" />
-                <span>Run Matching Engine</span>
+                <span>{cvChoice === 'choice_b' && !uploadedResume ? 'Compile My ATS Resume & Match Roles' : 'Run Matching Engine'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -764,8 +952,8 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                 ></div>
               </div>
 
-              <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
-                <span>Direct ATS Portals: Greenhouse • Lever • Workday • Ashby</span>
+              <div className="flex items-center justify-between text-[11px] text-slate-600 pt-1">
+                <span>Direct ATS Portals • Zero Agency Middlemen</span>
                 <span className="font-bold text-slate-700">14-Day Freshness Filter</span>
               </div>
             </div>
@@ -858,6 +1046,25 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
           candidateName={initialName || 'Juan Dela Cruz'}
           candidateEmail={contactEmail || initialEmail || 'juan.delacruz@email.com'}
           onAttachResume={handleResumeBuilt}
+        />
+
+        {/* Option B Payoff Modal */}
+        <OptionBPayoffModal
+          isOpen={showOptionBPayoff}
+          onProceedToMatching={handleProceedFromOptionBPayoff}
+          onOpenResumeStudio={() => {
+            setShowOptionBPayoff(false);
+            setShowResumeBuilderModal(true);
+          }}
+          candidateName={initialName || 'Juan Dela Cruz'}
+          candidateEmail={contactEmail || initialEmail || 'juan.delacruz@email.com'}
+          roleTitle={targetRole}
+          companyName={optionBCompany}
+          yearsExp={optionBYearsExp}
+          skills={optionBSkills}
+          duty={optionBDuty}
+          degree={education}
+          school={optionBSchool}
         />
 
       </div>
