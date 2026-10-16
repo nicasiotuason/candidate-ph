@@ -13,7 +13,7 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
     {
       amount: 200,
       apps: 4,
-      bonus: null,
+      bonus: 'Standard Rate',
       unitPrice: '₱50.00 / app',
       label: 'Starter Bundle',
       popular: false
@@ -21,7 +21,7 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
     {
       amount: 500,
       apps: 11,
-      bonus: '+1 Free Bonus App',
+      bonus: '+1 Free App (Save 10%)',
       unitPrice: '₱45.45 / app',
       label: 'Job Hunter Pack',
       popular: true
@@ -29,7 +29,7 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
     {
       amount: 1000,
       apps: 24,
-      bonus: '+4 Free Bonus Apps',
+      bonus: '+4 Free Apps (Save 17%)',
       unitPrice: '₱41.67 / app',
       label: 'Career Sprint Bundle',
       popular: false
@@ -117,7 +117,7 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
                       Popular
                     </span>
                   )}
-                  {bundle.bonus && !bundle.popular && (
+                  {bundle.bonus && !bundle.popular && bundle.amount === 1000 && (
                     <span className="absolute -top-2.5 right-2.5 bg-emerald-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
                       Best Value
                     </span>
@@ -145,6 +145,17 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Transparent Feature Guarantee Across All Tiers */}
+          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs text-slate-700 space-y-1">
+            <div className="flex items-center gap-1.5 font-bold text-slate-900">
+              <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>All bundles include 100% of CANDIDATE.ph capabilities:</span>
+            </div>
+            <p className="text-[11px] text-slate-600 pl-5.5 leading-relaxed">
+              Direct Employer ATS Dispatch • In-Place Resume Tailoring & Sign-Off • Official Recruiter Receipts • Credits Never Expire. Loading more simply unlocks higher volume discounts.
+            </p>
           </div>
 
           {/* Payment Channels (PayMongo) */}

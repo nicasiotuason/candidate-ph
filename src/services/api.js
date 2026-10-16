@@ -125,10 +125,10 @@ export const api = {
         company: "Sprout Solutions",
         title: "Senior Full-Stack Developer",
         salary: "₱140,000 – ₱190,000 / mo",
-        portal: "Greenhouse",
+        portal: "Direct Employer ATS",
         appliedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
         deductionPhp: 50,
-        atsReceiptId: "ATS-GRN-998241",
+        atsReceiptId: "ATS-DIR-998241",
         status: "Delivered to ATS",
         employerReplyTarget: "juan.delacruz@email.com",
         tailoredHeadline: "Full-Stack Engineer with React & Node.js expertise"

@@ -421,6 +421,7 @@ export default function DashboardPage({
                         isApplied={appliedJobIds.has(job.id)}
                         onToggleSave={onToggleSaveJob}
                         onQuickApply={(j) => setSelectedJobForApply(j)}
+                        isDashboard={true}
                       />
                     ))}
                   </div>
@@ -475,6 +476,7 @@ export default function DashboardPage({
                       isApplied={appliedJobIds.has(job.id)}
                       onToggleSave={onToggleSaveJob}
                       onQuickApply={(j) => setSelectedJobForApply(j)}
+                      isDashboard={true}
                     />
                   ))}
                 </div>

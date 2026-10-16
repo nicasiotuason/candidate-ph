@@ -11,7 +11,8 @@ import {
   TrendingUp, 
   MapPin,
   Heart,
-  ChevronDown
+  ChevronDown,
+  Building2
 } from 'lucide-react';
 
 export default function JobCard({ 
@@ -20,7 +21,8 @@ export default function JobCard({
   onToggleSave, 
   onQuickApply, 
   isApplied = false,
-  footerChildren = null
+  footerChildren = null,
+  isDashboard = false
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   if (!job) return null;
@@ -104,51 +106,177 @@ export default function JobCard({
             </div>
           </div>
 
-          {/* Role Description & Key Responsibilities with Expandable Link */}
+          {/* Role Description & Key Responsibilities with Expandable ATS Specification */}
           {job.jobDescription && (
-            <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-200/80 space-y-2">
+            <div className="bg-slate-50/80 rounded-2xl p-3 sm:p-3.5 border border-slate-200/80 space-y-2.5">
               <p className="text-xs text-slate-800 font-medium leading-relaxed">
                 {job.jobDescription}
               </p>
 
               {/* Expandable Link */}
-              <button
-                type="button"
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
-              >
-                <span>{isExpanded ? '- Show Less' : '+ View Full Role & Responsibilities'}</span>
-                <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="flex items-center justify-between pt-0.5">
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="inline-flex items-center gap-1.5 text-xs font-black text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
+                >
+                  <span>
+                    {isExpanded 
+                      ? '▲ Hide Full ATS Specification' 
+                      : isDashboard 
+                        ? '▼ View Complete Employer ATS Job Spec & Requirements' 
+                        : '+ View Full Role & Responsibilities'}
+                  </span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isDashboard && (
+                  <span className="text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">
+                    Official Requisition
+                  </span>
+                )}
+              </div>
 
               {/* Collapsible Details */}
               {isExpanded && (
-                <div className="pt-2 border-t border-slate-200/80 space-y-2 animate-in fade-in duration-200">
-                  {job.responsibilities && job.responsibilities.length > 0 && (
-                    <div className="space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-600">
-                        Key Responsibilities:
-                      </p>
-                      {job.responsibilities.map((item, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-700 font-medium leading-snug">
-                          <span className="text-blue-600 font-bold shrink-0 mt-0.5">•</span>
-                          <span>{item}</span>
-                        </div>
-                      ))}
+                isDashboard ? (
+                  /* FULL CORPORATE ATS JOB SPECIFICATION FOR DASHBOARD */
+                  <div className="pt-3 border-t border-slate-200 space-y-4 max-h-[460px] overflow-y-auto pr-2 text-left animate-in fade-in duration-200 text-xs text-slate-800">
+                    
+                    {/* Header Badge */}
+                    <div className="p-2.5 bg-blue-50/80 rounded-xl border border-blue-200/80 flex items-center justify-between text-[11px]">
+                      <span className="font-extrabold text-blue-900 flex items-center gap-1.5">
+                        <Building2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <span>Direct ATS Requisition • {job.company}</span>
+                      </span>
+                      <span className="text-[10px] font-black uppercase text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded border border-emerald-200/50 shrink-0">
+                        Verified Active
+                      </span>
                     </div>
-                  )}
 
-                  {job.companyDescription && (
-                    <div className="pt-1.5 border-t border-slate-200/50">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-600">
-                        About {job.company}:
-                      </p>
-                      <p className="text-[11px] text-slate-600 leading-relaxed mt-0.5">
-                        {job.companyDescription}
+                    {/* 1. About Role & Team */}
+                    {(job.aboutRole || job.companyDescription) && (
+                      <div className="space-y-1.5">
+                        <h4 className="text-[11px] font-black uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                          About the Role & Mission
+                        </h4>
+                        <p className="text-xs text-slate-700 leading-relaxed pl-3">
+                          {job.aboutRole || job.companyDescription}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* 2. Key Responsibilities (Full corporate bullets) */}
+                    {job.responsibilities && job.responsibilities.length > 0 && (
+                      <div className="space-y-2 pt-1 border-t border-slate-200/60">
+                        <h4 className="text-[11px] font-black uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                          Key Responsibilities ({job.responsibilities.length} Core Areas)
+                        </h4>
+                        <ul className="space-y-1.5 pl-3">
+                          {job.responsibilities.map((item, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-slate-700 leading-snug">
+                              <span className="text-blue-600 font-black shrink-0 mt-0.5">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* 3. Minimum Qualifications */}
+                    {job.qualifications && job.qualifications.length > 0 && (
+                      <div className="space-y-2 pt-1 border-t border-slate-200/60">
+                        <h4 className="text-[11px] font-black uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                          Minimum Qualifications
+                        </h4>
+                        <ul className="space-y-1.5 pl-3">
+                          {job.qualifications.map((item, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-slate-700 leading-snug">
+                              <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5 stroke-[2.5]" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* 4. Preferred Qualifications */}
+                    {job.preferredQualifications && job.preferredQualifications.length > 0 && (
+                      <div className="space-y-2 pt-1 border-t border-slate-200/60">
+                        <h4 className="text-[11px] font-black uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                          Preferred / Nice-to-Have Qualifications
+                        </h4>
+                        <ul className="space-y-1.5 pl-3">
+                          {job.preferredQualifications.map((item, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-slate-700 leading-snug">
+                              <span className="text-slate-400 font-bold shrink-0 mt-0.5">+</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* 5. Compensation, Perks & Benefits */}
+                    {job.benefits && job.benefits.length > 0 && (
+                      <div className="space-y-2 pt-1 border-t border-slate-200/60">
+                        <h4 className="text-[11px] font-black uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
+                          Compensation, Perks & Benefits
+                        </h4>
+                        <ul className="space-y-1.5 pl-3">
+                          {job.benefits.map((item, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-slate-700 leading-snug">
+                              <span className="text-emerald-600 font-bold shrink-0 mt-0.5">✓</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Pre-Dispatch Reassurance */}
+                    <div className="p-3 bg-slate-100 rounded-xl text-[11px] text-slate-700 flex items-start gap-2 border border-slate-200">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <p>
+                        Applying uses ₱50 of wallet balance. You review and sign off on tailored resume bullets before dispatch.
                       </p>
                     </div>
-                  )}
-                </div>
+
+                  </div>
+                ) : (
+                  /* COMPACT LANDING PAGE PREVIEW */
+                  <div className="pt-2 border-t border-slate-200/80 space-y-2 animate-in fade-in duration-200">
+                    {job.responsibilities && job.responsibilities.length > 0 && (
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-black uppercase tracking-wider text-slate-600">
+                          Key Responsibilities:
+                        </p>
+                        {job.responsibilities.slice(0, 3).map((item, idx) => (
+                          <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-700 font-medium leading-snug">
+                            <span className="text-blue-600 font-bold shrink-0 mt-0.5">•</span>
+                            <span>{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {job.companyDescription && (
+                      <div className="pt-1.5 border-t border-slate-200/50">
+                        <p className="text-[10px] font-black uppercase tracking-wider text-slate-600">
+                          About {job.company}:
+                        </p>
+                        <p className="text-[11px] text-slate-600 leading-relaxed mt-0.5">
+                          {job.companyDescription}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )
               )}
             </div>
           )}

@@ -886,7 +886,7 @@ export default function LandingPage({
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">Starter Bundle</span>
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-900">Targeted Hunt</span>
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-900">Standard Rate</span>
                 </div>
                 
                 <div>
@@ -903,17 +903,21 @@ export default function LandingPage({
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-800">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" />
+                  <li className="flex items-center gap-2 font-medium text-slate-900">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>4 Direct Employer Dispatches</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Preview & Tweak Before Every Send</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>In-Place Resume Tailoring & Sign-Off</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Full Application History & Audit Receipts</span>
                   </li>
                   <li className="flex items-center gap-2 font-bold text-slate-900">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Balance never expires</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Balance Never Expires • ₱0 Search</span>
                   </li>
                 </ul>
               </div>
@@ -938,7 +942,7 @@ export default function LandingPage({
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-theme-primary uppercase tracking-wider">Job Hunter</span>
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-theme-primary-light text-theme-primary">Recommended</span>
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-theme-primary-light text-theme-primary">Save 10%</span>
                 </div>
                 
                 <div>
@@ -954,25 +958,25 @@ export default function LandingPage({
                     <span className="text-2xl font-black text-theme-primary">11 Applications</span>
                     <span className="text-xs font-bold text-theme-secondary bg-theme-secondary-light px-2 py-0.5 rounded">+1 Free</span>
                   </div>
-                  <p className="text-xs text-slate-800 font-medium">Reload seamlessly via PayMongo GCash / Maya</p>
+                  <p className="text-xs text-slate-800 font-medium">Includes in-place resume tailoring & sign-off</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-800">
                   <li className="flex items-center gap-2 font-medium text-slate-900">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>11 Direct Employer Dispatches</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>11 Direct Employer Dispatches (+1 Free)</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>In-place resume tailoring & review</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>In-Place Resume Tailoring & Sign-Off</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Full application history & audit receipts</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Full Application History & Audit Receipts</span>
                   </li>
                   <li className="flex items-center gap-2 font-bold text-slate-900">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Balance never expires</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Balance Never Expires • ₱0 Search</span>
                   </li>
                 </ul>
               </div>
@@ -992,7 +996,7 @@ export default function LandingPage({
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">Career Sprint</span>
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-950 font-bold">+4 Free Apps</span>
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-950 font-bold">Save 17%</span>
                 </div>
                 
                 <div>
@@ -1008,21 +1012,25 @@ export default function LandingPage({
                     <span className="text-2xl font-black text-theme-primary">24 Applications</span>
                     <span className="text-xs font-bold text-theme-secondary bg-theme-secondary-light px-2 py-0.5 rounded">+4 Free</span>
                   </div>
-                  <p className="text-xs text-slate-800 font-medium">Best for intensive career hunts</p>
+                  <p className="text-xs text-slate-800 font-medium">Includes in-place resume tailoring & sign-off</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-800">
                   <li className="flex items-center gap-2 font-medium text-slate-900">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>24 Direct Employer Dispatches</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>24 Direct Employer Dispatches (+4 Free)</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>In-place resume tailoring before every send</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>In-Place Resume Tailoring & Sign-Off</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Full Application History & Audit Receipts</span>
                   </li>
                   <li className="flex items-center gap-2 font-bold text-slate-900">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Balance never expires</span>
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Balance Never Expires • ₱0 Search</span>
                   </li>
                 </ul>
               </div>
