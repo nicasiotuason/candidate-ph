@@ -30,7 +30,8 @@ import {
   Award,
   Layers,
   PauseCircle,
-  PlayCircle
+  PlayCircle,
+  ArrowRight
 } from 'lucide-react';
 import JobCard from '../components/JobCard';
 import ReviewSignOffModal from '../components/ReviewSignOffModal';
@@ -48,7 +49,8 @@ export default function DashboardPage({
   onToggleSaveJob, 
   onConfirmApply, 
   onTopUpSuccess, 
-  onAddTestimonial 
+  onAddTestimonial,
+  isLandingPreview = false
 }) {
   // Main view navigation: 'jobs' | 'resume' | 'profile' | 'admin'
   const [mainNav, setMainNav] = useState('jobs');
@@ -411,7 +413,7 @@ export default function DashboardPage({
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {filteredMatchedJobs.map((job) => (
+                    {(isLandingPreview ? filteredMatchedJobs.slice(0, 6) : filteredMatchedJobs).map((job) => (
                       <JobCard
                         key={job.id}
                         job={job}
@@ -422,6 +424,27 @@ export default function DashboardPage({
                       />
                     ))}
                   </div>
+
+                  {isLandingPreview && (
+                    <div className="mt-8 p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-xs">
+                      <div>
+                        <div className="flex items-center justify-center sm:justify-start gap-2 text-xs font-black text-blue-950 uppercase tracking-wider mb-1">
+                          <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+                          <span>Showing 3 Rows (6 of 18 Live Matched Roles)</span>
+                        </div>
+                        <p className="text-xs text-slate-700 font-medium max-w-xl">
+                          This is a curated preview. Sign up in 60 seconds to unlock your full verified feed and claim your ₱50 welcome balance.
+                        </p>
+                      </div>
+                      <a
+                        href="/signup"
+                        className="px-5 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md transition-all whitespace-nowrap cursor-pointer flex items-center gap-2"
+                      >
+                        <span>Sign Up & Unlock Full Dashboard</span>
+                        <ArrowRight className="w-4 h-4 text-amber-300" />
+                      </a>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -946,12 +969,14 @@ export default function DashboardPage({
         </div>
       )}
 
-      {/* 3. COMMUNITY WALL & KIND WORDS */}
-      <FeedbackBox
-        testimonials={testimonials}
-        onAddTestimonial={onAddTestimonial}
-        userName={user?.name}
-      />
+      {/* 3. COMMUNITY WALL & KIND WORDS (Hidden in Landing Preview) */}
+      {!isLandingPreview && (
+        <FeedbackBox
+          testimonials={testimonials}
+          onAddTestimonial={onAddTestimonial}
+          userName={user?.name}
+        />
+      )}
 
       {/* 4. MODALS */}
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   CheckCircle2, 
   Check, 
@@ -10,7 +10,8 @@ import {
   ShieldCheck, 
   TrendingUp, 
   MapPin,
-  Heart
+  Heart,
+  ChevronDown
 } from 'lucide-react';
 
 export default function JobCard({ 
@@ -21,6 +22,7 @@ export default function JobCard({
   isApplied = false,
   footerChildren = null
 }) {
+  const [isExpanded, setIsExpanded] = useState(false);
   if (!job) return null;
 
   // Calculate score and matching labels
@@ -102,20 +104,50 @@ export default function JobCard({
             </div>
           </div>
 
-          {/* Role Description & Key Responsibilities */}
+          {/* Role Description & Key Responsibilities with Expandable Link */}
           {job.jobDescription && (
-            <div className="bg-slate-50/80 rounded-xl p-2.5 border border-slate-200/80 space-y-1.5">
+            <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-200/80 space-y-2">
               <p className="text-xs text-slate-800 font-medium leading-relaxed">
                 {job.jobDescription}
               </p>
-              {job.responsibilities && job.responsibilities.length > 0 && (
-                <div className="space-y-1 pt-1 border-t border-slate-200/60">
-                  {job.responsibilities.slice(0, 2).map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-700 font-medium leading-snug">
-                      <span className="text-blue-600 font-bold shrink-0 mt-0.5">•</span>
-                      <span className="line-clamp-1">{item}</span>
+
+              {/* Expandable Link */}
+              <button
+                type="button"
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
+              >
+                <span>{isExpanded ? '- Show Less' : '+ View Full Role & Responsibilities'}</span>
+                <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Collapsible Details */}
+              {isExpanded && (
+                <div className="pt-2 border-t border-slate-200/80 space-y-2 animate-in fade-in duration-200">
+                  {job.responsibilities && job.responsibilities.length > 0 && (
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-600">
+                        Key Responsibilities:
+                      </p>
+                      {job.responsibilities.map((item, idx) => (
+                        <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-700 font-medium leading-snug">
+                          <span className="text-blue-600 font-bold shrink-0 mt-0.5">•</span>
+                          <span>{item}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
+
+                  {job.companyDescription && (
+                    <div className="pt-1.5 border-t border-slate-200/50">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-600">
+                        About {job.company}:
+                      </p>
+                      <p className="text-[11px] text-slate-600 leading-relaxed mt-0.5">
+                        {job.companyDescription}
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

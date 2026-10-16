@@ -715,6 +715,7 @@ export default function LandingPage({
               onConfirmApply={onConfirmApply}
               onTopUpSuccess={onTopUpSuccess}
               onAddTestimonial={onAddTestimonial}
+              isLandingPreview={true}
             />
           </div>
 
