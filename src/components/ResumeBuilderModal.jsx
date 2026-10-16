@@ -29,17 +29,24 @@ const SUGGESTED_ROLES = [
   'Operations Associate'
 ];
 
-const SUGGESTED_TOOLS = [
-  'Zendesk',
-  'Salesforce',
-  'Microsoft Excel',
-  'Google Workspace',
-  'HubSpot',
-  'Jira',
-  'Slack',
-  'Shopify',
-  'Canva'
-];
+const SUGGESTED_TOOL_CATEGORIES = {
+  ai: {
+    label: '✨ AI & Automation',
+    tools: ['ChatGPT / Prompting', 'Claude (Anthropic)', 'OpenAI Codex / Copilot', 'Cursor AI', 'Midjourney', 'Zapier Automation']
+  },
+  creative: {
+    label: '🎨 Design & Adobe',
+    tools: ['Adobe Photoshop', 'Adobe Illustrator', 'Adobe InDesign', 'Premiere Pro', 'Figma', 'Canva', 'Meta Ads', 'Google Ads']
+  },
+  support: {
+    label: '🎧 BPO & Ops',
+    tools: ['Zendesk', 'Salesforce CRM', 'Microsoft Excel', 'Google Workspace', 'HubSpot', 'Jira', 'Slack', 'Shopify']
+  },
+  finance: {
+    label: '📊 Finance & VA',
+    tools: ['QuickBooks Online', 'Xero', 'Bookkeeping', 'Asana', 'Notion', 'Data Entry (50+ WPM)']
+  }
+};
 
 const DEFAULT_SKILLS = [
   'Customer Communication',
@@ -86,6 +93,7 @@ export default function ResumeBuilderModal({
   // Skills
   const [skills, setSkills] = useState(DEFAULT_SKILLS);
   const [customSkillInput, setCustomSkillInput] = useState('');
+  const [activeToolTab, setActiveToolTab] = useState('ai');
 
   // Phase 2: Engine Follow-up Assistant Conversation
   const [chatMessages, setChatMessages] = useState([
@@ -677,24 +685,50 @@ export default function ResumeBuilderModal({
                         </div>
                       </div>
 
-                      {/* Suggested Tools Quick-Add */}
-                      <div className="pt-2 space-y-1.5">
-                        <p className="text-[11px] font-bold text-slate-600">Quick-Add Popular Tools:</p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {SUGGESTED_TOOLS.map((tool) => (
+                      {/* Suggested Tools Quick-Add with Category Switcher */}
+                      <div className="pt-2 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <p className="text-[11px] font-bold text-slate-700">Quick-Add Popular Tools & AI:</p>
+                          <span className="text-[10px] text-blue-700 font-bold">Click category tab to switch</span>
+                        </div>
+
+                        {/* Category Tabs */}
+                        <div className="flex flex-wrap gap-1">
+                          {Object.entries(SUGGESTED_TOOL_CATEGORIES).map(([key, cat]) => (
                             <button
-                              key={tool}
+                              key={key}
                               type="button"
-                              onClick={() => handleAddToolToSkills(tool)}
-                              className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border transition-colors cursor-pointer ${
-                                skills.includes(tool)
-                                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
+                              onClick={() => setActiveToolTab(key)}
+                              className={`text-[10px] font-bold px-2 py-1 rounded-lg transition-all cursor-pointer ${
+                                activeToolTab === key
+                                  ? 'bg-blue-600 text-white shadow-xs'
+                                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
                               }`}
                             >
-                              {skills.includes(tool) ? `✓ ${tool}` : `+ ${tool}`}
+                              {cat.label}
                             </button>
                           ))}
+                        </div>
+
+                        {/* Tool Chips for active category */}
+                        <div className="flex flex-wrap gap-1.5 p-2 bg-slate-50 rounded-xl border border-slate-200">
+                          {SUGGESTED_TOOL_CATEGORIES[activeToolTab].tools.map((tool) => {
+                            const isIncluded = skills.includes(tool);
+                            return (
+                              <button
+                                key={tool}
+                                type="button"
+                                onClick={() => handleAddToolToSkills(tool)}
+                                className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border transition-colors cursor-pointer ${
+                                  isIncluded
+                                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                                    : 'bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-800 border-slate-200'
+                                }`}
+                              >
+                                {isIncluded ? `✓ ${tool}` : `+ ${tool}`}
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
 

@@ -46,6 +46,29 @@ const SENIORITY_LEVELS = [
   { id: 'lead', label: 'Lead / Executive', exp: '8+ years' },
 ];
 
+const QUICK_SKILL_CATEGORIES = {
+  ai: {
+    label: '✨ AI & Automation',
+    skills: ['ChatGPT / Prompting', 'Claude (Anthropic)', 'OpenAI Codex / Copilot', 'Cursor AI', 'Midjourney', 'Zapier Automation', 'Notion AI']
+  },
+  creative: {
+    label: '🎨 Design & Adobe',
+    skills: ['Adobe Photoshop', 'Adobe Illustrator', 'Adobe InDesign', 'Premiere Pro', 'Figma', 'Canva', 'Meta Ads', 'Google Ads', 'SEO & Copywriting', 'HubSpot']
+  },
+  support: {
+    label: '🎧 BPO & Ops',
+    skills: ['Zendesk', 'Salesforce CRM', 'Inbound Voice', 'Live Chat Support', 'Customer Escalations', 'MS Excel (VLOOKUP/Pivot)', 'Google Workspace', 'Freshdesk']
+  },
+  tech: {
+    label: '💻 Tech & Dev',
+    skills: ['React / Next.js', 'TypeScript', 'Node.js', 'Python', 'SQL / PostgreSQL', 'REST APIs', 'Git / GitHub', 'AWS / Cloud']
+  },
+  finance: {
+    label: '📊 Finance & VA',
+    skills: ['QuickBooks Online', 'Xero', 'Bookkeeping', 'Executive Calendar Mgmt', 'Slack / Jira', 'Data Entry (50+ WPM)']
+  }
+};
+
 export default function OnboardingPage({ initialEmail, initialName, onCompleteOnboarding }) {
   const [step, setStep] = useState(1); // 1: Resume / Credentials, 2: Role & Domain, 3: Universal ATS Fields, 4: Matching Telemetry & Celebration
 
@@ -61,6 +84,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
   const [optionBSkills, setOptionBSkills] = useState('Customer Support, Zendesk, CRM Escalations, Communication');
   const [optionBDuty, setOptionBDuty] = useState('Handled 40+ inbound customer inquiries daily, maintaining 96% CSAT rating');
   const [optionBSchool, setOptionBSchool] = useState('Polytechnic University of the Philippines');
+  const [activeSkillCategory, setActiveSkillCategory] = useState('ai');
   const [showOptionBPayoff, setShowOptionBPayoff] = useState(false);
 
   const handleResumeBuilt = (builtResume) => {
@@ -143,7 +167,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
   const [salaryFloor, setSalaryFloor] = useState('₱160,000 / mo');
   const [noticePeriod, setNoticePeriod] = useState('30 Days');
   const [workAuth, setWorkAuth] = useState('Filipino Citizen');
-  const [preferredSetup, setPreferredSetup] = useState('Hybrid • BGC / Makati / Remote');
+  const [preferredSetup, setPreferredSetup] = useState('Fully Remote (Anywhere in PH / Worldwide)');
   const [education, setEducation] = useState("Bachelor's Degree");
   const [contactEmail, setContactEmail] = useState(initialEmail || 'juan.delacruz@email.com');
 
@@ -528,10 +552,10 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
             {/* Target Job Title Input */}
             <div>
               <label className="block text-xs font-black text-slate-900 mb-1.5">
-                Target Job Title:
+                Target Job Title: <span className="text-red-500 font-black">*</span>
               </label>
               <div className="relative">
-                <Briefcase className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                <Briefcase className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   type="text"
                   required
@@ -631,7 +655,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-black text-slate-800 mb-1">
-                      Most Recent Employer / Company: *
+                      Most Recent Employer / Company: <span className="text-red-500 font-black">*</span>
                     </label>
                     <input
                       type="text"
@@ -644,7 +668,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
                   <div>
                     <label className="block text-xs font-black text-slate-800 mb-1">
-                      Years of Experience in this Field: *
+                      Years of Experience in this Field: <span className="text-red-500 font-black">*</span>
                     </label>
                     <select
                       value={optionBYearsExp}
@@ -661,7 +685,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
                 <div>
                   <label className="block text-xs font-black text-slate-800 mb-1">
-                    Top 3 Skills / Software Tools Used: *
+                    Top 3 Skills / Software Tools Used: <span className="text-red-500 font-black">*</span>
                   </label>
                   <input
                     type="text"
@@ -670,28 +694,62 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                     placeholder="e.g. Customer Support, Zendesk, Excel, English Communication"
                     className="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium text-slate-900"
                   />
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    <span className="text-[10px] font-bold text-slate-600">Quick-tap to add:</span>
-                    {['Zendesk', 'Excel', 'Customer Support', 'Communication', 'Salesforce', 'Jira'].map((tool) => (
-                      <button
-                        key={tool}
-                        type="button"
-                        onClick={() => {
-                          if (!optionBSkills.includes(tool)) {
-                            setOptionBSkills(prev => prev ? `${prev}, ${tool}` : tool);
-                          }
-                        }}
-                        className="text-[10px] font-bold bg-white hover:bg-blue-100 text-blue-900 px-2 py-0.5 rounded border border-blue-200 transition-colors cursor-pointer"
-                      >
-                        + {tool}
-                      </button>
-                    ))}
+                  
+                  {/* Categorized Quick-Tap Skills */}
+                  <div className="pt-2 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-slate-700">Quick-Tap to Add Skills & Tools:</span>
+                      <span className="text-[10px] text-blue-700 font-bold">Click category tab to switch</span>
+                    </div>
+
+                    {/* Category Tabs */}
+                    <div className="flex flex-wrap gap-1">
+                      {Object.entries(QUICK_SKILL_CATEGORIES).map(([key, cat]) => (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => setActiveSkillCategory(key)}
+                          className={`text-[10px] font-bold px-2 py-1 rounded-lg transition-all cursor-pointer ${
+                            activeSkillCategory === key
+                              ? 'bg-blue-600 text-white shadow-xs'
+                              : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                          }`}
+                        >
+                          {cat.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Active Category Skills Chips */}
+                    <div className="flex flex-wrap gap-1.5 p-2.5 bg-white/80 rounded-xl border border-slate-200/80">
+                      {QUICK_SKILL_CATEGORIES[activeSkillCategory].skills.map((tool) => {
+                        const isAdded = optionBSkills.toLowerCase().includes(tool.toLowerCase());
+                        return (
+                          <button
+                            key={tool}
+                            type="button"
+                            onClick={() => {
+                              if (!isAdded) {
+                                setOptionBSkills(prev => prev ? `${prev}, ${tool}` : tool);
+                              }
+                            }}
+                            className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border transition-all cursor-pointer ${
+                              isAdded
+                                ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                                : 'bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-800 border-slate-200'
+                            }`}
+                          >
+                            {isAdded ? `✓ ${tool}` : `+ ${tool}`}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-black text-slate-800 mb-1">
-                    Primary Responsibility or Achievement (Rough Notes): *
+                    Primary Responsibility or Achievement (Rough Notes): <span className="text-red-500 font-black">*</span>
                   </label>
                   <input
                     type="text"
@@ -750,11 +808,11 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               {/* 1. Monthly Salary Floor */}
               <div>
                 <label className="block text-xs font-black text-slate-900 mb-1 flex items-center justify-between">
-                  <span>1. Expected Monthly Salary Floor (₱): *</span>
+                  <span>1. Expected Monthly Salary Floor (₱): <span className="text-red-500 font-black">*</span></span>
                   <span className="text-[11px] text-slate-600 font-semibold">Never disclosed to peers</span>
                 </label>
                 <div className="relative">
-                  <DollarSign className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <DollarSign className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="text"
                     required
@@ -769,10 +827,10 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               {/* 2. Notice Period */}
               <div>
                 <label className="block text-xs font-black text-slate-900 mb-1">
-                  2. Notice Period / Availability: *
+                  2. Notice Period / Availability: <span className="text-red-500 font-black">*</span>
                 </label>
                 <div className="relative">
-                  <Clock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <Clock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <select
                     value={noticePeriod}
                     onChange={(e) => setNoticePeriod(e.target.value)}
@@ -789,10 +847,10 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               {/* 3. Work Authorization */}
               <div>
                 <label className="block text-xs font-black text-slate-900 mb-1">
-                  3. Philippine Work Authorization: *
+                  3. Philippine Work Authorization: <span className="text-red-500 font-black">*</span>
                 </label>
                 <div className="relative">
-                  <Flag className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <Flag className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <select
                     value={workAuth}
                     onChange={(e) => setWorkAuth(e.target.value)}
@@ -808,32 +866,38 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               {/* 4. Preferred Setup */}
               <div>
                 <label className="block text-xs font-black text-slate-900 mb-1">
-                  4. Preferred Work Setup & Hub: *
+                  4. Preferred Work Setup & Primary Hub: <span className="text-red-500 font-black">*</span>
                 </label>
                 <div className="relative">
-                  <MapPin className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <MapPin className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <select
                     value={preferredSetup}
                     onChange={(e) => setPreferredSetup(e.target.value)}
                     className="w-full pl-10 pr-3 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900"
                   >
-                    <option value="Hybrid • BGC / Makati / Remote">Hybrid • BGC / Makati / Remote</option>
-                    <option value="Fully Remote (PH or Worldwide)">Fully Remote (PH or Worldwide)</option>
-                    <option value="Ortigas / Pasig / Mandaluyong">Ortigas / Pasig / Mandaluyong</option>
-                    <option value="Alabang / Muntinlupa Hub">Alabang / Muntinlupa Hub</option>
-                    <option value="Open to Any Setup">Open to Any Setup</option>
+                    <option value="Fully Remote (Anywhere in PH / Worldwide)">🌐 Fully Remote (Anywhere in PH / Worldwide)</option>
+                    <option value="Metro Manila (BGC, Makati, Ortigas, Alabang)">🏢 Metro Manila (BGC, Makati, Ortigas, Alabang)</option>
+                    <option value="Metro Cebu (IT Park, Cebu Business Park, Mandaue)">🏝️ Metro Cebu (IT Park, Cebu Business Park, Mandaue)</option>
+                    <option value="Davao Region (Davao City & Mindanao Hubs)">🌴 Davao Region (Davao City & Mindanao Hubs)</option>
+                    <option value="Central Luzon (Clark, Angeles, Pampanga)">✈️ Central Luzon (Clark, Angeles, Pampanga)</option>
+                    <option value="Western Visayas (Iloilo City & Bacolod)">⚓ Western Visayas (Iloilo City & Bacolod)</option>
+                    <option value="Northern Mindanao (Cagayan de Oro)">🌊 Northern Mindanao (Cagayan de Oro)</option>
+                    <option value="Open to Any Location / Relocation">🚀 Open to Any Location / Willing to Relocate</option>
                   </select>
                 </div>
+                <p className="text-[11px] text-slate-700 font-semibold mt-1">
+                  Nationwide coverage: Select your local hub or choose Fully Remote for nationwide & global roles.
+                </p>
               </div>
 
               {/* 5. Highest Educational Attainment & School */}
               <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-black text-slate-900 mb-1">
-                    5. Highest Educational Attainment: *
+                    5. Highest Educational Attainment: <span className="text-red-500 font-black">*</span>
                   </label>
                   <div className="relative">
-                    <GraduationCap className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                    <GraduationCap className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <select
                       value={education}
                       onChange={(e) => setEducation(e.target.value)}
@@ -850,26 +914,29 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
                 <div>
                   <label className="block text-xs font-black text-slate-900 mb-1">
-                    School / University: *
+                    School / University: <span className="text-red-500 font-black">*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={optionBSchool}
-                    onChange={(e) => setOptionBSchool(e.target.value)}
-                    placeholder="e.g. PUP Manila, UST, UP, Ateneo"
-                    className="w-full px-3.5 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900 placeholder:text-slate-500"
-                  />
+                  <div className="relative">
+                    <Building2 className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <input
+                      type="text"
+                      value={optionBSchool}
+                      onChange={(e) => setOptionBSchool(e.target.value)}
+                      placeholder="e.g. PUP Manila, USC Cebu, Ateneo de Davao, UST"
+                      className="w-full pl-10 pr-3.5 py-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900 placeholder:text-slate-500"
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* 6. Application Contact Email */}
               <div className="sm:col-span-2">
                 <label className="block text-xs font-black text-slate-900 mb-1 flex items-center justify-between">
-                  <span>6. Application Contact Email: *</span>
+                  <span>6. Application Contact Email: <span className="text-red-500 font-black">*</span></span>
                   <span className="text-[11px] text-blue-700 font-extrabold">Zero Middleman</span>
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="email"
                     required
