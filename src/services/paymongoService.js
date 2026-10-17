@@ -28,9 +28,9 @@ export const paymongoService = {
   BUNDLES: [
     {
       id: 'starter',
-      amount: 200,
-      centavos: 20000,
-      apps: 4,
+      amount: 250,
+      centavos: 25000,
+      apps: 5,
       bonus: 'Standard Rate',
       unitPrice: '₱50.00 / app',
       label: 'Starter Bundle',

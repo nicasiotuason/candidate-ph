@@ -56,7 +56,7 @@ CANDIDATE.ph is a Philippine-first tech job matching platform that continuously 
 
 7. **PayMongo Instant Gateway Reload Modal**
    - Bundles:
-     - ₱200 (4 Apps @ ₱50/app)
+     - ₱250 (5 Apps @ ₱50/app)
      - ₱500 (11 Apps, +1 Free App, Save 10%)
      - ₱1,000 (24 Apps, +4 Free Apps, Save 17%)
    - Channels: **GCash**, **Maya**, **Visa/Mastercard Cards**, and **QR Ph**.

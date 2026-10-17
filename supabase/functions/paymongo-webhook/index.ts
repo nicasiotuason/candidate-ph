@@ -118,7 +118,7 @@ serve(async (req) => {
       }
 
       // 2. Insert audit log in wallet_transactions
-      const appsUnlocked = amountPhp >= 1000 ? 24 : amountPhp >= 500 ? 11 : 4;
+      const appsUnlocked = amountPhp >= 1000 ? 24 : amountPhp >= 500 ? 11 : 5;
       await supabase.from("wallet_transactions").insert({
         user_id: userId,
         amount: amountPhp,

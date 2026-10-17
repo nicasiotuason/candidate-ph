@@ -213,7 +213,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "How do I buy application credits? Is there a monthly subscription?",
-    a: "There are zero recurring monthly subscriptions. You buy application credits on-demand via PayMongo using GCash, Maya, or Debit/Credit cards. You can purchase 4 applications for ₱200, 11 for ₱500, or 24 for ₱1,000. Your credits never expire."
+    a: "There are zero recurring monthly subscriptions. You buy application credits on-demand via PayMongo using GCash, Maya, or Debit/Credit cards. You can purchase 5 applications for ₱250, 11 for ₱500, or 24 for ₱1,000. Your credits never expire."
   },
   {
     q: "Can I edit my profile and salary floor after signing up?",
@@ -942,21 +942,21 @@ export default function LandingPage({
                 
                 <div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-extrabold text-slate-900">₱200</span>
+                    <span className="text-4xl font-extrabold text-slate-900">₱250</span>
                     <span className="text-slate-700 font-medium text-sm">one-time</span>
                   </div>
                   <p className="text-xs text-slate-800 mt-1">₱50.00 per direct application</p>
                 </div>
 
                 <div className="pt-4 pb-2 border-y border-slate-100">
-                  <span className="text-2xl font-black text-theme-primary">4 Applications</span>
+                  <span className="text-2xl font-black text-theme-primary">5 Applications</span>
                   <p className="text-xs text-slate-800 font-medium">Includes ATS resume tailoring & tailored cover letter</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-800">
                   <li className="flex items-center gap-2 font-medium text-slate-900">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>4 Direct Employer Dispatches</span>
+                    <span>5 Direct Employer Dispatches</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -977,7 +977,7 @@ export default function LandingPage({
                 <div 
                   className="w-full py-3 rounded-xl border-2 border-slate-200 bg-slate-50 font-bold text-slate-600 text-sm text-center select-none pointer-events-none cursor-default"
                 >
-                  Starter Pack (4 Applications)
+                  Starter Pack (5 Applications)
                 </div>
               </div>
             </div>

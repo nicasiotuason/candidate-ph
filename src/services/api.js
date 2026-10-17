@@ -324,7 +324,7 @@ export const api = {
         await supabaseService.logWalletTransaction(user.id, {
           amount: Number(amount),
           type: 'topup',
-          description: `PayMongo Instant Checkout (${amount >= 1000 ? '24 Apps' : amount >= 500 ? '11 Apps' : '4 Apps'})`,
+          description: `PayMongo Instant Checkout (${amount >= 1000 ? '24 Apps' : amount >= 500 ? '11 Apps' : '5 Apps'})`,
           balanceAfter: newBalance,
           paymentMethod: method,
           paymongoPaymentId: paymentId || `paymongo_${Date.now()}`
