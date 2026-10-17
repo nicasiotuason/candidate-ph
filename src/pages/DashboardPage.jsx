@@ -31,7 +31,9 @@ import {
   Layers,
   PauseCircle,
   PlayCircle,
-  ArrowRight
+  ArrowRight,
+  Copy,
+  X
 } from 'lucide-react';
 import JobCard from '../components/JobCard';
 import ReviewSignOffModal from '../components/ReviewSignOffModal';
@@ -39,6 +41,7 @@ import TopUpModal from '../components/TopUpModal';
 import FeedbackBox from '../components/FeedbackBox';
 import { api } from '../services/api';
 import { formatProperName } from '../utils/formatters';
+import { generateTailoredCoverLetter } from '../utils/coverLetterGenerator';
 
 export default function DashboardPage({ 
   user, 
@@ -65,6 +68,10 @@ export default function DashboardPage({
   // Modal triggers
   const [selectedJobForApply, setSelectedJobForApply] = useState(null);
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
+
+  // View dispatched cover letter modal
+  const [viewingCoverLetterApp, setViewingCoverLetterApp] = useState(null);
+  const [isCopiedSentLetter, setIsCopiedSentLetter] = useState(false);
 
   // Interview reporting modal
   const [reportingInterviewApp, setReportingInterviewApp] = useState(null);
@@ -585,15 +592,28 @@ export default function DashboardPage({
                           </div>
                         </div>
 
-                        {/* "Got an Interview!" 1-Click Reporting Button (No credit bounty, pure candidate joy) */}
-                        <button
-                          type="button"
-                          onClick={() => setReportingInterviewApp(app)}
-                          className="w-full sm:w-auto px-3.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-1.5"
-                        >
-                          <Award className="w-3.5 h-3.5 text-amber-600" />
-                          <span>Got an Interview!</span>
-                        </button>
+                        {/* Action buttons: View Sent Cover Letter + Got an Interview! */}
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setViewingCoverLetterApp(app)}
+                            className="w-full sm:w-auto px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                            title="View the tailored cover letter dispatched to this employer"
+                          >
+                            <FileText className="w-3.5 h-3.5 text-blue-600" />
+                            <span>View Cover Letter</span>
+                          </button>
+
+                          {/* "Got an Interview!" 1-Click Reporting Button (No credit bounty, pure candidate joy) */}
+                          <button
+                            type="button"
+                            onClick={() => setReportingInterviewApp(app)}
+                            className="w-full sm:w-auto px-3.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                          >
+                            <Award className="w-3.5 h-3.5 text-amber-600" />
+                            <span>Got an Interview!</span>
+                          </button>
+                        </div>
                       </div>
 
                     </div>
@@ -694,6 +714,27 @@ export default function DashboardPage({
             <p className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
               {user?.summary}
             </p>
+          </div>
+
+          {/* Tailored Cover Letter Architecture Banner (Included in ₱50) */}
+          <div className="p-5 rounded-2xl bg-gradient-to-r from-blue-50/90 via-slate-50 to-indigo-50/70 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  Tailored Cover Letters Included with Every Quick Apply
+                </span>
+                <span className="text-[10px] font-black bg-blue-600 text-white px-2 py-0.5 rounded-full">
+                  ₱50 All-Inclusive • 0 Extra Fee
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
+                When you apply to any matched role, CANDIDATE.ph uses your verified competencies and experience to auto-craft a tailored cover letter (choose between <em>Technical & Direct</em>, <em>Metrics & Results</em>, or <em>Mission & Culture</em> tones). Zero extra credits or add-on charges.
+              </p>
+            </div>
+            <div className="shrink-0 flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-white px-3 py-2 rounded-xl border border-blue-200 shadow-xs">
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span>3 Pitch Tones Available at Sign-Off</span>
+            </div>
           </div>
         </div>
       )}
@@ -1119,6 +1160,129 @@ export default function DashboardPage({
                 </div>
               </form>
             )}
+
+          </div>
+        </div>
+      )}
+
+      {/* 5. VIEW SENT COVER LETTER MODAL */}
+      {viewingCoverLetterApp && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl my-8 overflow-hidden transition-all">
+            
+            {/* Modal Header */}
+            <div className="bg-slate-900 text-white p-5 sm:p-6 flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">
+                    Dispatched Cover Letter
+                  </span>
+                  <span className="text-[10px] text-slate-400">• {viewingCoverLetterApp.portal || 'Direct ATS'}</span>
+                  <span className="text-[9px] font-black bg-emerald-900/80 text-emerald-400 border border-emerald-700 px-2 py-0.5 rounded-full uppercase">
+                    Included in ₱50 Fee
+                  </span>
+                </div>
+                <h3 className="text-base sm:text-lg font-black text-white">
+                  {viewingCoverLetterApp.title} @ {viewingCoverLetterApp.company}
+                </h3>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setViewingCoverLetterApp(null)}
+                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                title="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-5 sm:p-7 max-h-[72vh] overflow-y-auto space-y-4">
+              
+              {/* Receipt & Delivery Info Banner */}
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                <div>
+                  <span className="text-slate-500 block text-[10px] uppercase font-bold">Delivery Receipt ID:</span>
+                  <span className="font-mono font-bold text-slate-800">{viewingCoverLetterApp.atsReceiptId || 'ATS-DIR-VERIFIED'}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block text-[10px] uppercase font-bold">Sent On:</span>
+                  <span className="font-semibold text-slate-700">
+                    {new Date(viewingCoverLetterApp.appliedAt).toLocaleDateString('en-PH', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block text-[10px] uppercase font-bold">Pitch Tone:</span>
+                  <span className="inline-flex items-center gap-1 font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200 capitalize">
+                    {viewingCoverLetterApp.coverLetterTone || 'Technical & Direct'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Cover Letter Paper */}
+              <div className="bg-slate-50/50 rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs font-sans text-xs sm:text-sm text-slate-800 leading-relaxed space-y-4 whitespace-pre-wrap">
+                {viewingCoverLetterApp.coverLetter || 
+                  generateTailoredCoverLetter(
+                    { company: viewingCoverLetterApp.company, title: viewingCoverLetterApp.title, industry: 'Technology' },
+                    user,
+                    viewingCoverLetterApp.coverLetterTone || 'technical'
+                  ).fullLetter
+                }
+              </div>
+
+              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 flex items-start gap-2.5 text-xs text-emerald-950">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <p>
+                  This cover letter was dispatched directly into {viewingCoverLetterApp.company}'s official recruiter portal queue alongside your ATS-tailored resume. Employer replies are delivered to your email: <strong>{user?.email}</strong>.
+                </p>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  const text = viewingCoverLetterApp.coverLetter || 
+                    generateTailoredCoverLetter(
+                      { company: viewingCoverLetterApp.company, title: viewingCoverLetterApp.title, industry: 'Technology' },
+                      user,
+                      viewingCoverLetterApp.coverLetterTone || 'technical'
+                    ).fullLetter;
+                  navigator.clipboard.writeText(text);
+                  setIsCopiedSentLetter(true);
+                  setTimeout(() => setIsCopiedSentLetter(false), 2000);
+                }}
+                className="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-xs font-bold text-slate-700 flex items-center gap-1.5 transition-all cursor-pointer"
+              >
+                {isCopiedSentLetter ? (
+                  <>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="text-emerald-700">Copied to Clipboard!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-slate-600" />
+                    <span>Copy Letter Text</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setViewingCoverLetterApp(null)}
+                className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
 
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, 
   Check, 
@@ -11,19 +11,22 @@ import {
   AlertCircle, 
   CheckCircle2, 
   Eye, 
-  Sparkles,
-  ArrowRight,
-  RotateCcw,
-  Layers,
-  HelpCircle
+  Sparkles, 
+  ArrowRight, 
+  RotateCcw, 
+  Layers, 
+  HelpCircle,
+  Copy,
+  ChevronDown
 } from 'lucide-react';
+import { generateTailoredCoverLetter, COVER_LETTER_TONES } from '../utils/coverLetterGenerator';
 
 export default function ReviewSignOffModal({ 
   job, 
   user, 
   isOpen, 
   onClose, 
-  onConfirmApply,
+  onConfirmApply, 
   onOpenTopUp 
 }) {
   if (!isOpen || !job) return null;
@@ -31,11 +34,20 @@ export default function ReviewSignOffModal({
   // Resume version selection: 'tailored' | 'master'
   const [resumeChoice, setResumeChoice] = useState('tailored');
 
+  // Cover Letter states (100% included in ₱50)
+  const [coverLetterTone, setCoverLetterTone] = useState('technical');
+  const [coverLetterText, setCoverLetterText] = useState(() => 
+    generateTailoredCoverLetter(job, user, 'technical').fullLetter
+  );
+  const [isCopiedCoverLetter, setIsCopiedCoverLetter] = useState(false);
+  const [isEditingCoverLetter, setIsEditingCoverLetter] = useState(false);
+  const [isCoverLetterOpen, setIsCoverLetterOpen] = useState(true);
+
   // Editable fields for tweaking
   const [headline, setHeadline] = useState(user?.headline || `${job.title} Specialist`);
   const [summary, setSummary] = useState(
     user?.summary || 
-    `Results-driven engineer specializing in high-performance web applications, passionate about accelerating fintech products at ${job.company}. Direct hands-on expertise in ${job.matchingSkills?.join(', ')}.`
+    `Results-driven engineer specializing in high-performance web applications, passionate about accelerating products at ${job.company}. Direct hands-on expertise in ${job.matchingSkills?.join(', ')}.`
   );
 
   // Pre-drafted 2-sentence answers for recruiter screening questions (Layer 4)
@@ -48,6 +60,45 @@ export default function ReviewSignOffModal({
 
   const [hasSignedOff, setHasSignedOff] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Sync when job changes
+  useEffect(() => {
+    if (job) {
+      setHeadline(user?.headline || `${job.title} Specialist`);
+      setSummary(
+        user?.summary || 
+        `Results-driven engineer specializing in high-performance web applications, passionate about accelerating products at ${job.company}. Direct hands-on expertise in ${job.matchingSkills?.join(', ')}.`
+      );
+      setAnswer1(
+        `I have built production-grade systems in the ${job.industry} sector for over ${user?.experienceYears || 6} years, and ${job.company}'s market impact directly matches my technical focus.`
+      );
+      setAnswer2(
+        `My primary stack includes ${job.matchingSkills?.slice(0, 3).join(', ')}, allowing me to immediately contribute to your sprint velocity from day one.`
+      );
+      const generated = generateTailoredCoverLetter(job, user, coverLetterTone);
+      setCoverLetterText(generated.fullLetter);
+      setIsEditingCoverLetter(false);
+    }
+  }, [job?.id]);
+
+  const handleToneChange = (toneId) => {
+    setCoverLetterTone(toneId);
+    const generated = generateTailoredCoverLetter(job, user, toneId);
+    setCoverLetterText(generated.fullLetter);
+    setIsEditingCoverLetter(false);
+  };
+
+  const handleCopyCoverLetter = () => {
+    navigator.clipboard.writeText(coverLetterText);
+    setIsCopiedCoverLetter(true);
+    setTimeout(() => setIsCopiedCoverLetter(false), 2000);
+  };
+
+  const handleResetCoverLetter = () => {
+    const generated = generateTailoredCoverLetter(job, user, coverLetterTone);
+    setCoverLetterText(generated.fullLetter);
+    setIsEditingCoverLetter(false);
+  };
 
   const canAfford = (user?.walletBalance ?? 0) >= 50;
 
@@ -63,6 +114,8 @@ export default function ReviewSignOffModal({
       resumeChoice,
       headline,
       summary,
+      coverLetter: coverLetterText,
+      coverLetterTone,
       screeningAnswers: [
         { question: `Why are you interested in joining ${job.company}?`, answer: answer1 },
         { question: `Describe your hands-on experience with ${job.matchingSkills?.[0] || 'the core stack'}.`, answer: answer2 }
@@ -96,7 +149,7 @@ export default function ReviewSignOffModal({
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             title="Cancel"
           >
             <X className="w-5 h-5" />
@@ -119,13 +172,17 @@ export default function ReviewSignOffModal({
                 <p className="text-[11px] text-slate-600">
                   Current Balance: ₱{user?.walletBalance ?? 250}.00 → Balance After: ₱{Math.max(0, (user?.walletBalance ?? 250) - 50)}.00
                 </p>
+                <div className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-700 mt-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Includes Tailored Resume + Role-Specific Cover Letter (0 extra credits)</span>
+                </div>
               </div>
             </div>
 
             {!canAfford && (
               <button
                 onClick={onOpenTopUp}
-                className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-xs shrink-0"
+                className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-xs shrink-0 cursor-pointer"
               >
                 Buy Credits
               </button>
@@ -154,7 +211,7 @@ export default function ReviewSignOffModal({
               <button
                 type="button"
                 onClick={() => setResumeChoice('tailored')}
-                className={`p-3.5 rounded-2xl border text-left transition-all relative ${
+                className={`p-3.5 rounded-2xl border text-left transition-all relative cursor-pointer ${
                   resumeChoice === 'tailored'
                     ? 'border-blue-600 bg-blue-50/70 shadow-xs ring-2 ring-blue-500/20'
                     : 'border-slate-200 hover:border-slate-300 bg-white'
@@ -177,7 +234,7 @@ export default function ReviewSignOffModal({
               <button
                 type="button"
                 onClick={() => setResumeChoice('master')}
-                className={`p-3.5 rounded-2xl border text-left transition-all ${
+                className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                   resumeChoice === 'master'
                     ? 'border-blue-600 bg-blue-50/70 shadow-xs ring-2 ring-blue-500/20'
                     : 'border-slate-200 hover:border-slate-300 bg-white'
@@ -199,11 +256,145 @@ export default function ReviewSignOffModal({
             </div>
           </div>
 
-          {/* 2. ROLE HEADLINE & SUMMARY TWEAK */}
+          {/* 2. TAILORED COVER LETTER (INCLUDED IN ₱50 QUICK APPLY) */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-blue-50/90 via-slate-50 to-indigo-50/60 border border-blue-200/90 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <label className="text-xs font-black text-slate-900 uppercase tracking-wider">
+                      2. Tailored Cover Letter
+                    </label>
+                    <span className="text-[9px] font-black bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300 uppercase">
+                      Included in ₱50 • 0 Extra Fee
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 mt-0.5">
+                    Synthesizes your background against {job.company}'s requirements for maximum recruiter response rate.
+                  </p>
+                </div>
+              </div>
+
+              {/* Expand / Collapse Button */}
+              <button
+                type="button"
+                onClick={() => setIsCoverLetterOpen(!isCoverLetterOpen)}
+                className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1 self-start sm:self-auto cursor-pointer shrink-0"
+              >
+                <span>{isCoverLetterOpen ? 'Collapse Letter' : 'Expand & Edit'}</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isCoverLetterOpen ? 'rotate-180' : ''}`} />
+              </button>
+            </div>
+
+            {isCoverLetterOpen && (
+              <div className="space-y-3 pt-2">
+                {/* Recruiter Pitch Tone Switcher */}
+                <div>
+                  <span className="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider block mb-1.5">
+                    Select Pitch Tone:
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {COVER_LETTER_TONES.map((tone) => (
+                      <button
+                        key={tone.id}
+                        type="button"
+                        onClick={() => handleToneChange(tone.id)}
+                        className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                          coverLetterTone === tone.id
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                            : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <span className="text-xs font-black block">{tone.label}</span>
+                        <span className={`text-[10px] block leading-tight mt-0.5 line-clamp-2 ${
+                          coverLetterTone === tone.id ? 'text-blue-100' : 'text-slate-500'
+                        }`}>
+                          {tone.description}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Letterhead Container with live editable textarea */}
+                <div className="bg-white rounded-xl border border-slate-300 shadow-inner overflow-hidden">
+                  {/* Top Letterhead Bar */}
+                  <div className="bg-slate-100 px-3.5 py-2 border-b border-slate-200 flex items-center justify-between text-[11px] text-slate-600">
+                    <span className="font-bold text-slate-800 flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                      <span>Letterhead Recruiter Dispatch Preview</span>
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-slate-500 font-medium">
+                        {coverLetterText.split(/\s+/).filter(Boolean).length} words
+                      </span>
+                      <span className="text-slate-300">•</span>
+                      <button
+                        type="button"
+                        onClick={handleCopyCoverLetter}
+                        className="text-blue-700 hover:text-blue-900 font-bold flex items-center gap-1 cursor-pointer"
+                        title="Copy letter to clipboard"
+                      >
+                        {isCopiedCoverLetter ? (
+                          <>
+                            <Check className="w-3 h-3 text-emerald-600 stroke-[3]" />
+                            <span className="text-emerald-700 font-black">Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3 h-3" />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
+                      {isEditingCoverLetter && (
+                        <>
+                          <span className="text-slate-300">•</span>
+                          <button
+                            type="button"
+                            onClick={handleResetCoverLetter}
+                            className="text-slate-500 hover:text-slate-800 font-semibold flex items-center gap-1 cursor-pointer"
+                            title="Reset to fresh AI draft"
+                          >
+                            <RotateCcw className="w-3 h-3" />
+                            <span>Reset</span>
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Textarea */}
+                  <textarea
+                    rows={8}
+                    value={coverLetterText}
+                    onChange={(e) => {
+                      setCoverLetterText(e.target.value);
+                      setIsEditingCoverLetter(true);
+                    }}
+                    className="w-full p-3.5 text-xs font-sans text-slate-800 leading-relaxed border-none focus:ring-0 focus:outline-none resize-y"
+                    placeholder="Your tailored cover letter will be generated here..."
+                  />
+                </div>
+
+                <div className="flex items-center justify-between text-[10px] text-slate-500">
+                  <span>💡 Direct edit enabled. Feel free to tweak any sentence before approving.</span>
+                  {isEditingCoverLetter && (
+                    <span className="text-amber-700 font-bold">Custom edits detected</span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 3. APPLICATION HEADLINE & SUMMARY */}
           <div className="space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-200">
             <div className="flex items-center justify-between">
               <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                2. Application Headline & Summary:
+                3. Application Headline & Summary:
               </label>
               <span className="text-[10px] text-slate-400">Editable before sign-off</span>
             </div>
@@ -233,11 +424,11 @@ export default function ReviewSignOffModal({
             </div>
           </div>
 
-          {/* 3. CONTEXTUAL SCREENING QUESTION PREVIEWS (LAYER 4) */}
+          {/* 4. CONTEXTUAL SCREENING QUESTION PREVIEWS (LAYER 4) */}
           <div className="space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-200">
             <div className="flex items-center justify-between">
               <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                3. Recruiter Screening Answers (Pre-Drafted):
+                4. Recruiter Screening Answers (Pre-Drafted):
               </label>
               <span className="text-[10px] text-emerald-700 font-bold">2-Sentence Precision</span>
             </div>
@@ -271,7 +462,7 @@ export default function ReviewSignOffModal({
             </div>
           </div>
 
-          {/* 4. SIGN-OFF AUTHORIZATION CHECKBOX */}
+          {/* 5. SIGN-OFF AUTHORIZATION CHECKBOX */}
           <div className="p-3.5 rounded-2xl bg-white border border-slate-200 flex items-start gap-3">
             <input
               type="checkbox"
@@ -281,7 +472,7 @@ export default function ReviewSignOffModal({
               className="mt-1 w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 cursor-pointer"
             />
             <label htmlFor="signoff-check" className="text-xs text-slate-700 font-medium cursor-pointer">
-              I authorize CANDIDATE.ph to dispatch my application directly to <strong>{job.company}</strong>'s official career portal and debit ₱50 from my wallet upon verified employer receipt.
+              I authorize CANDIDATE.ph to dispatch my <strong>tailored resume and role-specific cover letter</strong> directly to <strong>{job.company}</strong>'s official career portal and debit ₱50 from my wallet upon verified employer receipt.
             </label>
           </div>
 
@@ -292,7 +483,7 @@ export default function ReviewSignOffModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-100"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer"
           >
             Cancel
           </button>
@@ -315,7 +506,7 @@ export default function ReviewSignOffModal({
             ) : (
               <>
                 <Send className="w-4 h-4 text-amber-300" />
-                <span>Approve & Send (₱50)</span>
+                <span>Approve & Send Application (₱50)</span>
               </>
             )}
           </button>

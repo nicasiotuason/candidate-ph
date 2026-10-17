@@ -201,7 +201,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What does the ₱50 fee cover, and when am I charged?",
-    a: "Searching and matching is ₱0 free forever. You only pay ₱50 when you decide to apply to a specific role. Crucially, the ₱50 is only deducted once the employer's official career portal verifies successful receipt. Every new account receives ₱50 in free starting balance, so your first application is 100% on us."
+    a: "Searching and matching is ₱0 free forever. You only pay ₱50 when you decide to apply to a specific role. That single ₱50 fee includes BOTH your ATS-optimized resume keywords AND a bespoke, role-tailored cover letter (with 3 selectable pitch tones). Crucially, the ₱50 is only deducted once the employer's official career portal verifies successful receipt. Every new account receives ₱50 in free starting balance, so your first application is 100% on us."
   },
   {
     q: "What is the Zero Middleman Guarantee?",
@@ -552,7 +552,7 @@ export default function LandingPage({
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 mb-2">Review, Tweak & Apply</h3>
                 <p className="text-sm text-slate-800 leading-relaxed mb-4">
-                  When a matched role appears, preview the tailored resume alongside your original. Approve every word, then dispatch directly to the employer for ₱50.
+                  When a matched role appears, preview your tailored resume and role-specific cover letter alongside your original. Approve every word, then dispatch directly to the employer for ₱50.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 flex items-center gap-2">
@@ -950,7 +950,7 @@ export default function LandingPage({
 
                 <div className="pt-4 pb-2 border-y border-slate-100">
                   <span className="text-2xl font-black text-theme-primary">4 Applications</span>
-                  <p className="text-xs text-slate-800 font-medium">Includes in-place resume tailoring & sign-off</p>
+                  <p className="text-xs text-slate-800 font-medium">Includes ATS resume tailoring & tailored cover letter</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-800">
@@ -960,7 +960,7 @@ export default function LandingPage({
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>In-Place Resume Tailoring & Sign-Off</span>
+                    <span>ATS Resume Tailoring & Tailored Cover Letter</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -1008,7 +1008,7 @@ export default function LandingPage({
                     <span className="text-2xl font-black text-theme-primary">11 Applications</span>
                     <span className="text-xs font-bold text-theme-secondary bg-theme-secondary-light px-2 py-0.5 rounded">+1 Free</span>
                   </div>
-                  <p className="text-xs text-slate-800 font-medium">Includes in-place resume tailoring & sign-off</p>
+                  <p className="text-xs text-slate-800 font-medium">Includes ATS resume tailoring & tailored cover letter</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-800">
@@ -1018,7 +1018,7 @@ export default function LandingPage({
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>In-Place Resume Tailoring & Sign-Off</span>
+                    <span>ATS Resume Tailoring & Tailored Cover Letter</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -1061,7 +1061,7 @@ export default function LandingPage({
                     <span className="text-2xl font-black text-theme-primary">24 Applications</span>
                     <span className="text-xs font-bold text-theme-secondary bg-theme-secondary-light px-2 py-0.5 rounded">+4 Free</span>
                   </div>
-                  <p className="text-xs text-slate-800 font-medium">Includes in-place resume tailoring & sign-off</p>
+                  <p className="text-xs text-slate-800 font-medium">Includes ATS resume tailoring & tailored cover letter</p>
                 </div>
 
                 <ul className="space-y-3 text-xs text-slate-800">
@@ -1071,7 +1071,7 @@ export default function LandingPage({
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>In-Place Resume Tailoring & Sign-Off</span>
+                    <span>ATS Resume Tailoring & Tailored Cover Letter</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />

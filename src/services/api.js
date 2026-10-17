@@ -142,7 +142,9 @@ export const api = {
         atsReceiptId: "ATS-DIR-998241",
         status: "Delivered to ATS",
         employerReplyTarget: "juan.delacruz@email.com",
-        tailoredHeadline: "Full-Stack Engineer with React & Node.js expertise"
+        tailoredHeadline: "Full-Stack Engineer with React & Node.js expertise",
+        coverLetter: `Juan Dela Cruz\njuan.delacruz@email.com • +63 917 555 0192 • Metro Manila, Philippines\n\nTo the Hiring Team at Sprout Solutions,\n\nI am writing to express my immediate interest in the Senior Full-Stack Developer opening at Sprout Solutions. With over 6 years of hands-on experience building high-throughput web applications and specialized expertise in React, Node.js, TypeScript, Next.js, and modern cloud architectures, I am confident in my ability to hit the ground running with zero ramp-up time.\n\nThroughout my career, I have focused on building resilient, performant frontend and backend architectures that handle mission-critical traffic without degrading user experience. My recent work closely mirrors the responsibilities outlined in Sprout Solutions's requisition—specifically orchestrating modular micro-frontends, enforcing strict TypeScript type safety, and optimizing Core Web Vitals for maximum responsiveness.\n\nWhat excites me about joining Sprout Solutions is your commitment to engineering excellence within the Philippine HR tech and SaaS space. I take pride in delivering maintainable codebases, establishing rigorous testing standards, and partnering closely with product designers and backend teams to ship features on cadence.\n\nI welcome the opportunity to discuss how my technical foundation and problem-solving mindset can accelerate Sprout Solutions's upcoming roadmap. Thank you for your time and consideration.\n\nSincerely,\nJuan Dela Cruz`,
+        coverLetterTone: "technical"
       }
     ]);
   },
@@ -174,7 +176,9 @@ export const api = {
           status: "Delivered to ATS",
           employerReplyTarget: user.email,
           tailoredHeadline: tailoredData.headline || user.headline,
-          tailoredSummary: tailoredData.summary || user.summary
+          tailoredSummary: tailoredData.summary || user.summary,
+          coverLetter: tailoredData.coverLetter || "",
+          coverLetterTone: tailoredData.coverLetterTone || "technical"
         };
 
         const currentApplied = this.getAppliedJobs();

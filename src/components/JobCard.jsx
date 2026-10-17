@@ -383,27 +383,34 @@ export default function JobCard({
           </div>
 
           {/* Action Bar */}
-          <div className="pt-2 flex items-center gap-2">
-            {isApplied ? (
-              <div className="flex-1 py-3 px-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-center gap-2 text-emerald-800 font-extrabold text-sm shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Applied ✓</span>
-              </div>
-            ) : (
-              <button
-                type="button"
-                disabled={isLandingPreview || !onQuickApply}
-                onClick={() => !isLandingPreview && onQuickApply && onQuickApply(job)}
-                className={`flex-1 py-3 px-4 bg-blue-600 text-white font-extrabold rounded-xl shadow-md flex items-center justify-center gap-2 text-sm ${
-                  isLandingPreview 
-                    ? 'cursor-default pointer-events-none opacity-95' 
-                    : 'hover:bg-blue-700 active:scale-[0.98] cursor-pointer group/btn transition-all'
-                }`}
-              >
-                <Zap className="w-4 h-4 text-amber-300 fill-amber-300 group-hover/btn:scale-110 transition-transform" />
-                <span>Apply (₱50)</span>
-              </button>
-            )}
+          <div className="pt-2 space-y-1.5">
+            <div className="flex items-center gap-2">
+              {isApplied ? (
+                <div className="flex-1 py-3 px-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-center gap-2 text-emerald-800 font-extrabold text-sm shadow-xs">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Applied ✓</span>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  disabled={isLandingPreview || !onQuickApply}
+                  onClick={() => !isLandingPreview && onQuickApply && onQuickApply(job)}
+                  className={`flex-1 py-3 px-4 bg-blue-600 text-white font-extrabold rounded-xl shadow-md flex items-center justify-center gap-2 text-sm ${
+                    isLandingPreview 
+                      ? 'cursor-default pointer-events-none opacity-95' 
+                      : 'hover:bg-blue-700 active:scale-[0.98] cursor-pointer group/btn transition-all'
+                  }`}
+                >
+                  <Zap className="w-4 h-4 text-amber-300 fill-amber-300 group-hover/btn:scale-110 transition-transform" />
+                  <span>Apply (₱50)</span>
+                </button>
+              )}
+            </div>
+
+            <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500">
+              <span className="text-emerald-600 font-black">✓</span>
+              <span>Includes ATS resume tailoring & role-specific cover letter</span>
+            </div>
           </div>
 
         </div>
@@ -553,9 +560,20 @@ export default function JobCard({
                     </div>
                   </div>
                 </div>
+
+                {/* 5. Tailored Cover Letter Included in ₱50 */}
+                <div className="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800/90 flex items-center justify-between text-[11px]">
+                  <div className="flex items-center gap-2">
+                    <span className="text-amber-400 font-bold">📝</span>
+                    <span className="text-slate-200 font-semibold">Tailored Cover Letter</span>
+                  </div>
+                  <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-blue-950/80 text-blue-300 border border-blue-800/80">
+                    Included in ₱50
+                  </span>
+                </div>
               </div>
 
-              {/* 5. Direct Dispatch Guarantee Footer */}
+              {/* 6. Direct Dispatch Guarantee Footer */}
               <div className="mt-auto pt-3 border-t border-slate-800/90 text-[10px] text-slate-400 space-y-1">
                 <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
                   <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
