@@ -94,6 +94,7 @@ export default function ResumeBuilderModal({
   const [skills, setSkills] = useState(DEFAULT_SKILLS);
   const [customSkillInput, setCustomSkillInput] = useState('');
   const [activeToolTab, setActiveToolTab] = useState('ai');
+  const [mobileView, setMobileView] = useState('editor'); // 'editor' | 'preview'
 
   // Phase 2: Engine Follow-up Assistant Conversation
   const [chatMessages, setChatMessages] = useState([
@@ -252,63 +253,99 @@ export default function ResumeBuilderModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200">
-      <div className="bg-slate-100 w-full max-w-7xl h-[94vh] rounded-3xl shadow-2xl border border-slate-300 flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in slide-in-from-bottom sm:slide-in-from-bottom-0 sm:fade-in duration-200">
+      <div className="bg-slate-100 w-full max-w-7xl h-[95dvh] sm:h-[94vh] rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-300 flex flex-col overflow-hidden">
         
         {/* ================= MODAL TOP BAR ================= */}
-        <div className="bg-white px-5 py-3.5 border-b border-slate-200 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-sm shadow-sm">
-              C#1
+        <div className="bg-white px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-200 shrink-0">
+          {/* Mobile Bottom-Sheet Pull Indicator */}
+          <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto mb-2.5 sm:hidden" />
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-xs sm:text-sm shadow-sm shrink-0">
+                C#1
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xs sm:text-base font-black text-slate-900 tracking-tight truncate">
+                    Candidate <span className="text-blue-700">Resume Studio</span>
+                  </h2>
+                  <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
+                    <ShieldCheck className="w-3 h-3 text-blue-600" />
+                    100% ATS Compliant Engine
+                  </span>
+                </div>
+                <p className="hidden sm:block text-[11px] text-slate-700 font-semibold">
+                  High-speed 5-minute resume generator • Live real-time document preview
+                </p>
+              </div>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
-                  Candidate <span className="text-blue-700">Resume Studio</span>
-                </h2>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
-                  <ShieldCheck className="w-3 h-3 text-blue-600" />
-                  100% ATS Compliant Engine
+
+            {/* Mobile View Switcher (Editor vs Live Paper Preview) */}
+            <div className="flex lg:hidden items-center p-1 bg-slate-100 rounded-xl border border-slate-200 mx-1">
+              <button
+                type="button"
+                onClick={() => setMobileView('editor')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                  mobileView === 'editor' 
+                    ? 'bg-blue-600 text-white shadow-xs' 
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Editor
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileView('preview')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all flex items-center gap-1 cursor-pointer ${
+                  mobileView === 'preview' 
+                    ? 'bg-blue-600 text-white shadow-xs' 
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>Preview</span>
+                <span className={`text-[9px] font-black px-1 rounded-full ${
+                  mobileView === 'preview' ? 'bg-emerald-400 text-slate-950' : 'bg-emerald-100 text-emerald-800'
+                }`}>
+                  {atsScore}%
                 </span>
-              </div>
-              <p className="text-[11px] text-slate-700 font-semibold">
-                High-speed 5-minute resume generator • Live real-time document preview
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {/* ATS Score Meter */}
-            <div className="hidden sm:flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl">
-              <span className="text-[11px] font-bold text-slate-700">ATS Readiness:</span>
-              <div className="w-20 bg-slate-200 h-2 rounded-full overflow-hidden">
-                <div 
-                  className="bg-emerald-600 h-full rounded-full transition-all duration-500"
-                  style={{ width: `${atsScore}%` }}
-                ></div>
-              </div>
-              <span className="text-xs font-black text-emerald-700">{atsScore}%</span>
+              </button>
             </div>
 
-            {/* Quick Finish Button */}
-            <button
-              type="button"
-              onClick={handleFinalAttach}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <Check className="w-3.5 h-3.5" />
-              <span>Attach & Continue</span>
-            </button>
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              {/* ATS Score Meter */}
+              <div className="hidden sm:flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl">
+                <span className="text-[11px] font-bold text-slate-700">ATS Readiness:</span>
+                <div className="w-20 bg-slate-200 h-2 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-emerald-600 h-full rounded-full transition-all duration-500"
+                    style={{ width: `${atsScore}%` }}
+                  ></div>
+                </div>
+                <span className="text-xs font-black text-emerald-700">{atsScore}%</span>
+              </div>
 
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={onClose}
-              className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer"
-              title="Close without saving"
-            >
-              <X className="w-4 h-4" />
-            </button>
+              {/* Quick Finish Button */}
+              <button
+                type="button"
+                onClick={handleFinalAttach}
+                className="hidden sm:flex px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all items-center gap-1.5 cursor-pointer"
+              >
+                <Check className="w-3.5 h-3.5" />
+                <span>Attach & Continue</span>
+              </button>
+
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={onClose}
+                className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer"
+                title="Close without saving"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -316,7 +353,7 @@ export default function ResumeBuilderModal({
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
           
           {/* ================= LEFT PANE: BUILDER & ASSISTANT (7 Cols) ================= */}
-          <div className="lg:col-span-6 xl:col-span-7 bg-white border-r border-slate-200 flex flex-col h-full overflow-y-auto">
+          <div className={`${mobileView === 'editor' ? 'flex' : 'hidden'} lg:flex lg:col-span-6 xl:col-span-7 bg-white border-r border-slate-200 flex-col h-full overflow-y-auto`}>
             
             {/* Phase Tabs / Switcher */}
             <div className="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/70 shrink-0">
@@ -966,7 +1003,7 @@ export default function ResumeBuilderModal({
           </div>
 
           {/* ================= RIGHT PANE: LIVE ATS DOCUMENT PREVIEW (5 Cols) ================= */}
-          <div className="lg:col-span-6 xl:col-span-5 bg-slate-200/90 p-4 sm:p-6 overflow-y-auto flex flex-col items-center">
+          <div className={`${mobileView === 'preview' ? 'flex' : 'hidden'} lg:flex lg:col-span-6 xl:col-span-5 bg-slate-200/90 p-4 sm:p-6 overflow-y-auto flex-col items-center`}>
             
             <div className="w-full flex items-center justify-between mb-3 text-xs font-bold text-slate-700">
               <span className="flex items-center gap-1.5">

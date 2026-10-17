@@ -62,34 +62,39 @@ export default function OptionBPayoffModal({
   const generatedFileName = `${candidateName.replace(/\s+/g, '_')}_Base_ATS_Resume.pdf`;
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 animate-in fade-in duration-200">
-      <div className="bg-white w-full max-w-4xl max-h-[92vh] rounded-3xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-5 animate-in slide-in-from-bottom sm:slide-in-from-bottom-0 sm:fade-in duration-200">
+      <div className="bg-white w-full max-w-4xl max-h-[94dvh] sm:max-h-[92vh] rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
         
         {/* ================= MODAL HEADER ================= */}
-        <div className="bg-slate-50 px-5 sm:px-7 py-4 border-b border-slate-200 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-sm shadow-sm">
-              C#1
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
-                  CANDIDATE.ph <span className="text-blue-700">Automated Resume Engine</span>
-                </h2>
-                <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">
-                  Option B Payoff
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-700 font-semibold">
-                Your onboarding answers have been automatically assembled into an ATS-compliant resume.
-              </p>
-            </div>
-          </div>
+        <div className="bg-slate-50 px-4 sm:px-7 py-3.5 sm:py-4 border-b border-slate-200 shrink-0">
+          {/* Mobile Bottom-Sheet Pull Indicator */}
+          <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto mb-3 sm:hidden" />
 
-          <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            100% Parser Compliant
-          </span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-sm shadow-sm shrink-0">
+                C#1
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="text-xs sm:text-base font-black text-slate-900 tracking-tight">
+                    CANDIDATE.ph <span className="text-blue-700">Automated Resume Engine</span>
+                  </h2>
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">
+                    Option B Payoff
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-700 font-semibold truncate sm:whitespace-normal">
+                  Your onboarding answers have been automatically assembled into an ATS-compliant resume.
+                </p>
+              </div>
+            </div>
+
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shrink-0">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              100% Parser Compliant
+            </span>
+          </div>
         </div>
 
         {/* ================= MAIN CONTENT ================= */}
@@ -276,11 +281,11 @@ export default function OptionBPayoffModal({
 
         {/* ================= MODAL FOOTER ================= */}
         {isAssemblyComplete && (
-          <div className="bg-slate-50 px-5 sm:px-7 py-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+          <div className="bg-slate-50 px-4 sm:px-7 py-3.5 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row items-center justify-between gap-3 shrink-0">
             <button
               type="button"
               onClick={onOpenResumeStudio}
-              className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1.5 cursor-pointer"
+              className="w-full sm:w-auto text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center justify-center gap-1.5 cursor-pointer py-2"
             >
               <Sparkles className="w-3.5 h-3.5 text-blue-600" />
               <span>Optional: Fine-Tune in Candidate Resume Studio</span>
@@ -289,7 +294,7 @@ export default function OptionBPayoffModal({
             <button
               type="button"
               onClick={onProceedToMatching}
-              className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-6 py-3.5 sm:py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer min-h-[48px]"
             >
               <span>See My Live Job Matches (Next Step)</span>
               <ArrowRight className="w-4 h-4 text-amber-300" />

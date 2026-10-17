@@ -153,10 +153,10 @@ export default function DashboardPage({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-5 sm:space-y-8">
       
       {/* 1. TOP TELEMETRY & WALLET HEADER */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-elevated">
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-elevated">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           
           {/* Welcome & Profile Focus */}
@@ -319,13 +319,13 @@ export default function DashboardPage({
         <div className="space-y-6">
           
           {/* Sub-Tabs: Matched (60%+), Saved, Applied History */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none w-full md:w-auto shrink-0">
               <button
                 type="button"
                 disabled={isLandingPreview}
                 onClick={isLandingPreview ? undefined : () => setActiveTab('matched')}
-                className={`px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 ${
+                className={`px-3 sm:px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
                   activeTab === 'matched'
                     ? 'bg-slate-900 text-white'
                     : 'bg-slate-100 text-slate-600 hover:text-slate-900'
@@ -341,7 +341,7 @@ export default function DashboardPage({
                 type="button"
                 disabled={isLandingPreview}
                 onClick={isLandingPreview ? undefined : () => setActiveTab('saved')}
-                className={`px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 ${
+                className={`px-3 sm:px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
                   activeTab === 'saved'
                     ? 'bg-slate-900 text-white'
                     : 'bg-slate-100 text-slate-600 hover:text-slate-900'
@@ -358,7 +358,7 @@ export default function DashboardPage({
                 type="button"
                 disabled={isLandingPreview}
                 onClick={isLandingPreview ? undefined : () => setActiveTab('applied')}
-                className={`px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 ${
+                className={`px-3 sm:px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
                   activeTab === 'applied'
                     ? 'bg-slate-900 text-white'
                     : 'bg-slate-100 text-slate-600 hover:text-slate-900'
@@ -374,8 +374,8 @@ export default function DashboardPage({
 
             {/* Search & Filter Controls */}
             {activeTab !== 'applied' && (
-              <div className="flex flex-wrap items-center gap-2.5">
-                <div className="relative flex-1 sm:w-56">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2.5 w-full md:w-auto">
+                <div className="relative w-full sm:w-56">
                   <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5 pointer-events-none" />
                   <input
                     type="text"
@@ -384,37 +384,39 @@ export default function DashboardPage({
                     value={searchQuery}
                     onChange={(e) => !isLandingPreview && setSearchQuery(e.target.value)}
                     placeholder="Search role, company..."
-                    className={`w-full pl-9 pr-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl focus:outline-none ${
+                    className={`w-full pl-9 pr-3 py-2 sm:py-1.5 text-xs border border-slate-200 bg-white rounded-xl focus:outline-none ${
                       isLandingPreview ? 'cursor-default pointer-events-none opacity-80' : 'focus:ring-2 focus:ring-blue-500'
                     }`}
                   />
                 </div>
 
-                <select
-                  disabled={isLandingPreview}
-                  value={filterMatchLevel}
-                  onChange={(e) => !isLandingPreview && setFilterMatchLevel(Number(e.target.value))}
-                  className={`px-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl font-bold text-slate-700 focus:outline-none ${
-                    isLandingPreview ? 'cursor-default pointer-events-none opacity-80' : ''
-                  }`}
-                >
-                  <option value={60}>Min Match: 60%+</option>
-                  <option value={75}>Min Match: 75%+</option>
-                  <option value={90}>Min Match: 90%+ Only</option>
-                </select>
+                <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
+                  <select
+                    disabled={isLandingPreview}
+                    value={filterMatchLevel}
+                    onChange={(e) => !isLandingPreview && setFilterMatchLevel(Number(e.target.value))}
+                    className={`w-full sm:w-auto px-3 py-2 sm:py-1.5 text-xs border border-slate-200 bg-white rounded-xl font-bold text-slate-700 focus:outline-none ${
+                      isLandingPreview ? 'cursor-default pointer-events-none opacity-80' : ''
+                    }`}
+                  >
+                    <option value={60}>Min Match: 60%+</option>
+                    <option value={75}>Min Match: 75%+</option>
+                    <option value={90}>Min Match: 90%+ Only</option>
+                  </select>
 
-                <select
-                  disabled={isLandingPreview}
-                  value={selectedSetup}
-                  onChange={(e) => !isLandingPreview && setSelectedSetup(e.target.value)}
-                  className={`px-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl font-bold text-slate-700 focus:outline-none ${
-                    isLandingPreview ? 'cursor-default pointer-events-none opacity-80' : ''
-                  }`}
-                >
-                  <option value="all">All Setups</option>
-                  <option value="remote">Remote Only</option>
-                  <option value="hybrid">Hybrid Only</option>
-                </select>
+                  <select
+                    disabled={isLandingPreview}
+                    value={selectedSetup}
+                    onChange={(e) => !isLandingPreview && setSelectedSetup(e.target.value)}
+                    className={`w-full sm:w-auto px-3 py-2 sm:py-1.5 text-xs border border-slate-200 bg-white rounded-xl font-bold text-slate-700 focus:outline-none ${
+                      isLandingPreview ? 'cursor-default pointer-events-none opacity-80' : ''
+                    }`}
+                  >
+                    <option value="all">All Setups</option>
+                    <option value="remote">Remote Only</option>
+                    <option value="hybrid">Hybrid Only</option>
+                  </select>
+                </div>
               </div>
             )}
           </div>
@@ -1167,38 +1169,43 @@ export default function DashboardPage({
 
       {/* 5. VIEW SENT COVER LETTER MODAL */}
       {viewingCoverLetterApp && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-150">
-          <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl my-8 overflow-hidden transition-all">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-in slide-in-from-bottom sm:slide-in-from-bottom-0 sm:fade-in duration-150">
+          <div className="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl my-0 sm:my-8 overflow-hidden transition-all flex flex-col max-h-[92dvh] sm:max-h-[90vh]">
             
             {/* Modal Header */}
-            <div className="bg-slate-900 text-white p-5 sm:p-6 flex items-center justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">
-                    Dispatched Cover Letter
-                  </span>
-                  <span className="text-[10px] text-slate-400">• {viewingCoverLetterApp.portal || 'Direct ATS'}</span>
-                  <span className="text-[9px] font-black bg-emerald-900/80 text-emerald-400 border border-emerald-700 px-2 py-0.5 rounded-full uppercase">
-                    Included in ₱50 Fee
-                  </span>
-                </div>
-                <h3 className="text-base sm:text-lg font-black text-white">
-                  {viewingCoverLetterApp.title} @ {viewingCoverLetterApp.company}
-                </h3>
-              </div>
+            <div className="bg-slate-900 text-white p-4 sm:p-6 relative shrink-0">
+              {/* Mobile Bottom-Sheet Pull Indicator */}
+              <div className="w-12 h-1.5 bg-slate-700/80 rounded-full mx-auto mb-3 sm:hidden" />
 
-              <button
-                type="button"
-                onClick={() => setViewingCoverLetterApp(null)}
-                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-                title="Close"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center justify-between">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
+                    <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">
+                      Dispatched Cover Letter
+                    </span>
+                    <span className="text-[10px] text-slate-400 truncate">• {viewingCoverLetterApp.portal || 'Direct ATS'}</span>
+                    <span className="hidden sm:inline text-[9px] font-black bg-emerald-900/80 text-emerald-400 border border-emerald-700 px-2 py-0.5 rounded-full uppercase">
+                      Included in ₱50 Fee
+                    </span>
+                  </div>
+                  <h3 className="text-sm sm:text-lg font-black text-white truncate">
+                    {viewingCoverLetterApp.title} @ {viewingCoverLetterApp.company}
+                  </h3>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setViewingCoverLetterApp(null)}
+                  className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2"
+                  title="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Modal Body */}
-            <div className="p-5 sm:p-7 max-h-[72vh] overflow-y-auto space-y-4">
+            <div className="p-4 sm:p-6 overflow-y-auto space-y-4 flex-1">
               
               {/* Receipt & Delivery Info Banner */}
               <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
@@ -1227,7 +1234,7 @@ export default function DashboardPage({
               </div>
 
               {/* Cover Letter Paper */}
-              <div className="bg-slate-50/50 rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs font-sans text-xs sm:text-sm text-slate-800 leading-relaxed space-y-4 whitespace-pre-wrap">
+              <div className="bg-slate-50/50 rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-xs font-sans text-xs sm:text-sm text-slate-800 leading-relaxed space-y-4 whitespace-pre-wrap">
                 {viewingCoverLetterApp.coverLetter || 
                   generateTailoredCoverLetter(
                     { company: viewingCoverLetterApp.company, title: viewingCoverLetterApp.title, industry: 'Technology' },
@@ -1246,7 +1253,7 @@ export default function DashboardPage({
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-3">
+            <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex flex-col-reverse sm:flex-row items-center justify-between gap-2.5 sm:gap-3 shrink-0">
               <button
                 type="button"
                 onClick={() => {
@@ -1260,7 +1267,7 @@ export default function DashboardPage({
                   setIsCopiedSentLetter(true);
                   setTimeout(() => setIsCopiedSentLetter(false), 2000);
                 }}
-                className="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-xs font-bold text-slate-700 flex items-center gap-1.5 transition-all cursor-pointer"
+                className="w-full sm:w-auto px-4 py-3 sm:py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-xs font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-all cursor-pointer min-h-[44px]"
               >
                 {isCopiedSentLetter ? (
                   <>
@@ -1278,7 +1285,7 @@ export default function DashboardPage({
               <button
                 type="button"
                 onClick={() => setViewingCoverLetterApp(null)}
-                className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+                className="w-full sm:w-auto px-5 py-3 sm:py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all cursor-pointer min-h-[44px]"
               >
                 Close
               </button>

@@ -56,18 +56,23 @@ export default function JobCard({
   const employerFounded = job.founded || (job.company === 'Maya' ? '2013' : job.company === 'Coins.ph' ? '2014' : job.company === 'Canva' ? '2012' : job.company === 'Sprout Solutions' ? '2015' : '2016');
 
   return (
-    <div className="relative bg-white rounded-3xl p-5 sm:p-6 shadow-elevated border border-slate-200 hover:border-blue-400 transition-all text-left flex flex-col justify-between group">
+    <div className="relative bg-white rounded-3xl p-4 sm:p-6 shadow-elevated border border-slate-200 hover:border-blue-400 transition-all text-left flex flex-col justify-between group">
       
       {/* Top Timing & Urgency Header */}
-      <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
-        <div className="flex items-center gap-2 truncate">
+      <div className="flex items-center justify-between pb-3 sm:pb-3.5 border-b border-slate-100">
+        <div className="flex items-center gap-2 truncate mr-2">
           <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
           <span className="text-xs font-bold text-amber-900 truncate">
             {postedInfo}
           </span>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Mobile Upfront Match Badge */}
+          <span className="md:hidden inline-flex items-center gap-0.5 text-[11px] font-black text-blue-800 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+            {score}% MATCH
+          </span>
+
+          <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
             <span>ACTIVE ROLE</span>
           </span>
@@ -77,7 +82,7 @@ export default function JobCard({
             <button
               type="button"
               onClick={() => onToggleSave(job.id)}
-              className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
+              className={`p-2 sm:p-1.5 min-w-[34px] min-h-[34px] flex items-center justify-center rounded-xl border transition-all cursor-pointer ${
                 isSaved 
                   ? 'bg-amber-50 border-amber-200 text-amber-500' 
                   : 'bg-slate-50 border-slate-200 text-slate-400 hover:text-amber-500 hover:bg-amber-50/50'

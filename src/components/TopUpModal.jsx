@@ -49,40 +49,44 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
   const selectedBundle = BUNDLES.find(b => b.amount === selectedAmount) || BUNDLES[1];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
-      <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <div className="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200 w-full max-w-lg my-0 sm:my-8 overflow-hidden transition-all animate-in slide-in-from-bottom sm:slide-in-from-bottom-0 sm:fade-in sm:zoom-in-95 duration-200 flex flex-col max-h-[92dvh] sm:max-h-[90vh]">
         
         {/* Top Header */}
-        <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-6 relative">
+        <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-4 sm:p-6 relative shrink-0">
+          {/* Mobile Bottom-Sheet Pull Indicator */}
+          <div className="w-12 h-1.5 bg-white/30 rounded-full mx-auto mb-3 sm:hidden" />
+
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shrink-0">
                 <Wallet className="w-5 h-5 text-amber-300" />
               </div>
               <div>
-                <span className="text-[10px] font-extrabold text-blue-200 uppercase tracking-wider">
+                <span className="text-[10px] font-extrabold text-blue-200 uppercase tracking-wider block">
                   PayMongo Instant Checkout
                 </span>
-                <h3 className="text-xl font-black text-white">Buy Credits</h3>
+                <h3 className="text-lg sm:text-xl font-black text-white">Buy Credits</h3>
               </div>
             </div>
 
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2"
+              title="Close"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+          <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-white/10 flex items-center justify-between text-xs">
             <span className="text-blue-200">Current Wallet Balance:</span>
             <span className="font-black text-white text-base">₱{currentBalance}.00</span>
           </div>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-5">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-4 sm:space-y-5 flex-1">
 
           {/* Unit Economics Reassurance */}
           <div className="text-xs text-slate-600 bg-slate-50 p-3.5 rounded-2xl border border-slate-200 flex items-start gap-2.5">
@@ -154,7 +158,7 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
               <span>All bundles include 100% of CANDIDATE.ph capabilities:</span>
             </div>
             <p className="text-[11px] text-slate-600 pl-5.5 leading-relaxed">
-              Direct Employer ATS Dispatch • In-Place Resume Tailoring & Sign-Off • Official Recruiter Receipts • Credits Never Expire. Loading more simply unlocks higher volume discounts.
+              Direct Employer ATS Dispatch • ATS Resume Tailoring & Tailored Cover Letter • Official Recruiter Receipts • Credits Never Expire. Loading more simply unlocks higher volume discounts.
             </p>
           </div>
 
@@ -168,9 +172,9 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
               <button
                 type="button"
                 onClick={() => setPaymentMethod('gcash')}
-                className={`p-3 rounded-2xl border font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                className={`p-3 min-h-[52px] rounded-2xl border font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
                   paymentMethod === 'gcash'
-                    ? 'border-blue-600 bg-blue-50 text-blue-700 ring-2 ring-blue-500/20'
+                    ? 'border-blue-600 bg-blue-50 text-blue-700 ring-2 ring-blue-500/20 shadow-xs'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
@@ -181,9 +185,9 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
               <button
                 type="button"
                 onClick={() => setPaymentMethod('maya')}
-                className={`p-3 rounded-2xl border font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                className={`p-3 min-h-[52px] rounded-2xl border font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
                   paymentMethod === 'maya'
-                    ? 'border-emerald-600 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500/20'
+                    ? 'border-emerald-600 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500/20 shadow-xs'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
@@ -194,9 +198,9 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
               <button
                 type="button"
                 onClick={() => setPaymentMethod('card')}
-                className={`p-3 rounded-2xl border font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                className={`p-3 min-h-[52px] rounded-2xl border font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
                   paymentMethod === 'card'
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-500/20'
+                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-500/20 shadow-xs'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
@@ -212,7 +216,7 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
               type="button"
               disabled={isProcessing}
               onClick={handlePay}
-              className="w-full py-4 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-extrabold rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm"
+              className="w-full min-h-[52px] py-4 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-extrabold rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm cursor-pointer"
             >
               {isProcessing ? (
                 <div className="flex items-center gap-2">

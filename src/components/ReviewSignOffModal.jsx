@@ -125,39 +125,44 @@ export default function ReviewSignOffModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
-      <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl my-8 overflow-hidden transition-all animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <div className="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl my-0 sm:my-8 overflow-hidden transition-all animate-in slide-in-from-bottom sm:slide-in-from-bottom-0 sm:fade-in sm:zoom-in-95 duration-200 flex flex-col max-h-[92dvh] sm:max-h-[90vh]">
         
         {/* Modal Top Bar */}
-        <div className="bg-slate-900 text-white p-5 sm:p-6 flex items-center justify-between relative">
-          <div className="flex items-center gap-3">
-            <div className={`w-11 h-11 rounded-2xl ${job.logoColor} text-white font-black text-lg flex items-center justify-center shadow-md shrink-0`}>
-              {job.logoText}
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">
-                  Final Review & Sign-Off
-                </span>
-                <span className="text-[10px] text-slate-400">• {job.portal} Portal</span>
-              </div>
-              <h2 className="text-base sm:text-lg font-black text-white">
-                {job.title} @ {job.company}
-              </h2>
-            </div>
-          </div>
+        <div className="bg-slate-900 text-white p-4 sm:p-6 relative shrink-0">
+          {/* Mobile Bottom-Sheet Pull Indicator */}
+          <div className="w-12 h-1.5 bg-slate-700/80 rounded-full mx-auto mb-3 sm:hidden" />
 
-          <button
-            onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-            title="Cancel"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl ${job.logoColor} text-white font-black text-base sm:text-lg flex items-center justify-center shadow-md shrink-0`}>
+                {job.logoText}
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">
+                    Final Review & Sign-Off
+                  </span>
+                  <span className="text-[10px] text-slate-400 truncate">• {job.portal} Portal</span>
+                </div>
+                <h2 className="text-sm sm:text-lg font-black text-white truncate">
+                  {job.title} @ {job.company}
+                </h2>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2"
+              title="Cancel"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Modal Body */}
-        <div className="p-5 sm:p-7 max-h-[72vh] overflow-y-auto space-y-5">
+        <div className="p-4 sm:p-7 overflow-y-auto space-y-4 sm:space-y-5 flex-1">
 
           {/* Wallet & Pricing Notice Banner */}
           <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -375,7 +380,7 @@ export default function ReviewSignOffModal({
                       setCoverLetterText(e.target.value);
                       setIsEditingCoverLetter(true);
                     }}
-                    className="w-full p-3.5 text-xs font-sans text-slate-800 leading-relaxed border-none focus:ring-0 focus:outline-none resize-y"
+                    className="w-full p-3.5 text-sm sm:text-xs font-sans text-slate-800 leading-relaxed border-none focus:ring-0 focus:outline-none resize-y"
                     placeholder="Your tailored cover letter will be generated here..."
                   />
                 </div>
@@ -407,7 +412,7 @@ export default function ReviewSignOffModal({
                 type="text"
                 value={headline}
                 onChange={(e) => setHeadline(e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium"
+                className="w-full px-3 py-2.5 sm:py-2 text-sm sm:text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium"
               />
             </div>
 
@@ -419,7 +424,7 @@ export default function ReviewSignOffModal({
                 rows={2}
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
-                className="w-full p-3 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium"
+                className="w-full p-3 text-sm sm:text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium"
               />
             </div>
           </div>
@@ -436,27 +441,27 @@ export default function ReviewSignOffModal({
             <div className="space-y-2.5">
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 mb-1 flex items-center gap-1.5">
-                  <HelpCircle className="w-3 h-3 text-blue-600" />
+                  <HelpCircle className="w-3 h-3 text-blue-600 shrink-0" />
                   <span>"Why are you interested in joining {job.company}?"</span>
                 </label>
                 <textarea
                   rows={2}
                   value={answer1}
                   onChange={(e) => setAnswer1(e.target.value)}
-                  className="w-full p-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium"
+                  className="w-full p-2.5 text-sm sm:text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium"
                 />
               </div>
 
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 mb-1 flex items-center gap-1.5">
-                  <HelpCircle className="w-3 h-3 text-blue-600" />
+                  <HelpCircle className="w-3 h-3 text-blue-600 shrink-0" />
                   <span>"Describe your hands-on experience with {job.matchingSkills?.[0] || 'the core stack'}."</span>
                 </label>
                 <textarea
                   rows={2}
                   value={answer2}
                   onChange={(e) => setAnswer2(e.target.value)}
-                  className="w-full p-2.5 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium"
+                  className="w-full p-2.5 text-sm sm:text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white font-medium"
                 />
               </div>
             </div>
@@ -469,7 +474,7 @@ export default function ReviewSignOffModal({
               id="signoff-check"
               checked={hasSignedOff}
               onChange={(e) => setHasSignedOff(e.target.checked)}
-              className="mt-1 w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 cursor-pointer"
+              className="mt-1 w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 cursor-pointer shrink-0"
             />
             <label htmlFor="signoff-check" className="text-xs text-slate-700 font-medium cursor-pointer">
               I authorize CANDIDATE.ph to dispatch my <strong>tailored resume and role-specific cover letter</strong> directly to <strong>{job.company}</strong>'s official career portal and debit ₱50 from my wallet upon verified employer receipt.
@@ -479,11 +484,11 @@ export default function ReviewSignOffModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-5 sm:p-6 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="p-4 sm:p-6 bg-slate-50 border-t border-slate-200 flex flex-col-reverse sm:flex-row items-center justify-between gap-2.5 sm:gap-3 shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer"
+            className="w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer transition-colors"
           >
             Cancel
           </button>
@@ -492,7 +497,7 @@ export default function ReviewSignOffModal({
             type="button"
             disabled={!hasSignedOff || !canAfford || isSubmitting}
             onClick={handleSubmit}
-            className={`w-full sm:w-auto px-7 py-3.5 text-white font-extrabold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg ${
+            className={`w-full sm:w-auto px-7 py-3.5 text-white font-extrabold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg min-h-[48px] ${
               !hasSignedOff || !canAfford || isSubmitting
                 ? 'bg-slate-400 cursor-not-allowed'
                 : 'bg-blue-600 hover:bg-blue-700 active:scale-95 cursor-pointer'
