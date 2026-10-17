@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { X, Check, ShieldCheck, Wallet, ArrowRight, Zap, CreditCard, Smartphone, Sparkles } from 'lucide-react';
+import { X, Check, ShieldCheck, Wallet, ArrowRight, Zap, CreditCard, Smartphone, Sparkles, Gift } from 'lucide-react';
 
-export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuccess }) {
+export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuccess, onOpenInvite }) {
   if (!isOpen) return null;
 
   const [selectedAmount, setSelectedAmount] = useState(500);
@@ -160,6 +160,31 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
             <p className="text-[11px] text-slate-600 pl-5.5 leading-relaxed">
               Direct Employer ATS Dispatch • ATS Resume Tailoring & Tailored Cover Letter • Official Recruiter Receipts • Credits Never Expire. Loading more simply unlocks higher volume discounts.
             </p>
+          </div>
+
+          {/* Want Free Credits? Viral Referral Callout */}
+          <div className="p-3.5 rounded-2xl bg-gradient-to-r from-blue-50 via-indigo-50 to-slate-50 border border-blue-200/80 flex items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                <Gift className="w-4 h-4 text-amber-300" />
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-900">Want free credits instead?</p>
+                <p className="text-[11px] text-slate-600">Give ₱50 to a friend, get ₱50 added to your wallet.</p>
+              </div>
+            </div>
+            {onOpenInvite && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenInvite();
+                }}
+                className="px-3 py-1.5 bg-white hover:bg-blue-50 text-blue-700 font-extrabold text-xs rounded-xl border border-blue-300 shadow-xs cursor-pointer shrink-0 transition-colors"
+              >
+                Invite Friend
+              </button>
+            )}
           </div>
 
           {/* Payment Channels (PayMongo) */}

@@ -33,11 +33,13 @@ import {
   PlayCircle,
   ArrowRight,
   Copy,
-  X
+  X,
+  Gift
 } from 'lucide-react';
 import JobCard from '../components/JobCard';
 import ReviewSignOffModal from '../components/ReviewSignOffModal';
 import TopUpModal from '../components/TopUpModal';
+import InviteFriendsModal from '../components/InviteFriendsModal';
 import FeedbackBox from '../components/FeedbackBox';
 import { api } from '../services/api';
 import { formatProperName } from '../utils/formatters';
@@ -68,6 +70,7 @@ export default function DashboardPage({
   // Modal triggers
   const [selectedJobForApply, setSelectedJobForApply] = useState(null);
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
+  const [isInviteOpen, setIsInviteOpen] = useState(false);
 
   // View dispatched cover letter modal
   const [viewingCoverLetterApp, setViewingCoverLetterApp] = useState(null);
@@ -201,19 +204,36 @@ export default function DashboardPage({
               </p>
             </div>
 
-            <button
-              type="button"
-              disabled={isLandingPreview}
-              onClick={() => !isLandingPreview && setIsTopUpOpen(true)}
-              className={`px-4 py-3 bg-blue-600 text-white font-black text-xs rounded-xl shadow-xs flex items-center gap-1.5 shrink-0 ${
-                isLandingPreview 
-                  ? 'cursor-default pointer-events-none opacity-90' 
-                  : 'hover:bg-blue-500 active:scale-95 transition-all cursor-pointer'
-              }`}
-            >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              <span>Buy Credits</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={isLandingPreview}
+                onClick={isLandingPreview ? undefined : () => setIsInviteOpen(true)}
+                className={`px-3 sm:px-3.5 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs rounded-xl shadow-xs flex items-center gap-1.5 shrink-0 ${
+                  isLandingPreview 
+                    ? 'cursor-default pointer-events-none opacity-90' 
+                    : 'active:scale-95 transition-all cursor-pointer'
+                }`}
+                title="Invite a friend, you both get ₱50 credit"
+              >
+                <Gift className="w-4 h-4 text-slate-950" />
+                <span>Earn ₱50 (Invite)</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={isLandingPreview}
+                onClick={() => !isLandingPreview && setIsTopUpOpen(true)}
+                className={`px-4 py-3 bg-blue-600 text-white font-black text-xs rounded-xl shadow-xs flex items-center gap-1.5 shrink-0 ${
+                  isLandingPreview 
+                    ? 'cursor-default pointer-events-none opacity-90' 
+                    : 'hover:bg-blue-500 active:scale-95 transition-all cursor-pointer'
+                }`}
+              >
+                <Plus className="w-4 h-4 stroke-[3]" />
+                <span>Buy Credits</span>
+              </button>
+            </div>
           </div>
 
         </div>
@@ -1073,6 +1093,14 @@ export default function DashboardPage({
             onClose={() => setIsTopUpOpen(false)}
             currentBalance={user?.walletBalance ?? 250}
             onTopUpSuccess={onTopUpSuccess}
+            onOpenInvite={() => setIsInviteOpen(true)}
+          />
+
+          {/* Give ₱50, Get ₱50 Invite Friends Modal */}
+          <InviteFriendsModal
+            isOpen={isInviteOpen}
+            onClose={() => setIsInviteOpen(false)}
+            user={user}
           />
         </>
       )}
