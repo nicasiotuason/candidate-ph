@@ -240,12 +240,13 @@ export default function DashboardPage({
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
         <button
           type="button"
-          onClick={() => setMainNav('jobs')}
+          disabled={isLandingPreview}
+          onClick={isLandingPreview ? undefined : () => setMainNav('jobs')}
           className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ${
             mainNav === 'jobs'
               ? 'bg-blue-600 text-white shadow-md'
               : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
-          }`}
+          } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
         >
           <Briefcase className="w-4 h-4" />
           <span>Jobs Feed</span>
@@ -258,12 +259,13 @@ export default function DashboardPage({
 
         <button
           type="button"
-          onClick={() => setMainNav('resume')}
+          disabled={isLandingPreview}
+          onClick={isLandingPreview ? undefined : () => setMainNav('resume')}
           className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ${
             mainNav === 'resume'
               ? 'bg-blue-600 text-white shadow-md'
               : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
-          }`}
+          } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
         >
           <FileText className="w-4 h-4" />
           <span>Master Resume</span>
@@ -274,12 +276,13 @@ export default function DashboardPage({
 
         <button
           type="button"
-          onClick={() => setMainNav('profile')}
+          disabled={isLandingPreview}
+          onClick={isLandingPreview ? undefined : () => setMainNav('profile')}
           className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ${
             mainNav === 'profile'
               ? 'bg-blue-600 text-white shadow-md'
               : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
-          }`}
+          } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
         >
           <User className="w-4 h-4" />
           <span>Profile (Pareto 6)</span>
@@ -290,12 +293,13 @@ export default function DashboardPage({
 
         <button
           type="button"
-          onClick={() => setMainNav('admin')}
+          disabled={isLandingPreview}
+          onClick={isLandingPreview ? undefined : () => setMainNav('admin')}
           className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ml-auto ${
             mainNav === 'admin'
               ? 'bg-slate-900 text-white shadow-md'
               : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
-          }`}
+          } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
         >
           <Activity className="w-4 h-4 text-emerald-400" />
           <span>Founders' Telemetry</span>
@@ -312,12 +316,13 @@ export default function DashboardPage({
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setActiveTab('matched')}
+                disabled={isLandingPreview}
+                onClick={isLandingPreview ? undefined : () => setActiveTab('matched')}
                 className={`px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 ${
                   activeTab === 'matched'
                     ? 'bg-slate-900 text-white'
                     : 'bg-slate-100 text-slate-600 hover:text-slate-900'
-                }`}
+                } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
               >
                 <span>Recommended (≥ 60%)</span>
                 <span className="px-1.5 py-0.2 rounded-full bg-white/20 text-[10px]">
@@ -327,12 +332,13 @@ export default function DashboardPage({
 
               <button
                 type="button"
-                onClick={() => setActiveTab('saved')}
+                disabled={isLandingPreview}
+                onClick={isLandingPreview ? undefined : () => setActiveTab('saved')}
                 className={`px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 ${
                   activeTab === 'saved'
                     ? 'bg-slate-900 text-white'
                     : 'bg-slate-100 text-slate-600 hover:text-slate-900'
-                }`}
+                } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
               >
                 <Star className={`w-3.5 h-3.5 ${savedJobIds.length > 0 ? 'fill-amber-400 text-amber-400' : ''}`} />
                 <span>Saved Bookmarks</span>
@@ -343,12 +349,13 @@ export default function DashboardPage({
 
               <button
                 type="button"
-                onClick={() => setActiveTab('applied')}
+                disabled={isLandingPreview}
+                onClick={isLandingPreview ? undefined : () => setActiveTab('applied')}
                 className={`px-3.5 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 ${
                   activeTab === 'applied'
                     ? 'bg-slate-900 text-white'
                     : 'bg-slate-100 text-slate-600 hover:text-slate-900'
-                }`}
+                } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Applications Sent</span>
@@ -365,17 +372,24 @@ export default function DashboardPage({
                   <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5 pointer-events-none" />
                   <input
                     type="text"
+                    disabled={isLandingPreview}
+                    readOnly={isLandingPreview}
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => !isLandingPreview && setSearchQuery(e.target.value)}
                     placeholder="Search role, company..."
-                    className="w-full pl-9 pr-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    className={`w-full pl-9 pr-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl focus:outline-none ${
+                      isLandingPreview ? 'cursor-default pointer-events-none opacity-80' : 'focus:ring-2 focus:ring-blue-500'
+                    }`}
                   />
                 </div>
 
                 <select
+                  disabled={isLandingPreview}
                   value={filterMatchLevel}
-                  onChange={(e) => setFilterMatchLevel(Number(e.target.value))}
-                  className="px-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl font-bold text-slate-700 focus:outline-none"
+                  onChange={(e) => !isLandingPreview && setFilterMatchLevel(Number(e.target.value))}
+                  className={`px-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl font-bold text-slate-700 focus:outline-none ${
+                    isLandingPreview ? 'cursor-default pointer-events-none opacity-80' : ''
+                  }`}
                 >
                   <option value={60}>Min Match: 60%+</option>
                   <option value={75}>Min Match: 75%+</option>
@@ -383,9 +397,12 @@ export default function DashboardPage({
                 </select>
 
                 <select
+                  disabled={isLandingPreview}
                   value={selectedSetup}
-                  onChange={(e) => setSelectedSetup(e.target.value)}
-                  className="px-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl font-bold text-slate-700 focus:outline-none"
+                  onChange={(e) => !isLandingPreview && setSelectedSetup(e.target.value)}
+                  className={`px-3 py-1.5 text-xs border border-slate-200 bg-white rounded-xl font-bold text-slate-700 focus:outline-none ${
+                    isLandingPreview ? 'cursor-default pointer-events-none opacity-80' : ''
+                  }`}
                 >
                   <option value="all">All Setups</option>
                   <option value="remote">Remote Only</option>
@@ -434,7 +451,7 @@ export default function DashboardPage({
                   </div>
 
                   {isLandingPreview && (
-                    <div className="mt-8 p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-xs pointer-events-auto">
+                    <div className="relative z-30 mt-8 p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-xs pointer-events-auto">
                       <div>
                         <div className="flex items-center justify-center sm:justify-start gap-2 text-xs font-black text-blue-950 uppercase tracking-wider mb-1">
                           <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>

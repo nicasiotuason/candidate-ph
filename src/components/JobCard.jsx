@@ -130,8 +130,13 @@ export default function JobCard({
               <div className="flex items-center justify-between pt-0.5">
                 <button
                   type="button"
-                  onClick={() => setIsExpanded(!isExpanded)}
-                  className="inline-flex items-center gap-1.5 text-xs font-black text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
+                  disabled={isLandingPreview}
+                  onClick={isLandingPreview ? undefined : () => setIsExpanded(!isExpanded)}
+                  className={`inline-flex items-center gap-1.5 text-xs font-black transition-colors ${
+                    isLandingPreview 
+                      ? 'text-slate-400 cursor-default pointer-events-none' 
+                      : 'text-blue-600 hover:text-blue-800 cursor-pointer'
+                  }`}
                 >
                   <span>
                     {isExpanded 

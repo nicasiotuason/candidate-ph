@@ -740,7 +740,7 @@ export default function LandingPage({
           </div>
 
           {/* The Actual Live Dashboard (Preview Mode: 100% Non-clickable display, exactly 1 applied check, ₱250 balance) */}
-          <div className="bg-white/80 rounded-3xl border border-slate-200/90 shadow-elevated p-2 sm:p-6 pointer-events-none select-none">
+          <div className="relative bg-white/80 rounded-3xl border border-slate-200/90 shadow-elevated p-2 sm:p-6 select-none overflow-hidden">
             <DashboardPage
               user={PREVIEW_USER}
               jobs={jobs || []}
@@ -753,6 +753,20 @@ export default function LandingPage({
               onAddTestimonial={null}
               isLandingPreview={true}
               onStartSignUp={onStartSignUp}
+            />
+
+            {/* Impenetrable Click Shield for Dashboard Preview: intercepts all clicks on header, tabs, search, and cards */}
+            <div 
+              className="absolute inset-0 z-20 cursor-default"
+              style={{ bottom: '130px' }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
             />
           </div>
 

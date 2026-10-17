@@ -11,13 +11,14 @@ export default function App() {
   const getInitialView = () => {
     const path = window.location.pathname.toLowerCase();
     const hash = window.location.hash.toLowerCase();
-    if (path.includes('signup') || path.includes('auth') || hash.includes('auth') || hash.includes('signup')) {
+    if (path.includes('signup') || path.includes('auth') || hash === '#auth' || hash === '#signup') {
       return 'auth';
     }
-    if (path.includes('onboarding') || hash.includes('onboarding')) {
+    if (path.includes('onboarding') || hash === '#onboarding') {
       return 'onboarding';
     }
-    if (path.includes('dashboard') || hash.includes('dashboard')) {
+    // Only route to real dashboard on path /dashboard or exact hash #dashboard (NOT #dashboard-preview anchor on landing page!)
+    if (path.startsWith('/dashboard') || hash === '#dashboard') {
       return 'dashboard';
     }
     return 'landing';
