@@ -418,7 +418,7 @@ export default function DashboardPage({
                     <span className="font-bold text-slate-700">{filteredMatchedJobs.length} active roles</span>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                     {(isLandingPreview ? filteredMatchedJobs.slice(0, 6) : filteredMatchedJobs).map((job) => (
                       <JobCard
                         key={job.id}
@@ -475,7 +475,7 @@ export default function DashboardPage({
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                   {savedJobs.map((job) => (
                     <JobCard
                       key={job.id}
