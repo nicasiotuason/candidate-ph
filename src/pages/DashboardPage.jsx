@@ -34,7 +34,9 @@ import {
   ArrowRight,
   Copy,
   X,
-  Gift
+  Gift,
+  Database,
+  Server
 } from 'lucide-react';
 import JobCard from '../components/JobCard';
 import ReviewSignOffModal from '../components/ReviewSignOffModal';
@@ -965,9 +967,24 @@ export default function DashboardPage({
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="text-xs font-bold text-emerald-400">All Systems Operational</span>
+            <div className="flex flex-wrap items-center gap-2">
+              {api.isLiveDatabase() ? (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold">
+                  <Database className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>PostgreSQL (Supabase Live)</span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold" title="To activate live PostgreSQL, add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env file">
+                  <Server className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Demo Mode (Local SQLite/Storage)</span>
+                  <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-[10px] text-amber-200 uppercase font-mono">Plug .env to sync</span>
+                </div>
+              )}
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span className="text-xs font-bold text-emerald-400">All Systems Operational</span>
+              </div>
             </div>
           </div>
 
