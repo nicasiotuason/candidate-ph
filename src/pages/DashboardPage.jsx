@@ -214,7 +214,7 @@ export default function DashboardPage({
                     ? 'cursor-default pointer-events-none opacity-90' 
                     : 'active:scale-95 transition-all cursor-pointer'
                 }`}
-                title="Invite a friend, you both get ₱50 credit"
+                title="Invite a colleague — Earn ₱50 when they complete sign-up"
               >
                 <Gift className="w-4 h-4 text-slate-950" />
                 <span>Earn ₱50 (Invite)</span>

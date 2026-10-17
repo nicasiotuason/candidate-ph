@@ -170,7 +170,7 @@ export default function TopUpModal({ isOpen, onClose, currentBalance, onTopUpSuc
               </div>
               <div>
                 <p className="font-extrabold text-slate-900">Want free credits instead?</p>
-                <p className="text-[11px] text-slate-600">Give ₱50 to a friend, get ₱50 added to your wallet.</p>
+                <p className="text-[11px] text-slate-600">Get ₱50 added to your wallet when your invited friend signs up.</p>
               </div>
             </div>
             {onOpenInvite && (

@@ -111,7 +111,7 @@ export default function InviteFriendsModal({
           </div>
 
           <p className="text-xs text-blue-100 mt-2.5 leading-relaxed font-medium">
-            Know someone job hunting in Tech, BPO, or Remote? Gift them <strong>₱50.00 welcome credits</strong> for their first application. When they apply, you earn <strong>₱50.00</strong> added directly to your wallet.
+            Know someone job hunting in Tech, BPO, or Remote? Gift them <strong>₱50.00 welcome credits</strong> for their first application. When they <strong>complete their account sign-up</strong>, you automatically receive <strong>₱50.00</strong> credited directly to your wallet.
           </p>
         </div>
 
@@ -125,15 +125,15 @@ export default function InviteFriendsModal({
                 1
               </div>
               <p className="text-[11px] font-extrabold text-slate-800">Share Link</p>
-              <p className="text-[10px] text-slate-500 leading-tight">Send personal invite link</p>
+              <p className="text-[10px] text-slate-500 leading-tight">Send personal invite code</p>
             </div>
 
             <div className="space-y-1">
               <div className="w-7 h-7 rounded-full bg-amber-100 text-amber-700 font-black text-xs flex items-center justify-center mx-auto">
                 2
               </div>
-              <p className="text-[11px] font-extrabold text-slate-800">Friend Gets ₱50</p>
-              <p className="text-[10px] text-slate-500 leading-tight">Free 1st apply credit</p>
+              <p className="text-[11px] font-extrabold text-slate-800">Friend Signs Up</p>
+              <p className="text-[10px] text-slate-500 leading-tight">Registers & gets free ₱50</p>
             </div>
 
             <div className="space-y-1">
@@ -141,7 +141,7 @@ export default function InviteFriendsModal({
                 3
               </div>
               <p className="text-[11px] font-extrabold text-slate-800">You Get ₱50</p>
-              <p className="text-[10px] text-slate-500 leading-tight">Instant wallet top-up</p>
+              <p className="text-[10px] text-slate-500 leading-tight">Earned upon their signup</p>
             </div>
           </div>
 
@@ -255,7 +255,7 @@ export default function InviteFriendsModal({
             </div>
 
             <p className="text-[10px] text-slate-500 pt-1 border-t border-slate-200 font-medium">
-              💡 Referral credits never expire and are automatically debited before your cash wallet.
+              💡 <strong>Verified Sign-Up Rule:</strong> ₱50 is credited to your wallet the moment your invited friend actually completes their account registration (not for just sending out the link). Credits never expire.
             </p>
           </div>
 
@@ -265,7 +265,7 @@ export default function InviteFriendsModal({
         <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-1.5 text-xs text-slate-500">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>Fair play protected: 1 credit per verified candidate</span>
+            <span>Credited upon verified friend account sign-up</span>
           </div>
 
           <button
