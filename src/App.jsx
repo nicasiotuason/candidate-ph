@@ -85,6 +85,13 @@ export default function App() {
       setAppliedJobs(api.getAppliedJobs());
     }
     api.getJobs(60).then(data => setJobs(data));
+    api.syncFromSupabase().then(res => {
+      if (res?.success) {
+        setSavedJobIds(api.getSavedJobIds());
+        setAppliedJobs(api.getAppliedJobs());
+        setTestimonials(api.getTestimonials());
+      }
+    });
   }, []);
 
   // Sync user state

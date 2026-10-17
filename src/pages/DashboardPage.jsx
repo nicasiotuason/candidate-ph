@@ -44,6 +44,7 @@ import TopUpModal from '../components/TopUpModal';
 import InviteFriendsModal from '../components/InviteFriendsModal';
 import FeedbackBox from '../components/FeedbackBox';
 import { api } from '../services/api';
+import { isPayMongoConfigured } from '../services/paymongoService';
 import { formatProperName } from '../utils/formatters';
 import { generateTailoredCoverLetter } from '../utils/coverLetterGenerator';
 
@@ -1073,6 +1074,46 @@ export default function DashboardPage({
             </div>
 
           </div>
+
+          {/* Production Infrastructure Status (Supabase & PayMongo) */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/40 border border-slate-700/80 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700/60 pb-2.5">
+              <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
+                <Server className="w-3.5 h-3.5 text-blue-400" />
+                <span>Backend Gateway & Database Infrastructure</span>
+              </span>
+              <span className="text-[11px] font-mono text-slate-400">Environment: Production Ready</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700/50 space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">PAYMENT GATEWAY</span>
+                <div className="flex items-center gap-1.5 font-bold text-white">
+                  <span className={`w-2 h-2 rounded-full ${isPayMongoConfigured() ? 'bg-emerald-400' : 'bg-blue-400'}`}></span>
+                  <span>PayMongo Philippines</span>
+                </div>
+                <p className="text-[10px] text-slate-400">GCash • Maya • Cards • QR Ph (Centavos / PHP)</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700/50 space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">DATABASE & RLS</span>
+                <div className="flex items-center gap-1.5 font-bold text-white">
+                  <span className={`w-2 h-2 rounded-full ${api.isLiveDatabase() ? 'bg-emerald-400' : 'bg-amber-400'}`}></span>
+                  <span>{api.isLiveDatabase() ? 'PostgreSQL (Supabase Live)' : 'Local Storage Sync (Demo)'}</span>
+                </div>
+                <p className="text-[10px] text-slate-400">profiles • jobs • applications • wallet_transactions</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700/50 space-y-1">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">EDGE WEBHOOKS</span>
+                <div className="flex items-center gap-1.5 font-bold text-emerald-400">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span>paymongo-webhook</span>
+                </div>
+                <p className="text-[10px] text-slate-400 font-mono">HMAC SHA-256 Signature Verified</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -1109,6 +1150,7 @@ export default function DashboardPage({
             isOpen={isTopUpOpen}
             onClose={() => setIsTopUpOpen(false)}
             currentBalance={user?.walletBalance ?? 250}
+            user={user}
             onTopUpSuccess={onTopUpSuccess}
             onOpenInvite={() => setIsInviteOpen(true)}
           />

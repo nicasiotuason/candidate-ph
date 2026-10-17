@@ -210,73 +210,31 @@ export const api = {
     return MOCK_JOBS.filter(j => j.matchPercentage >= minMatch);
   },
 
-  // Saved / Starred jobs
-  async getSavedJobIds() {
-    const user = this.getUser();
-    if (this.isLiveDatabase() && user.id && user.id.includes('-')) {
-      try {
-        return await supabaseService.getSavedJobIds(user.id);
-      } catch (err) {
-        console.warn("Supabase getSavedJobIds error:", err);
-      }
-    }
-
+  // Saved / Starred jobs (synchronous array return with async Supabase background sync)
+  getSavedJobIds() {
     return getStored(STORAGE_SAVED_KEY, ["job_01"]);
   },
 
-  async toggleSaveJob(jobId) {
+  toggleSaveJob(jobId) {
     const user = this.getUser();
     const currentSaved = getStored(STORAGE_SAVED_KEY, ["job_01"]);
     const exists = currentSaved.includes(jobId);
     const updated = exists ? currentSaved.filter(id => id !== jobId) : [...currentSaved, jobId];
     setStored(STORAGE_SAVED_KEY, updated);
 
+    // If Supabase is active, sync in background
     if (this.isLiveDatabase() && user.id && user.id.includes('-')) {
-      try {
-        if (exists) {
-          await supabaseService.unsaveJob(user.id, jobId);
-        } else {
-          await supabaseService.saveJob(user.id, jobId);
-        }
-      } catch (err) {
-        console.warn("Supabase toggleSaveJob error:", err);
-      }
+      const syncPromise = exists
+        ? supabaseService.unsaveJob(user.id, jobId)
+        : supabaseService.saveJob(user.id, jobId);
+      syncPromise.catch(err => console.warn("Supabase toggleSaveJob sync error:", err));
     }
 
     return updated;
   },
 
-  // Applied jobs
-  async getAppliedJobs() {
-    const user = this.getUser();
-    if (this.isLiveDatabase() && user.id && user.id.includes('-')) {
-      try {
-        const dbApps = await supabaseService.getApplications(user.id);
-        if (dbApps && dbApps.length > 0) {
-          return dbApps.map(a => ({
-            id: a.id,
-            jobId: a.job_id,
-            company: a.company,
-            title: a.title,
-            salary: a.salary,
-            portal: a.portal,
-            appliedAt: a.applied_at,
-            deductionPhp: a.deduction_php,
-            atsReceiptId: a.ats_receipt_id,
-            status: a.status,
-            employerReplyTarget: a.employer_reply_target,
-            tailoredHeadline: a.tailored_headline,
-            tailoredSummary: a.tailored_summary,
-            coverLetter: a.cover_letter,
-            coverLetterTone: a.cover_letter_tone,
-            resumeChoice: a.resume_choice
-          }));
-        }
-      } catch (err) {
-        console.warn("Supabase getAppliedJobs error:", err);
-      }
-    }
-
+  // Applied jobs (synchronous array return)
+  getAppliedJobs() {
     return getStored(STORAGE_APPLIED_KEY, [
       {
         id: "app_prev_01",
@@ -384,31 +342,12 @@ export const api = {
     };
   },
 
-  // Community feedback / testimonials
-  async getTestimonials() {
-    if (this.isLiveDatabase()) {
-      try {
-        const dbTestimonials = await supabaseService.getTestimonials();
-        if (dbTestimonials && dbTestimonials.length > 0) {
-          return dbTestimonials.map(t => ({
-            id: t.id,
-            author: t.author,
-            role: t.role,
-            date: new Date(t.created_at).toLocaleDateString(),
-            avatarBg: t.avatar_bg,
-            avatarText: t.avatar_text,
-            comment: t.comment
-          }));
-        }
-      } catch (err) {
-        console.warn("Supabase getTestimonials error:", err);
-      }
-    }
-
+  // Community feedback / testimonials (synchronous array return)
+  getTestimonials() {
     return getStored(STORAGE_TESTIMONIALS_KEY, INITIAL_TESTIMONIALS);
   },
 
-  async addTestimonial(text, authorName = "Applicant") {
+  addTestimonial(text, authorName = "Applicant") {
     const newEntry = {
       id: `t_${Date.now()}`,
       author: authorName,
@@ -419,25 +358,77 @@ export const api = {
       comment: text
     };
 
-    const current = await this.getTestimonials();
+    const current = this.getTestimonials();
     const updated = [newEntry, ...current];
     setStored(STORAGE_TESTIMONIALS_KEY, updated);
 
     if (this.isLiveDatabase()) {
-      try {
-        await supabaseService.addTestimonial({
-          id: newEntry.id,
-          author: authorName,
-          role: newEntry.role,
-          comment: text,
-          avatar_bg: newEntry.avatarBg,
-          avatar_text: newEntry.avatarText
-        });
-      } catch (err) {
-        console.warn("Supabase addTestimonial error:", err);
-      }
+      supabaseService.addTestimonial({
+        id: newEntry.id,
+        author: authorName,
+        role: newEntry.role,
+        comment: text,
+        avatar_bg: newEntry.avatarBg,
+        avatar_text: newEntry.avatarText
+      }).catch(err => console.warn("Supabase addTestimonial sync error:", err));
     }
 
     return updated;
+  },
+
+  // Background sync from Supabase when available
+  async syncFromSupabase() {
+    if (!this.isLiveDatabase()) return null;
+    const user = this.getUser();
+    if (!user?.id || !user.id.includes('-')) return null;
+
+    try {
+      const [dbSaved, dbApps, dbTestimonials] = await Promise.allSettled([
+        supabaseService.getSavedJobIds(user.id),
+        supabaseService.getApplications(user.id),
+        supabaseService.getTestimonials()
+      ]);
+
+      if (dbSaved.status === 'fulfilled' && dbSaved.value) {
+        setStored(STORAGE_SAVED_KEY, dbSaved.value);
+      }
+      if (dbApps.status === 'fulfilled' && dbApps.value && dbApps.value.length > 0) {
+        const mappedApps = dbApps.value.map(a => ({
+          id: a.id,
+          jobId: a.job_id,
+          company: a.company,
+          title: a.title,
+          salary: a.salary,
+          portal: a.portal,
+          appliedAt: a.applied_at,
+          deductionPhp: a.deduction_php,
+          atsReceiptId: a.ats_receipt_id,
+          status: a.status,
+          employerReplyTarget: a.employer_reply_target,
+          tailoredHeadline: a.tailored_headline,
+          tailoredSummary: a.tailored_summary,
+          coverLetter: a.cover_letter,
+          coverLetterTone: a.cover_letter_tone,
+          resumeChoice: a.resume_choice
+        }));
+        setStored(STORAGE_APPLIED_KEY, mappedApps);
+      }
+      if (dbTestimonials.status === 'fulfilled' && dbTestimonials.value && dbTestimonials.value.length > 0) {
+        const mappedTestimonials = dbTestimonials.value.map(t => ({
+          id: t.id,
+          author: t.author,
+          role: t.role,
+          date: new Date(t.created_at).toLocaleDateString(),
+          avatarBg: t.avatar_bg,
+          avatarText: t.avatar_text,
+          comment: t.comment
+        }));
+        setStored(STORAGE_TESTIMONIALS_KEY, mappedTestimonials);
+      }
+      return { success: true };
+    } catch (err) {
+      console.warn("Supabase syncFromSupabase error:", err);
+      return null;
+    }
   }
 };
