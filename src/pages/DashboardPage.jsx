@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Briefcase, 
   Star, 
@@ -103,6 +103,26 @@ export default function DashboardPage({
     isPaused: user?.isPaused || false
   });
   const [profileSaveMsg, setProfileSaveMsg] = useState(false);
+
+  // Support URL query parameters for direct modal/tab previews (e.g., ?modal=topup, ?modal=apply, ?tab=applied)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const modalParam = params.get('modal');
+    if (modalParam === 'topup') {
+      setIsTopUpOpen(true);
+    } else if (modalParam === 'apply') {
+      const targetJob = (jobs && jobs.length > 0)
+        ? (jobs.find(j => j.company?.toLowerCase().includes('coins')) || jobs[0])
+        : null;
+      if (targetJob) {
+        setSelectedJobForApply(targetJob);
+      }
+    }
+    const tabParam = params.get('tab');
+    if (tabParam === 'applied') {
+      setActiveTab('applied');
+    }
+  }, [jobs]);
 
   // Filter jobs logic (≥ 60% match floor)
   const filteredMatchedJobs = jobs.filter(job => {
@@ -288,6 +308,31 @@ export default function DashboardPage({
           </button>
         )}
       </div>
+
+      {/* Dedicated Applied Job Card Preview View */}
+      {typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'applied_card' && (
+        <div className="max-w-2xl mx-auto mb-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-xl space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div>
+              <span className="text-[10px] font-black text-emerald-600 uppercase tracking-wider block">
+                Job Card State Preview
+              </span>
+              <h3 className="text-sm font-black text-slate-900">
+                Applied Role — Direct Confirmation
+              </h3>
+            </div>
+            <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-300">
+              ✓ Application Submitted
+            </span>
+          </div>
+
+          <JobCard
+            job={jobs.find(j => j.id === 'job_04') || jobs[3] || jobs[0]}
+            isApplied={true}
+            isDashboard={true}
+          />
+        </div>
+      )}
 
       {/* ================= VIEW 1: JOBS FEED ================= */}
       {mainNav === 'jobs' && (

@@ -6,19 +6,21 @@ import OnboardingPage from './pages/OnboardingPage';
 import DashboardPage from './pages/DashboardPage';
 import TopUpModal from './components/TopUpModal';
 import { api } from './services/api';
+import { MOCK_JOBS } from './services/mockData';
 
 export default function App() {
   const getInitialView = () => {
     const path = window.location.pathname.toLowerCase();
     const hash = window.location.hash.toLowerCase();
+    const search = window.location.search.toLowerCase();
     if (path.includes('signup') || path.includes('auth') || hash === '#auth' || hash === '#signup') {
       return 'auth';
     }
     if (path.includes('onboarding') || hash === '#onboarding') {
       return 'onboarding';
     }
-    // Only route to real dashboard on path /dashboard or exact hash #dashboard (NOT #dashboard-preview anchor on landing page!)
-    if (path.startsWith('/dashboard') || hash === '#dashboard') {
+    // Route to dashboard on path /dashboard, hash #dashboard, or search params like modal= or view=applied
+    if (path.startsWith('/dashboard') || hash === '#dashboard' || search.includes('modal=') || search.includes('view=applied')) {
       return 'dashboard';
     }
     return 'landing';
@@ -54,7 +56,7 @@ export default function App() {
   }, []);
 
   const [user, setUser] = useState(api.getUser());
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState(MOCK_JOBS);
   const [savedJobIds, setSavedJobIds] = useState(api.getSavedJobIds());
   const [appliedJobs, setAppliedJobs] = useState(api.getAppliedJobs());
   const [testimonials, setTestimonials] = useState(api.getTestimonials());
