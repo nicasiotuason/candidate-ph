@@ -696,7 +696,7 @@ export default function LandingPage({
                 <div className="text-3xl font-black text-emerald-600">First 25 Window</div>
                 <h3 className="text-base font-bold text-slate-900">The Critical Review Window</h3>
                 <p className="text-xs text-slate-800 leading-relaxed font-normal">
-                  Recruiters lock in candidate shortlists rapidly. Being Candidate #1 to #25 gives you priority evaluation before hiring managers stop reviewing inbound resumes due to application volume.
+                  Recruiters lock in candidate shortlists rapidly. Applying early puts you in the first batch recruiters read before hiring managers pause reviews due to application volume.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-800 font-medium">
