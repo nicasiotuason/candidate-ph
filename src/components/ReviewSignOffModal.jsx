@@ -125,7 +125,7 @@ export default function ReviewSignOffModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
       <div className="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl my-0 sm:my-8 overflow-hidden transition-all animate-in slide-in-from-bottom sm:slide-in-from-bottom-0 sm:fade-in sm:zoom-in-95 duration-200 flex flex-col max-h-[92dvh] sm:max-h-[90vh]">
         
         {/* Modal Top Bar */}
@@ -164,100 +164,63 @@ export default function ReviewSignOffModal({
         {/* Modal Body */}
         <div className="p-4 sm:p-7 overflow-y-auto space-y-4 sm:space-y-5 flex-1">
 
-          {/* Wallet & Pricing Notice Banner */}
-          <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
-                <Wallet className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-slate-900">
-                  Application Fee: <span className="text-blue-700 font-extrabold">₱50.00</span> (debited upon recruiter receipt)
-                </p>
-                <p className="text-[11px] text-slate-600">
-                  Current Balance: ₱{user?.walletBalance ?? 250}.00 → Balance After: ₱{Math.max(0, (user?.walletBalance ?? 250) - 50)}.00
-                </p>
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-700 mt-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span>Includes Tailored Resume + Role-Specific Cover Letter (0 extra credits)</span>
-                </div>
-              </div>
-            </div>
-
-            {!canAfford && (
-              <button
-                onClick={onOpenTopUp}
-                className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-xs shrink-0 cursor-pointer"
-              >
-                Buy Credits
-              </button>
-            )}
-          </div>
-
           {/* Employer Direct Reply Guarantee */}
           <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-2.5 text-xs text-emerald-950">
             <Mail className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold block text-emerald-900">Zero Middleman Guarantee:</span>
-              <span>
-                {job.company}'s recruitment team will receive this dispatch in their {job.portal} queue and will contact you directly at <strong className="underline">{user?.email}</strong>.
+              <span className="font-bold block text-emerald-900">Direct Recruiter Delivery:</span>
+              <span className="text-emerald-800">
+                {job.company}'s recruitment team will receive this dispatch in their {job.portal} queue and will contact you directly at <strong className="underline text-emerald-950 font-bold">{user?.email}</strong>.
               </span>
             </div>
           </div>
 
-          {/* 1. RESUME VERSION SELECTION */}
-          <div>
-            <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-2">
-              1. Select Resume Version to Send:
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              
-              {/* Option A: Tailored Resume */}
+          {/* 1. RESUME VERSION SELECTION (Default: Tailored, discreet link for Original) */}
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+            <div className="flex items-center justify-between">
+              <label className="block text-xs font-extrabold text-slate-900 uppercase tracking-wider">
+                1. Resume to Submit:
+              </label>
+              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded">
+                Included in ₱50
+              </span>
+            </div>
+
+            {resumeChoice === 'tailored' ? (
+              <div className="p-3.5 rounded-xl bg-white border-2 border-blue-600 shadow-xs flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-black text-slate-900">Tailored Resume (ATS Optimized)</span>
+                    <span className="text-[9px] font-black bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase">Recommended</span>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Custom-aligned to {job.company}'s requirements for {job.matchingSkills?.slice(0, 3).join(', ')} to maximize your score on their ATS.
+                  </p>
+                </div>
+                <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+              </div>
+            ) : (
+              <div className="p-3.5 rounded-xl bg-white border border-slate-300 shadow-xs flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <span className="text-xs font-black text-slate-900">Original Master Resume</span>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Submitting your default unedited master profile without role-specific keyword tuning.
+                  </p>
+                </div>
+                <CheckCircle2 className="w-5 h-5 text-slate-500 shrink-0 mt-0.5" />
+              </div>
+            )}
+
+            <div className="text-right pt-0.5">
               <button
                 type="button"
-                onClick={() => setResumeChoice('tailored')}
-                className={`p-3.5 rounded-2xl border text-left transition-all relative cursor-pointer ${
-                  resumeChoice === 'tailored'
-                    ? 'border-blue-600 bg-blue-50/70 shadow-xs ring-2 ring-blue-500/20'
-                    : 'border-slate-200 hover:border-slate-300 bg-white'
-                }`}
+                onClick={() => setResumeChoice(resumeChoice === 'tailored' ? 'master' : 'tailored')}
+                className="text-xs text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer"
               >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-black text-slate-900">
-                    Tailored Resume (ATS Optimized)
-                  </span>
-                  <span className="text-[9px] font-black bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase">
-                    Recommended
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-500">
-                  Emphasizes {job.matchingSkills?.slice(0, 3).join(', ')} directly to maximize keyword pass-through on {job.portal}.
-                </p>
+                {resumeChoice === 'tailored' 
+                  ? 'Switch to sending original master resume' 
+                  : 'Switch back to recommended tailored resume'}
               </button>
-
-              {/* Option B: Original Master Resume */}
-              <button
-                type="button"
-                onClick={() => setResumeChoice('master')}
-                className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
-                  resumeChoice === 'master'
-                    ? 'border-blue-600 bg-blue-50/70 shadow-xs ring-2 ring-blue-500/20'
-                    : 'border-slate-200 hover:border-slate-300 bg-white'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-black text-slate-900">
-                    Original Master Resume
-                  </span>
-                  <span className="text-[9px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">
-                    Unmodified
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-500">
-                  Dispatches your baseline master resume PDF without role-specific keyword re-ordering.
-                </p>
-              </button>
-
             </div>
           </div>
 
@@ -483,38 +446,52 @@ export default function ReviewSignOffModal({
 
         </div>
 
-        {/* Modal Footer */}
-        <div className="p-4 sm:p-6 bg-slate-50 border-t border-slate-200 flex flex-col-reverse sm:flex-row items-center justify-between gap-2.5 sm:gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer transition-colors"
-          >
-            Cancel
-          </button>
+        {/* Modal Sticky Footer */}
+        <div className="sticky bottom-0 bg-white border-t border-slate-200 p-4 sm:p-5 z-20 shadow-xl shrink-0 flex flex-col gap-3">
+          {/* Explicit Fee & Balance Row */}
+          <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200">
+            <span className="flex items-center gap-1.5 font-bold text-slate-900">
+              <span className="text-blue-700 font-black">₱50 will be deducted</span>
+              <span className="text-slate-400 font-normal">•</span>
+              <span className="text-slate-700 font-medium">Balance after: <strong className="text-slate-900">₱{Math.max(0, (user?.walletBalance ?? 250) - 50)}.00</strong></span>
+            </span>
+            <span className="text-xs font-bold text-emerald-700">
+              {Math.floor(Math.max(0, (user?.walletBalance ?? 250) - 50) / 50)} apps remaining
+            </span>
+          </div>
 
-          <button
-            type="button"
-            disabled={!hasSignedOff || !canAfford || isSubmitting}
-            onClick={handleSubmit}
-            className={`w-full sm:w-auto px-7 py-3.5 text-white font-extrabold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg min-h-[48px] ${
-              !hasSignedOff || !canAfford || isSubmitting
-                ? 'bg-slate-400 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700 active:scale-95 cursor-pointer'
-            }`}
-          >
-            {isSubmitting ? (
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Dispatching to {job.portal}...</span>
-              </div>
-            ) : (
-              <>
-                <Send className="w-4 h-4 text-amber-300" />
-                <span>Approve & Send Application (₱50)</span>
-              </>
-            )}
-          </button>
+          <div className="flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-5 py-3 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 cursor-pointer transition-colors"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              disabled={!hasSignedOff || !canAfford || isSubmitting}
+              onClick={handleSubmit}
+              className={`flex-1 px-7 py-3 text-white font-extrabold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-md min-h-[46px] ${
+                !hasSignedOff || !canAfford || isSubmitting
+                  ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 active:scale-95 cursor-pointer'
+              }`}
+            >
+              {isSubmitting ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Dispatching to {job.portal}...</span>
+                </div>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 text-white" />
+                  <span>Confirm & Dispatch Application (₱50)</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
       </div>

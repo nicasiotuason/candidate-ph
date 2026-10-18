@@ -192,19 +192,23 @@ export default function DashboardPage({
             </p>
           </div>
 
-          {/* Wallet Action Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white flex items-center justify-between gap-6 shadow-md shrink-0">
-            <div>
-              <div className="flex items-center gap-1.5 text-xs text-slate-300 font-semibold">
-                <Wallet className="w-3.5 h-3.5 text-amber-400" />
-                <span>Application Wallet</span>
+          {/* Wallet Action Box (Refined, Clean & Compact) */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-xs flex items-center justify-between gap-4 shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <Wallet className="w-5 h-5" />
               </div>
-              <div className="text-2xl font-black text-white mt-1">
-                ₱{user?.walletBalance ?? 250}.00
+              <div>
+                <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
+                  <span>Application Wallet</span>
+                </div>
+                <div className="text-xl font-black text-slate-900 leading-tight">
+                  ₱{user?.walletBalance ?? 250}.00
+                </div>
+                <p className="text-[11px] text-slate-500 font-medium">
+                  {Math.floor((user?.walletBalance ?? 250) / 50)} applications available (₱50/app)
+                </p>
               </div>
-              <p className="text-[11px] text-slate-400 mt-0.5">
-                {Math.floor((user?.walletBalance ?? 250) / 50)} Direct Applications available (₱50/app)
-              </p>
             </div>
 
             <div className="flex items-center gap-2">
@@ -212,55 +216,46 @@ export default function DashboardPage({
                 type="button"
                 disabled={isLandingPreview}
                 onClick={isLandingPreview ? undefined : () => setIsInviteOpen(true)}
-                className={`px-3 sm:px-3.5 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs rounded-xl shadow-xs flex items-center gap-1.5 shrink-0 ${
-                  isLandingPreview 
-                    ? 'cursor-default pointer-events-none opacity-90' 
-                    : 'active:scale-95 transition-all cursor-pointer'
+                className={`px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all flex items-center gap-1.5 ${
+                  isLandingPreview ? 'cursor-default pointer-events-none opacity-90' : 'cursor-pointer'
                 }`}
-                title="Invite a colleague — Earn ₱50 when they complete sign-up"
+                title="Invite a friend — Earn ₱50 when they complete sign-up"
               >
-                <Gift className="w-4 h-4 text-slate-950" />
-                <span>Earn ₱50 (Invite)</span>
+                <Gift className="w-3.5 h-3.5 text-amber-600" />
+                <span className="hidden sm:inline">Invite (+₱50)</span>
               </button>
 
               <button
                 type="button"
                 disabled={isLandingPreview}
                 onClick={() => !isLandingPreview && setIsTopUpOpen(true)}
-                className={`px-4 py-3 bg-blue-600 text-white font-black text-xs rounded-xl shadow-xs flex items-center gap-1.5 shrink-0 ${
-                  isLandingPreview 
-                    ? 'cursor-default pointer-events-none opacity-90' 
-                    : 'hover:bg-blue-500 active:scale-95 transition-all cursor-pointer'
+                className={`px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl transition-all flex items-center gap-1.5 shadow-xs ${
+                  isLandingPreview ? 'cursor-default pointer-events-none opacity-90' : 'cursor-pointer active:scale-95'
                 }`}
               >
-                <Plus className="w-4 h-4 stroke-[3]" />
-                <span>Buy Credits</span>
+                <Plus className="w-3.5 h-3.5 stroke-[3]" />
+                <span>Top Up</span>
               </button>
             </div>
           </div>
 
         </div>
 
-        {/* 4 Summary Telemetry Pills */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 mt-6 border-t border-slate-100">
-          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">ACTIVE PORTALS MONITORED</span>
-            <span className="text-lg font-black text-slate-900 mt-0.5 block">15,443+</span>
+        {/* 3 Personal Telemetry Pills (No Vanity Metrics) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 mt-6 border-t border-slate-100">
+          <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">RECOMMENDED FOR YOU</span>
+            <span className="text-lg font-black text-blue-600 mt-0.5 block">{jobs.length} Matched Roles (≥ 60%)</span>
           </div>
 
-          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">MATCHED (≥ 60%)</span>
-            <span className="text-lg font-black text-blue-600 mt-0.5 block">{jobs.length} Opportunities</span>
-          </div>
-
-          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">BOOKMARKS</span>
-            <span className="text-lg font-black text-amber-500 mt-0.5 block">{savedJobIds.length} Saved</span>
-          </div>
-
-          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
+          <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
             <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">APPLICATIONS SENT</span>
-            <span className="text-lg font-black text-emerald-600 mt-0.5 block">{appliedJobs.length} Dispatched</span>
+            <span className="text-lg font-black text-emerald-600 mt-0.5 block">{appliedJobs.length} Dispatched to ATS</span>
+          </div>
+
+          <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">SAVED FOR LATER</span>
+            <span className="text-lg font-black text-slate-800 mt-0.5 block">{savedJobIds.length} Bookmarked</span>
           </div>
         </div>
 
