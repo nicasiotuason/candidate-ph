@@ -309,31 +309,6 @@ export default function DashboardPage({
         )}
       </div>
 
-      {/* Dedicated Applied Job Card Preview View */}
-      {typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'applied_card' && (
-        <div className="max-w-2xl mx-auto mb-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-xl space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-black text-emerald-600 uppercase tracking-wider block">
-                Job Card State Preview
-              </span>
-              <h3 className="text-sm font-black text-slate-900">
-                Applied Role — Direct Confirmation
-              </h3>
-            </div>
-            <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-300">
-              ✓ Application Submitted
-            </span>
-          </div>
-
-          <JobCard
-            job={jobs.find(j => j.id === 'job_04') || jobs[3] || jobs[0]}
-            isApplied={true}
-            isDashboard={true}
-          />
-        </div>
-      )}
-
       {/* ================= VIEW 1: JOBS FEED ================= */}
       {mainNav === 'jobs' && (
         <div className="space-y-6">
@@ -465,18 +440,25 @@ export default function DashboardPage({
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                    {(isLandingPreview ? filteredMatchedJobs.slice(0, 6) : filteredMatchedJobs).map((job) => (
-                      <JobCard
-                        key={job.id}
-                        job={job}
-                        isSaved={isLandingPreview ? job.id === 'job_02' : savedJobIds.includes(job.id)}
-                        isApplied={isLandingPreview ? job.id === 'job_04' : appliedJobIds.has(job.id)}
-                        onToggleSave={isLandingPreview ? null : onToggleSaveJob}
-                        onQuickApply={isLandingPreview ? null : (j) => setSelectedJobForApply(j)}
-                        isDashboard={true}
-                        isLandingPreview={isLandingPreview}
-                      />
-                    ))}
+                    {(isLandingPreview ? filteredMatchedJobs.slice(0, 6) : filteredMatchedJobs).map((job) => {
+                      const isJobApplied = isLandingPreview ? job.id === 'job_04' : appliedJobIds.has(job.id);
+                      const appliedRecord = appliedJobs.find(a => a.jobId === job.id);
+                      const appliedDateStr = 'Sent Oct 18';
+
+                      return (
+                        <JobCard
+                          key={job.id}
+                          job={job}
+                          isSaved={isLandingPreview ? job.id === 'job_02' : savedJobIds.includes(job.id)}
+                          isApplied={isJobApplied}
+                          appliedDate={isJobApplied ? (job.appliedDate || appliedDateStr) : null}
+                          onToggleSave={isLandingPreview ? null : onToggleSaveJob}
+                          onQuickApply={isLandingPreview ? null : (j) => setSelectedJobForApply(j)}
+                          isDashboard={true}
+                          isLandingPreview={isLandingPreview}
+                        />
+                      );
+                    })}
                   </div>
 
                   {isLandingPreview && (

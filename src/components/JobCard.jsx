@@ -21,6 +21,7 @@ export default function JobCard({
   onToggleSave, 
   onQuickApply, 
   isApplied = false,
+  appliedDate = null,
   footerChildren = null,
   isDashboard = false,
   isLandingPreview = false
@@ -35,18 +36,19 @@ export default function JobCard({
   const logoText = job.logoText || job.logo || job.company?.charAt(0) || 'C';
   const logoColor = job.logoColor || 'bg-blue-600 text-white';
   const postedInfo = job.postedHeader || (job.postedAgo ? `Early Applicant • ${job.postedAgo}` : 'Early Bird Review Batch');
+  const appliedDateDisplay = appliedDate || job.appliedDate || 'Sent Oct 18';
 
   return (
     <div className={`relative rounded-3xl p-5 sm:p-6 transition-all text-left flex flex-col justify-between group ${
       isApplied 
-        ? 'bg-slate-50/90 border border-slate-200 shadow-xs' 
+        ? 'bg-slate-100/75 border border-slate-200/90 shadow-none opacity-90 hover:opacity-100' 
         : 'bg-white border border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md'
     }`}>
       
       {/* 1. Header: Company Info, Match Score & Bookmark */}
       <div className="flex items-start justify-between gap-3 pb-3.5 border-b border-slate-100">
         <div className="flex items-start gap-3 min-w-0">
-          <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl ${logoColor} font-black text-lg sm:text-xl flex items-center justify-center shadow-xs shrink-0`}>
+          <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl ${logoColor} font-black text-lg sm:text-xl flex items-center justify-center shadow-xs shrink-0 ${isApplied ? 'opacity-85' : ''}`}>
             {logoText}
           </div>
           <div className="min-w-0">
@@ -69,9 +71,9 @@ export default function JobCard({
         {/* Right Header Status: Match Score Pill & Save Star */}
         <div className="flex items-center gap-2 shrink-0">
           {isApplied && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 font-black text-xs">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 font-extrabold text-xs">
               <Check className="w-3.5 h-3.5 text-emerald-700 stroke-[3]" />
-              <span>Applied</span>
+              <span>Applied • {appliedDateDisplay}</span>
             </span>
           )}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-extrabold text-xs shadow-2xs">
