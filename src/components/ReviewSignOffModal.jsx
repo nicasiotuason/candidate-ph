@@ -167,12 +167,9 @@ export default function ReviewSignOffModal({
           {/* Employer Direct Reply Guarantee */}
           <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-2.5 text-xs text-emerald-950">
             <Mail className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-            <div>
-              <span className="font-bold block text-emerald-900">Direct Recruiter Delivery:</span>
-              <span className="text-emerald-800">
-                {job.company}'s recruitment team will receive this dispatch in their {job.portal} queue and will contact you directly at <strong className="underline text-emerald-950 font-bold">{user?.email}</strong>.
-              </span>
-            </div>
+            <p className="text-emerald-900 leading-relaxed">
+              <strong>{job.company}'s hiring team</strong> will get your application directly and reply to <strong className="underline text-emerald-950 font-bold">{user?.email || 'your email'}</strong>.
+            </p>
           </div>
 
           {/* 1. RESUME VERSION SELECTION (Default: Tailored, discreet link for Original) */}
@@ -449,14 +446,14 @@ export default function ReviewSignOffModal({
         {/* Modal Sticky Footer */}
         <div className="sticky bottom-0 bg-white border-t border-slate-200 p-4 sm:p-5 z-20 shadow-xl shrink-0 flex flex-col gap-3">
           {/* Explicit Fee & Balance Row */}
-          <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm font-semibold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200 gap-1.5">
             <span className="flex items-center gap-1.5 font-bold text-slate-900">
               <span className="text-blue-700 font-black">₱50 will be deducted</span>
               <span className="text-slate-400 font-normal">•</span>
               <span className="text-slate-700 font-medium">Balance after: <strong className="text-slate-900">₱{Math.max(0, (user?.walletBalance ?? 250) - 50)}.00</strong></span>
             </span>
-            <span className="text-xs font-bold text-emerald-700">
-              {Math.floor(Math.max(0, (user?.walletBalance ?? 250) - 50) / 50)} apps remaining
+            <span className="text-[11px] font-bold text-emerald-700">
+              ✓ If your application doesn't reach the employer, you won't be charged.
             </span>
           </div>
 
@@ -487,7 +484,7 @@ export default function ReviewSignOffModal({
               ) : (
                 <>
                   <Send className="w-4 h-4 text-white" />
-                  <span>Confirm & Dispatch Application (₱50)</span>
+                  <span>Send application (₱50)</span>
                 </>
               )}
             </button>

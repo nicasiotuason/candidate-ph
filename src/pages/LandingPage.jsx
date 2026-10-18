@@ -201,7 +201,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What does the ₱50 fee cover, and when am I charged?",
-    a: "Searching and matching is ₱0 free forever. You only pay ₱50 when you decide to apply to a specific role. That single ₱50 fee includes BOTH your ATS-optimized resume keywords AND a bespoke, role-tailored cover letter (with 3 selectable pitch tones). Crucially, the ₱50 is only deducted once the employer's official career portal verifies successful receipt. Every new account receives ₱50 in free starting balance, so your first application is 100% on us."
+    a: "Searching and matching is ₱0 free forever. You only pay ₱50 when you decide to apply to a specific role. That single ₱50 fee includes BOTH your ATS-optimized resume keywords AND a bespoke, role-tailored cover letter (with 3 selectable pitch tones). Crucially, the ₱50 is only deducted once the employer's official career portal verifies successful receipt. Every new account receives ₱250 in free starting credits, so your first 5 applications are 100% on us."
   },
   {
     q: "What is the Zero Middleman Guarantee?",
@@ -351,31 +351,27 @@ export default function LandingPage({
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50/90 border border-amber-200/90 text-amber-900 text-xs font-semibold">
                   <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                  <span>Monitoring <strong className="text-amber-950 font-bold">{tickerCount.toLocaleString()}</strong> + Philippine Professional & Tech Roles</span>
+                  <span>Matching 15,443+ professional jobs across the Philippines</span>
                 </div>
               </div>
 
               {/* Eyebrow Badge */}
               <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 border border-blue-100 text-theme-primary text-xs font-extrabold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 border border-blue-100 text-theme-primary text-xs font-extrabold tracking-wide">
                   <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                  <span>THE EARLY BIRD ADVANTAGE</span>
+                  <span>Early bird advantage: apply before the role gets flooded</span>
                 </div>
               </div>
 
               {/* Main Headline (Unified Single Message) */}
               <div className="space-y-3">
-                <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-black text-slate-900 leading-[1.15] tracking-tight">
-                  Be <span className="text-blue-600">Candidate #1</span> Before The Role Gets Flooded.
+                <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 leading-[1.15] tracking-tight">
+                  We find professional jobs that match you and send your application straight to the recruiter.
                 </h1>
                 
-                {/* Blocker Sub-headline: Instant Clarity on Matching & Cost */}
-                <p className="text-base sm:text-lg text-slate-800 font-bold leading-snug pt-1">
-                  Matching is free. Pay ₱50 only when you apply, and we send your application straight to the recruiter.
-                </p>
-                
-                <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed max-w-xl">
-                  Upload your resume once. We scan open roles across Philippine tech hubs, match 60%+ of your stack, and deliver tailored applications straight to company hiring channels.
+                {/* Sub-headline: Instant Clarity on Matching & Cost */}
+                <p className="text-base sm:text-lg text-slate-700 font-medium leading-relaxed pt-1">
+                  Upload your resume once. Matching is free. Pay ₱50 only when you apply.
                 </p>
               </div>
 
@@ -386,14 +382,14 @@ export default function LandingPage({
                   onClick={() => onStartSignUp(heroEmail || 'applicant@email.com')}
                   className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold text-base rounded-2xl shadow-lg transition-all flex items-center justify-center gap-3 cursor-pointer group"
                 >
-                  <span>Upload my resume — it's free</span>
+                  <span>Upload my resume, it's free</span>
                   <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <div className="flex flex-wrap items-center gap-4 sm:gap-5 mt-3.5 text-xs text-slate-700 font-medium">
-                  <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> Free continuous search & match</span>
-                  <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> ₱250 welcome credits (5 free applications)</span>
-                  <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> No credit card required</span>
+                  <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> Free matching, always</span>
+                  <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> ₱250 welcome credit (5 free applications)</span>
+                  <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> No credit card needed</span>
                 </div>
               </div>
 
@@ -474,7 +470,7 @@ export default function LandingPage({
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 flex items-center gap-2">
                 <Gift className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>₱50 Free Balance unlocked automatically on sign-up.</span>
+                <span>₱250 Welcome Credits unlocked automatically on sign-up (5 free apps).</span>
               </div>
             </div>
 
@@ -806,9 +802,9 @@ export default function LandingPage({
               No monthly lock-ins or subscriptions. Reload your wallet with PayMongo when you need to send applications; your balance never expires.
             </p>
 
-            <div className="inline-flex items-center gap-3 p-3 px-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold shadow-xs mt-2">
+            <div className="inline-flex items-center gap-3 p-3 px-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-sm font-semibold shadow-xs mt-2">
               <span className="text-xl">🎁</span>
-              <span>Every new account receives <strong>₱50 Free Balance</strong> (Your 1st application is 100% on us).</span>
+              <span>Every new account receives <strong>₱250 Welcome Credits</strong> (Your first 5 applications are 100% on us).</span>
             </div>
           </div>
 
@@ -1106,7 +1102,7 @@ export default function LandingPage({
           
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-emerald-400 text-xs font-bold border border-slate-700">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Zero Subscriptions • ₱50 Free Balance on Sign-up
+            Zero Subscriptions • ₱250 Welcome Credits on Sign-up (5 Free Apps)
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-black leading-tight text-white">
@@ -1129,7 +1125,7 @@ export default function LandingPage({
               required
               value={footerEmail}
               onChange={(e) => setFooterEmail(e.target.value)}
-              placeholder="Enter your email to claim ₱50 free balance..." 
+              placeholder="Enter your email to claim ₱250 welcome credits..." 
               className="flex-1 px-4 py-3.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button 

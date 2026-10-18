@@ -123,20 +123,9 @@ export default function TopUpModal({
               )}
 
               <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-extrabold text-blue-200 uppercase tracking-wider block">
-                    {step === 'success' ? 'Payment Verified' : 'PayMongo Instant Gateway'}
-                  </span>
-                  {isPayMongoLive ? (
-                    <span className="px-1.5 py-0.2 rounded-full bg-emerald-400/20 text-emerald-300 text-[9px] font-black border border-emerald-400/40">
-                      LIVE
-                    </span>
-                  ) : (
-                    <span className="px-1.5 py-0.2 rounded-full bg-blue-300/20 text-blue-200 text-[9px] font-black border border-blue-300/30">
-                      TEST SANDBOX
-                    </span>
-                  )}
-                </div>
+                <span className="text-[10px] font-extrabold text-blue-200 uppercase tracking-wider block">
+                  {step === 'success' ? 'Payment Verified' : 'PayMongo Instant Gateway'}
+                </span>
                 <h3 className="text-lg sm:text-xl font-black text-white">
                   {step === 'checkout' ? 'Authorize Payment' : step === 'success' ? 'Credits Added to Wallet' : 'Buy Application Credits'}
                 </h3>

@@ -192,65 +192,18 @@ export default function DashboardPage({
             </p>
           </div>
 
-          {/* Wallet Action Box (Refined, Clean & Compact) */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-xs flex items-center justify-between gap-4 shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-                <Wallet className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
-                  <span>Application Wallet</span>
-                </div>
-                <div className="text-xl font-black text-slate-900 leading-tight">
-                  ₱{user?.walletBalance ?? 250}.00
-                </div>
-                <p className="text-[11px] text-slate-500 font-medium">
-                  {Math.floor((user?.walletBalance ?? 250) / 50)} applications available (₱50/app)
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                disabled={isLandingPreview}
-                onClick={isLandingPreview ? undefined : () => setIsInviteOpen(true)}
-                className={`px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all flex items-center gap-1.5 ${
-                  isLandingPreview ? 'cursor-default pointer-events-none opacity-90' : 'cursor-pointer'
-                }`}
-                title="Invite a friend — Earn ₱50 when they complete sign-up"
-              >
-                <Gift className="w-3.5 h-3.5 text-amber-600" />
-                <span className="hidden sm:inline">Invite (+₱50)</span>
-              </button>
-
-              <button
-                type="button"
-                disabled={isLandingPreview}
-                onClick={() => !isLandingPreview && setIsTopUpOpen(true)}
-                className={`px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl transition-all flex items-center gap-1.5 shadow-xs ${
-                  isLandingPreview ? 'cursor-default pointer-events-none opacity-90' : 'cursor-pointer active:scale-95'
-                }`}
-              >
-                <Plus className="w-3.5 h-3.5 stroke-[3]" />
-                <span>Top Up</span>
-              </button>
-            </div>
-          </div>
-
         </div>
 
-        {/* 3 Personal Telemetry Pills (No Vanity Metrics) */}
+        {/* 3 Personal Telemetry Pills (No Vanity Metrics & Clean Wording) */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 mt-6 border-t border-slate-100">
           <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
             <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">RECOMMENDED FOR YOU</span>
-            <span className="text-lg font-black text-blue-600 mt-0.5 block">{jobs.length} Matched Roles (≥ 60%)</span>
+            <span className="text-lg font-black text-blue-600 mt-0.5 block">{jobs.length} Jobs that match you</span>
           </div>
 
           <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
             <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">APPLICATIONS SENT</span>
-            <span className="text-lg font-black text-emerald-600 mt-0.5 block">{appliedJobs.length} Dispatched to ATS</span>
+            <span className="text-lg font-black text-emerald-600 mt-0.5 block">{appliedJobs.length} Applications sent</span>
           </div>
 
           <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
@@ -310,9 +263,9 @@ export default function DashboardPage({
           } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
         >
           <User className="w-4 h-4" />
-          <span>Profile (Pareto 6)</span>
+          <span>Profile</span>
           <span className="text-[10px] font-extrabold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
-            {user?.profileStrength || 85}%
+            {user?.profileStrength || 85}% complete
           </span>
         </button>
 
@@ -458,9 +411,9 @@ export default function DashboardPage({
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {/* Freshness Lifespan Notice */}
+                  {/* Freshness Notice */}
                   <div className="flex items-center justify-between text-xs text-slate-500 px-1">
-                    <span>Showing top verified roles (filtered by 14-day freshness lifespan)</span>
+                    <span>Showing matches posted in the last 14 days</span>
                     <span className="font-bold text-slate-700">{filteredMatchedJobs.length} active roles</span>
                   </div>
 
@@ -487,7 +440,7 @@ export default function DashboardPage({
                           <span>Showing 3 Rows (6 of 18 Live Matched Roles)</span>
                         </div>
                         <p className="text-xs text-slate-700 font-medium max-w-xl">
-                          This is a curated preview. Sign up in 60 seconds to unlock your full verified feed and claim your ₱50 welcome balance.
+                          This is a curated preview. Sign up in 60 seconds to unlock your full verified feed and claim your ₱250 welcome credits (5 free applications).
                         </p>
                       </div>
                       <button
@@ -768,7 +721,7 @@ export default function DashboardPage({
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold mb-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>PROGRESSIVE PROFILE & PARETO 6</span>
+                <span>CANDIDATE PROFILE</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-slate-900">
                 Candidate Profile Settings

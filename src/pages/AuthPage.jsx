@@ -56,12 +56,12 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
           </p>
         </div>
 
-        {/* ₱50 Welcome Balance Promotion Banner */}
+        {/* ₱250 Welcome Credits Promotion Banner */}
         {isSignUp && (
-          <div className="mb-3 p-2 rounded-2xl bg-amber-50 border border-amber-300 flex items-center gap-2 text-xs text-amber-950 font-semibold shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
+          <div className="mb-3 p-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 text-xs text-emerald-950 font-semibold shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
             <span>
-              🎉 <strong>₱50 Welcome Balance</strong> included automatically (1st application is 100% on us).
+              🎉 <strong>₱250 welcome credit added automatically.</strong> Your first 5 applications are on us.
             </span>
           </div>
         )}
@@ -135,7 +135,7 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
               />
             </div>
             <p className="text-[11px] sm:text-xs text-slate-700 font-medium mt-1 leading-normal">
-              Employers reply directly to this inbox — CANDIDATE.ph never acts as a middleman.
+              Employers reply straight to this inbox. We never stand in between.
             </p>
           </div>
 
@@ -189,10 +189,10 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
             ) : isSignUp ? (
               <div className="flex flex-col items-center justify-center leading-tight py-0.5">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs sm:text-sm font-black tracking-wide">SIGN UP</span>
-                  <ArrowRight className="w-4 h-4 text-amber-300" />
+                  <span className="text-xs sm:text-sm font-black tracking-wide">Sign up</span>
+                  <ArrowRight className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Claim ₱50 First Application</span>
+                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Get your free applications</span>
               </div>
             ) : (
               <div className="flex items-center gap-2 py-1">

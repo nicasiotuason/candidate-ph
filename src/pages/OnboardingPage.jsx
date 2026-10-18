@@ -200,7 +200,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
       const t1 = setTimeout(() => {
         setTelemetryProgress(48);
-        setTelemetryStage('Matching your Pareto 6 criteria & verified skills...');
+        setTelemetryStage('Matching your job preferences & verified skills...');
       }, 700);
 
       const t2 = setTimeout(() => {
@@ -364,11 +364,11 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                 Don't have an updated CV ready?
               </h3>
 
-              {/* Informational Callout */}
-              <div className="p-3.5 rounded-xl bg-amber-50/90 border border-amber-200 flex items-start gap-2.5 text-xs">
-                <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-                <p className="text-slate-800 font-semibold leading-relaxed">
-                  A Resume File is <strong className="text-slate-950 font-black">100% Mandatory</strong> across every single <strong className="text-slate-950 font-black">Applicant Tracking System (ATS)</strong>. We cannot dispatch your Application to any employer without an attached CV file.
+              {/* Informational Callout (Calm & Helpful Tone) */}
+              <div className="p-3.5 rounded-xl bg-slate-100 border border-slate-200 flex items-start gap-2.5 text-xs">
+                <FileText className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                <p className="text-slate-700 font-medium leading-relaxed">
+                  Employers need a resume file before they'll look at an application. Pick how you'd like to make yours.
                 </p>
               </div>
 
@@ -996,7 +996,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
               <p className="text-xs text-slate-700 mt-1">
                 {isScanningComplete 
                   ? 'We have matched your profile against live employer career portals with 60%+ qualification compatibility.'
-                  : 'Matching your Pareto 6 criteria and skills against fresh roles posted in the last 14 days.'}
+                  : 'Matching your preferences and verified skills against fresh roles posted in the last 14 days.'}
               </p>
             </div>
 
@@ -1078,10 +1078,10 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
 
                 </div>
 
-                <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200 flex items-center gap-2.5 text-xs text-amber-900 font-semibold">
-                  <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 flex items-center gap-2.5 text-xs text-emerald-950 font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                   <span>
-                    Your <strong>₱50 Welcome Balance</strong> is ready — your 1st application is 100% on us!
+                    Your <strong>₱250 Welcome Credit</strong> is ready — your first 5 applications are 100% on us!
                   </span>
                 </div>
               </div>
