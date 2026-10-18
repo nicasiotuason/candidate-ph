@@ -7,6 +7,21 @@ const STORAGE_USER_KEY = 'candidate_ph_user';
 const STORAGE_APPLIED_KEY = 'candidate_ph_applied';
 const STORAGE_SAVED_KEY = 'candidate_ph_saved';
 const STORAGE_TESTIMONIALS_KEY = 'candidate_ph_testimonials';
+const STORAGE_VERSION_KEY = 'candidate_ph_storage_v';
+const CURRENT_STORAGE_VERSION = 'v3_p50_free';
+
+// Cleanly migrate/reset stale localStorage from previous sessions to pristine ₱50 balance
+try {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    if (localStorage.getItem(STORAGE_VERSION_KEY) !== CURRENT_STORAGE_VERSION) {
+      localStorage.removeItem(STORAGE_USER_KEY);
+      localStorage.removeItem(STORAGE_APPLIED_KEY);
+      localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_STORAGE_VERSION);
+    }
+  }
+} catch {
+  // Ignore local storage security restriction in sandbox
+}
 
 // Initialize local storage helpers
 function getStored(key, fallback) {
@@ -32,7 +47,7 @@ export const api = {
     return isSupabaseConfigured();
   },
 
-  // Reset demo state back to pristine ₱250 balance and 1 sample application
+  // Reset demo state back to pristine ₱50 balance and 1 sample application
   resetDemoState() {
     try {
       localStorage.removeItem(STORAGE_USER_KEY);
@@ -80,7 +95,7 @@ export const api = {
           id: authData.user.id,
           email: authData.user.email,
           name: authData.user.user_metadata?.name || email.split('@')[0],
-          walletBalance: 250,
+          walletBalance: 50,
           isOnboarded: false
         };
       }
@@ -107,7 +122,7 @@ export const api = {
         email,
         name: name || (email ? email.split('@')[0] : 'Applicant'),
         isOnboarded: false,
-        walletBalance: 250,
+        walletBalance: 50,
         referralCode: `CAND-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
       };
       setStored(STORAGE_USER_KEY, newUser);
@@ -122,7 +137,7 @@ export const api = {
           email,
           name: name || (email ? email.split('@')[0] : 'Applicant'),
           isOnboarded: false,
-          walletBalance: 250 // includes ₱50 bonus credits
+          walletBalance: 50 // ₱50 welcome credit (1 free application)
         };
         setStored(STORAGE_USER_KEY, newUser);
         resolve({ success: true, user: newUser, token: 'mock-jwt-token-new' });
@@ -260,7 +275,7 @@ export const api = {
       throw new Error("Insufficient balance. Please top up your wallet with PayMongo to submit this application.");
     }
 
-    const newBalance = (user.walletBalance ?? 250) - cost;
+    const newBalance = (user.walletBalance ?? 50) - cost;
     await this.updateUser({ walletBalance: newBalance });
 
     const appliedRecord = {

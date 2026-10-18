@@ -1081,7 +1081,7 @@ export default function OnboardingPage({ initialEmail, initialName, onCompleteOn
                 <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 flex items-center gap-2.5 text-xs text-emerald-950 font-semibold">
                   <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                   <span>
-                    Your <strong>₱250 Welcome Credit</strong> is ready — your first 5 applications are 100% on us!
+                    Your <strong>₱50 Welcome Credit</strong> is ready — your first application is 100% on us!
                   </span>
                 </div>
               </div>

@@ -22,7 +22,7 @@ import { paymongoService } from '../services/paymongoService';
 export default function TopUpModal({ 
   isOpen, 
   onClose, 
-  currentBalance = 250, 
+  currentBalance = 50, 
   user = null, 
   onTopUpSuccess, 
   onOpenInvite 

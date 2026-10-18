@@ -87,7 +87,7 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                 >
                   <div className="flex flex-col text-left leading-tight">
                     <span className="text-xs sm:text-[13px] font-black tracking-wide">SIGN UP</span>
-                    <span className="text-[9px] sm:text-[10px] font-semibold text-blue-100">Get 5 free applications</span>
+                    <span className="text-[9px] sm:text-[10px] font-semibold text-blue-100">Claim ₱50 First Application</span>
                   </div>
                   <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 text-amber-300" />
                 </button>
@@ -125,10 +125,10 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                     <Wallet className="w-3.5 h-3.5 text-blue-600 shrink-0" />
                     <span className="text-slate-700 font-medium hidden md:inline">Wallet:</span>
                     <span className="font-extrabold text-slate-900 text-xs sm:text-sm">
-                      ₱{user?.walletBalance ?? 250}
+                      ₱{user?.walletBalance ?? 50}
                     </span>
                     <span className="text-[10px] text-slate-500 font-medium hidden sm:inline">
-                      ({Math.floor((user?.walletBalance ?? 250) / 50)} apps)
+                      ({Math.floor((user?.walletBalance ?? 50) / 50)} {Math.floor((user?.walletBalance ?? 50) / 50) === 1 ? 'app' : 'apps'})
                     </span>
                   </div>
                   <button

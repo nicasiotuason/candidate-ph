@@ -469,7 +469,7 @@ export default function DashboardPage({
                           <span>Showing 3 Rows (6 of 18 Live Matched Roles)</span>
                         </div>
                         <p className="text-xs text-slate-700 font-medium max-w-xl">
-                          This is a curated preview. Sign up in 60 seconds to unlock your full verified feed and claim your ₱250 welcome credits (5 free applications).
+                          This is a curated preview. Sign up in 60 seconds to unlock your full verified feed and claim your ₱50 welcome credit (1st application free).
                         </p>
                       </div>
                       <button
@@ -1128,7 +1128,7 @@ export default function DashboardPage({
           <TopUpModal
             isOpen={isTopUpOpen}
             onClose={() => setIsTopUpOpen(false)}
-            currentBalance={user?.walletBalance ?? 250}
+            currentBalance={user?.walletBalance ?? 50}
             user={user}
             onTopUpSuccess={onTopUpSuccess}
             onOpenInvite={() => setIsInviteOpen(true)}

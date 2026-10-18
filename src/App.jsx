@@ -256,7 +256,7 @@ export default function App() {
       <TopUpModal
         isOpen={isTopUpOpen}
         onClose={() => setIsTopUpOpen(false)}
-        currentBalance={user?.walletBalance ?? 250}
+        currentBalance={user?.walletBalance ?? 50}
         onTopUpSuccess={handleTopUpSuccess}
       />
 

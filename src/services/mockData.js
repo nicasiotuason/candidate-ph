@@ -16,7 +16,7 @@ export const INITIAL_USER = {
   noticePeriod: "30 Days (Standard Philippine Corporate)",
   education: "Bachelor's Degree (Computer Science)",
   setupPreference: "Hybrid • BGC / Makati / Remote",
-  walletBalance: 250, // ₱250 = 5 applications (with welcome balance)
+  walletBalance: 50, // ₱50 = 1 application (welcome credit)
   profileStrength: 85,
   isAdmin: false,
   isPaused: false,

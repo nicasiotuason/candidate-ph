@@ -201,7 +201,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What does the ₱50 fee cover, and when am I charged?",
-    a: "Searching and matching is ₱0 free forever. You only pay ₱50 when you decide to apply to a specific role. That single ₱50 fee includes BOTH your ATS-optimized resume keywords AND a bespoke, role-tailored cover letter (with 3 selectable pitch tones). Crucially, the ₱50 is only deducted once the employer's official career portal verifies successful receipt. Every new account receives ₱250 in free starting credits, so your first 5 applications are 100% on us."
+    a: "Searching and matching is ₱0 free forever. You only pay ₱50 when you decide to apply to a specific role. That single ₱50 fee includes BOTH your ATS-optimized resume keywords AND a bespoke, role-tailored cover letter (with 3 selectable pitch tones). Crucially, the ₱50 is only deducted once the employer's official career portal verifies successful receipt. Every new account receives ₱50 in free starting credits, so your first application is 100% on us."
   },
   {
     q: "What is the Zero Middleman Guarantee?",
@@ -221,7 +221,7 @@ const FAQ_ITEMS = [
   }
 ];
 
-// Pristine static state for landing page dashboard preview (non-clickable, always ₱250 balance)
+// Pristine static state for landing page dashboard preview (non-clickable, always ₱50 balance)
 const PREVIEW_USER = {
   id: "usr_01",
   name: "Juan Dela Cruz",
@@ -235,7 +235,7 @@ const PREVIEW_USER = {
   noticePeriod: "30 Days (Standard Philippine Corporate)",
   education: "Bachelor's Degree in Accountancy (CPA)",
   setupPreference: "Hybrid • Makati CBD / BGC / Remote",
-  walletBalance: 250,
+  walletBalance: 50,
   profileStrength: 85,
   isPaused: false
 };
@@ -388,7 +388,7 @@ export default function LandingPage({
 
                 <div className="flex flex-wrap items-center gap-4 sm:gap-5 mt-3.5 text-xs text-slate-700 font-medium">
                   <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> Free matching, always</span>
-                  <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> ₱250 welcome credit (5 free applications)</span>
+                  <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> ₱50 welcome credit (1st application free)</span>
                   <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 stroke-[2.5]" /> No credit card needed</span>
                 </div>
               </div>
@@ -470,7 +470,7 @@ export default function LandingPage({
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 flex items-center gap-2">
                 <Gift className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>₱250 Welcome Credits unlocked automatically on sign-up (5 free apps).</span>
+                <span>₱50 Welcome Credit unlocked automatically on sign-up (1st application free).</span>
               </div>
             </div>
 
@@ -618,7 +618,7 @@ export default function LandingPage({
             </p>
           </div>
 
-          {/* The Actual Live Dashboard (Preview Mode: 100% Non-clickable display, exactly 1 applied check, ₱250 balance) */}
+          {/* The Actual Live Dashboard (Preview Mode: 100% Non-clickable display, exactly 1 applied check, ₱50 balance) */}
           <div className="relative bg-white/80 rounded-3xl border border-slate-200/90 shadow-elevated p-2 sm:p-6 select-none overflow-hidden">
             <DashboardPage
               user={PREVIEW_USER}
@@ -805,7 +805,7 @@ export default function LandingPage({
 
             <div className="inline-flex items-center gap-3 p-3 px-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-sm font-semibold shadow-xs mt-2">
               <span className="text-xl">🎁</span>
-              <span>Every new account receives <strong>₱250 Welcome Credits</strong> (Your first 5 applications are 100% on us).</span>
+              <span>Every new account receives <strong>₱50 Welcome Credit</strong> (Your first application is 100% on us).</span>
             </div>
           </div>
 
@@ -1103,7 +1103,7 @@ export default function LandingPage({
           
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-emerald-400 text-xs font-bold border border-slate-700">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Zero Subscriptions • ₱250 Welcome Credits on Sign-up (5 Free Apps)
+            Zero Subscriptions • ₱50 Welcome Credit on Sign-up (1st App Free)
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-black leading-tight text-white">
@@ -1126,7 +1126,7 @@ export default function LandingPage({
               required
               value={footerEmail}
               onChange={(e) => setFooterEmail(e.target.value)}
-              placeholder="Enter your email to claim ₱250 welcome credits..." 
+              placeholder="Enter your email to claim ₱50 welcome credit..." 
               className="flex-1 px-4 py-3.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button 
@@ -1135,7 +1135,7 @@ export default function LandingPage({
             >
               <div className="flex flex-col text-left leading-tight">
                 <span className="text-xs sm:text-sm font-black tracking-wide">SIGN UP</span>
-                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Get 5 free applications</span>
+                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Claim ₱50 First Application</span>
               </div>
               <ArrowRight className="w-4 h-4 text-amber-300" />
             </button>

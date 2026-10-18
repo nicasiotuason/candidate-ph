@@ -56,12 +56,12 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
           </p>
         </div>
 
-        {/* ₱250 Welcome Credits Promotion Banner */}
+        {/* ₱50 Welcome Credit Promotion Banner */}
         {isSignUp && (
           <div className="mb-3 p-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 text-xs text-emerald-950 font-semibold shadow-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
             <span>
-              🎉 <strong>₱250 welcome credit added automatically.</strong> Your first 5 applications are on us.
+              🎉 <strong>₱50 welcome credit added automatically.</strong> Your first application is on us.
             </span>
           </div>
         )}
@@ -192,7 +192,7 @@ export default function AuthPage({ initialEmail = '', onLoginSuccess, onStartOnb
                   <span className="text-xs sm:text-sm font-black tracking-wide">Sign up</span>
                   <ArrowRight className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Get your free applications</span>
+                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Claim ₱50 First Application</span>
               </div>
             ) : (
               <div className="flex items-center gap-2 py-1">

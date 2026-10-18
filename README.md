@@ -15,7 +15,7 @@ CANDIDATE.ph is a Philippine-first tech job matching platform that continuously 
    - Value contrast table: *"The Old Way vs CANDIDATE.ph"*.
 
 2. **Authentication (`/auth`)**
-   - Dual-mode: Sign Up (with ₱250 welcome credits / 5 applications) & Log In.
+   - Dual-mode: Sign Up (with ₱50 welcome credit / 1st application free) & Log In.
    - Progressive Supabase Auth with seamless local JWT fallback.
    - 1-Click quick demo shortcuts for instantaneous local testing.
 

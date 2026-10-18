@@ -447,7 +447,7 @@ export default function ReviewSignOffModal({
             <span className="flex items-center gap-1.5 font-bold text-slate-900">
               <span className="text-blue-700 font-black">₱50 will be deducted</span>
               <span className="text-slate-400 font-normal">•</span>
-              <span className="text-slate-700 font-medium">Balance after: <strong className="text-slate-900">₱{Math.max(0, (user?.walletBalance ?? 250) - 50)}.00</strong></span>
+              <span className="text-slate-700 font-medium">Balance after: <strong className="text-slate-900">₱{Math.max(0, (user?.walletBalance ?? 50) - 50)}.00</strong></span>
             </span>
             <span className="text-[11px] font-bold text-emerald-700">
               ✓ If your application doesn't reach the employer, you won't be charged.
