@@ -18,7 +18,7 @@ export const INITIAL_USER = {
   setupPreference: "Hybrid • BGC / Makati / Remote",
   walletBalance: 250, // ₱250 = 5 applications (with welcome balance)
   profileStrength: 85,
-  isAdmin: true,
+  isAdmin: false,
   isPaused: false,
   lastActive: "Just now",
   skills: [

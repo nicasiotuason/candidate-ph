@@ -45,7 +45,11 @@ export const api = {
 
   // Current user state
   getUser() {
-    return getStored(STORAGE_USER_KEY, INITIAL_USER);
+    const user = getStored(STORAGE_USER_KEY, INITIAL_USER);
+    if (user) {
+      user.isAdmin = false;
+    }
+    return user;
   },
 
   async updateUser(updates) {

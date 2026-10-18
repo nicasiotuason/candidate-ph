@@ -291,7 +291,7 @@ export default function DashboardPage({
           </span>
         </button>
 
-        {Boolean(user?.isAdmin && !isLandingPreview) && (
+        {Boolean(user?.isAdmin && user?.role === 'admin' && !isLandingPreview) && (
           <button
             type="button"
             disabled={isLandingPreview}

@@ -68,6 +68,12 @@ export default function JobCard({
 
         {/* Right Header Status: Match Score Pill & Save Star */}
         <div className="flex items-center gap-2 shrink-0">
+          {isApplied && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 font-black text-xs">
+              <Check className="w-3.5 h-3.5 text-emerald-700 stroke-[3]" />
+              <span>Applied</span>
+            </span>
+          )}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-extrabold text-xs shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
             <span>{score}% Match</span>
@@ -200,12 +206,12 @@ export default function JobCard({
       {/* 3. Action Section: Distinct Applied State vs Single Blue CTA */}
       <div className="pt-3 border-t border-slate-100 space-y-2">
         {isApplied ? (
-          <div className="p-3 bg-slate-100 border border-slate-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div className="flex items-center gap-2 text-slate-800 font-bold">
+          <div className="p-3 bg-emerald-50/90 border border-emerald-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2 text-emerald-950 font-bold">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>✓ Application sent to {job.company}</span>
             </div>
-            <span className="text-[11px] text-slate-600 font-medium">
+            <span className="text-[11px] text-emerald-800 font-semibold">
               Replies come straight to your inbox
             </span>
           </div>
