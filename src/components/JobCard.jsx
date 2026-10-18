@@ -203,10 +203,10 @@ export default function JobCard({
           <div className="p-3 bg-slate-100 border border-slate-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
             <div className="flex items-center gap-2 text-slate-800 font-bold">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>✓ Dispatched to {job.portal || 'Direct ATS'}</span>
+              <span>✓ Application sent to {job.company}</span>
             </div>
             <span className="text-[11px] text-slate-600 font-medium">
-              Employer replies directly to your email
+              Replies come straight to your inbox
             </span>
           </div>
         ) : (

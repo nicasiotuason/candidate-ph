@@ -139,12 +139,9 @@ export default function ReviewSignOffModal({
                 {job.logoText}
               </div>
               <div className="min-w-0">
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">
-                    Final Review & Sign-Off
-                  </span>
-                  <span className="text-[10px] text-slate-400 truncate">• {job.portal} Portal</span>
-                </div>
+                <span className="text-[11px] font-extrabold text-amber-400 uppercase tracking-wider block">
+                  Review your application
+                </span>
                 <h2 className="text-sm sm:text-lg font-black text-white truncate">
                   {job.title} @ {job.company}
                 </h2>
@@ -238,7 +235,7 @@ export default function ReviewSignOffModal({
                     </span>
                   </div>
                   <p className="text-[11px] text-slate-600 mt-0.5">
-                    Synthesizes your background against {job.company}'s requirements for maximum recruiter response rate.
+                    Written for {job.company}'s requirements, at no extra cost.
                   </p>
                 </div>
               </div>

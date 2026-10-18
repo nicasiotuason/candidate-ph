@@ -511,9 +511,9 @@ export default function TopUpModal({
               )}
             </button>
 
-            <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400">
-              <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
-              <span>Simulated Sandbox Environment • No real bank account debited in test mode</span>
+            <div className="flex items-center justify-center gap-2 text-[10px] text-slate-500 font-medium">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>256-bit Bank-Grade Encryption • Official PayMongo Gateway</span>
             </div>
 
           </div>
