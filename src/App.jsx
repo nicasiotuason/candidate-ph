@@ -75,15 +75,8 @@ export default function App() {
     }, 4500);
   };
 
-  // Load initial jobs and self-heal demo state if needed
+  // Load initial jobs and sync Supabase data
   useEffect(() => {
-    const curUser = api.getUser();
-    const curApplied = api.getAppliedJobs();
-    if ((curUser && curUser.walletBalance < 250) || (curApplied && curApplied.length > 1)) {
-      api.resetDemoState();
-      setUser(api.getUser());
-      setAppliedJobs(api.getAppliedJobs());
-    }
     api.getJobs(60).then(data => setJobs(data));
     api.syncFromSupabase().then(res => {
       if (res?.success) {
@@ -114,15 +107,13 @@ export default function App() {
       setUser(api.getUser());
       setAppliedJobs(api.getAppliedJobs());
       triggerToast(`🚀 Application submitted to ${job.company}! Recruiter receipt confirmed • ₱50 debited from wallet.`);
-      setSelectedJobForLandingApply(null);
     } catch (err) {
       triggerToast(`⚠️ ${err.message}`);
     }
   };
 
-  // Handle PayMongo credit purchase
-  const handleTopUpSuccess = async (amount) => {
-    const res = await api.topUpWallet(amount);
+  // Handle PayMongo credit purchase UI refresh (wallet is credited inside TopUpModal by paymongoService)
+  const handleTopUpSuccess = (amount) => {
     setUser(api.getUser());
     triggerToast(`💳 PayMongo Payment Successful! +₱${amount}.00 credits added to your wallet.`);
   };
@@ -135,25 +126,33 @@ export default function App() {
   };
 
   // Auth flow callbacks
-  const handleLoginSuccess = (loginData) => {
-    api.login(loginData.email);
-    refreshUser();
-    setCurrentView('dashboard');
-    triggerToast(`👋 Welcome back, ${loginData.email.split('@')[0]}!`);
+  const handleLoginSuccess = async (loginData) => {
+    try {
+      await api.login(loginData.email, loginData.password);
+      refreshUser();
+      setCurrentView('dashboard');
+      triggerToast(`👋 Welcome back, ${(loginData.name || loginData.email).split('@')[0]}!`);
+    } catch (err) {
+      triggerToast(`⚠️ ${err.message || 'Login failed'}`);
+    }
   };
 
-  const handleStartOnboarding = (signupData) => {
-    api.register(signupData.email, signupData.password, signupData.name);
-    refreshUser();
-    setCurrentView('onboarding');
-    triggerToast(`🎉 Account created for ${signupData.name || signupData.email}! Let's set up your profile and parse your resume.`);
+  const handleStartOnboarding = async (signupData) => {
+    try {
+      await api.register(signupData.email, signupData.password, signupData.name);
+      refreshUser();
+      setCurrentView('onboarding');
+      triggerToast(`🎉 Account created for ${signupData.name || signupData.email}! Let's set up your profile and parse your resume.`);
+    } catch (err) {
+      triggerToast(`⚠️ ${err.message || 'Registration failed'}`);
+    }
   };
 
   const handleCompleteOnboarding = async (formData) => {
     await api.submitOnboarding(formData);
     refreshUser();
     setCurrentView('dashboard');
-    triggerToast(`✨ Onboarding complete! 18 High-Match roles ready for review.`);
+    triggerToast(`✨ Onboarding complete! High-match roles ready for review.`);
   };
 
   return (

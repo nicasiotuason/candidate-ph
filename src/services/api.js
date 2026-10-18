@@ -67,28 +67,24 @@ export const api = {
 
   async login(email, password) {
     if (this.isLiveDatabase()) {
+      const authData = await supabaseService.signIn(email, password);
+      let profile = null;
       try {
-        const authData = await supabaseService.signIn(email, password);
-        let profile = null;
-        try {
-          profile = await supabaseService.getProfile(authData.user.id);
-        } catch {
-          profile = {
-            id: authData.user.id,
-            email: authData.user.email,
-            name: authData.user.user_metadata?.name || email.split('@')[0],
-            walletBalance: 250,
-            isOnboarded: false
-          };
-        }
-        setStored(STORAGE_USER_KEY, profile);
-        return { success: true, user: profile, token: authData.session?.access_token };
-      } catch (err) {
-        console.warn("Supabase login error, falling back to local credentials:", err);
+        profile = await supabaseService.getProfile(authData.user.id);
+      } catch {
+        profile = {
+          id: authData.user.id,
+          email: authData.user.email,
+          name: authData.user.user_metadata?.name || email.split('@')[0],
+          walletBalance: 250,
+          isOnboarded: false
+        };
       }
+      setStored(STORAGE_USER_KEY, profile);
+      return { success: true, user: profile, token: authData.session?.access_token };
     }
 
-    // Local / Demo Mode fallback
+    // Local / Demo Mode fallback (when Supabase is not configured)
     return new Promise((resolve) => {
       setTimeout(() => {
         const user = this.getUser();
@@ -101,21 +97,17 @@ export const api = {
 
   async register(email, password, name) {
     if (this.isLiveDatabase()) {
-      try {
-        const authData = await supabaseService.signUp(email, password, name);
-        const newUser = {
-          id: authData.user?.id || `user_${Date.now()}`,
-          email,
-          name: name || (email ? email.split('@')[0] : 'Applicant'),
-          isOnboarded: false,
-          walletBalance: 250,
-          referralCode: `CAND-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
-        };
-        setStored(STORAGE_USER_KEY, newUser);
-        return { success: true, user: newUser, token: authData.session?.access_token };
-      } catch (err) {
-        console.warn("Supabase register error, falling back to local:", err);
-      }
+      const authData = await supabaseService.signUp(email, password, name);
+      const newUser = {
+        id: authData.user?.id || `user_${Date.now()}`,
+        email,
+        name: name || (email ? email.split('@')[0] : 'Applicant'),
+        isOnboarded: false,
+        walletBalance: 250,
+        referralCode: `CAND-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
+      };
+      setStored(STORAGE_USER_KEY, newUser);
+      return { success: true, user: newUser, token: authData.session?.access_token };
     }
 
     // Local / Demo Mode fallback
@@ -291,18 +283,16 @@ export const api = {
     const updatedApplied = [appliedRecord, ...currentApplied];
     setStored(STORAGE_APPLIED_KEY, updatedApplied);
 
-    // If Supabase is active, persist to database
+    // If Supabase is active, execute atomic stored procedure
     if (this.isLiveDatabase() && user.id && user.id.includes('-')) {
       try {
-        await supabaseService.createApplication(user.id, appliedRecord);
-        await supabaseService.logWalletTransaction(user.id, {
-          amount: -50.00,
-          type: 'application_fee',
-          description: `Dispatched application for ${job.title} at ${job.company}`,
-          balanceAfter: newBalance
-        });
+        const rpcRes = await supabaseService.dispatchApplication(job, tailoredData, user);
+        if (rpcRes?.ats_receipt_id) {
+          appliedRecord.atsReceiptId = rpcRes.ats_receipt_id;
+          appliedRecord.id = rpcRes.application_id;
+        }
       } catch (err) {
-        console.warn("Supabase applyToJob error:", err);
+        console.warn("Supabase dispatchApplication error:", err);
       }
     }
 

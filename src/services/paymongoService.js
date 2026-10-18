@@ -92,44 +92,48 @@ export const paymongoService = {
     const successUrl = returnUrl || `${origin}/dashboard?payment=success&bundle=${bundle.id}`;
     const cancelUrl = `${origin}/dashboard?payment=cancelled`;
 
-    // 1. If backend edge function URL is defined, call the serverless checkout creator
-    const edgeFunctionUrl = import.meta.env.VITE_PAYMONGO_CHECKOUT_FUNCTION_URL;
-    if (edgeFunctionUrl) {
-      try {
-        const response = await fetch(edgeFunctionUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            amount: centavos,
-            currency: 'PHP',
-            description: `CANDIDATE.ph ${bundle.label} — ${bundle.apps} Applications`,
-            paymentMethods,
-            userId: user?.id,
-            userEmail: user?.email,
-            userName: user?.name,
-            successUrl,
-            cancelUrl
-          })
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.checkoutUrl) {
-            return {
-              type: 'redirect',
-              checkoutUrl: data.checkoutUrl,
-              sessionId: data.sessionId
-            };
-          }
-        }
-      } catch (err) {
-        console.warn("Edge function checkout error, falling back to sandbox mode:", err);
+    // 1. If live PayMongo is configured, execute checkout via serverless function
+    if (this.isConfigured()) {
+      const edgeFunctionUrl = import.meta.env.VITE_PAYMONGO_CHECKOUT_FUNCTION_URL;
+      if (!edgeFunctionUrl) {
+        throw new Error("PayMongo is configured for live payments, but VITE_PAYMONGO_CHECKOUT_FUNCTION_URL is not set in your .env file.");
       }
+
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: centavos,
+          currency: 'PHP',
+          description: `CANDIDATE.ph ${bundle.label} — ${bundle.apps} Applications`,
+          paymentMethods,
+          userId: user?.id,
+          userEmail: user?.email,
+          userName: user?.name,
+          successUrl,
+          cancelUrl
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `Failed to create PayMongo checkout session (HTTP ${response.status})`);
+      }
+
+      const data = await response.json();
+      if (data.checkoutUrl) {
+        return {
+          type: 'redirect',
+          checkoutUrl: data.checkoutUrl,
+          sessionId: data.sessionId
+        };
+      }
+      throw new Error("Invalid response received from PayMongo checkout function.");
     }
 
-    // 2. Sandbox / Instant Simulation Mode
+    // 2. Sandbox / Demo Mode (only when PayMongo is not configured)
     // Generates genuine PayMongo session object structure
     const mockSessionId = `cs_${Math.random().toString(36).substring(2, 16)}`;
     const mockPaymentId = this.generatePaymentId(method);

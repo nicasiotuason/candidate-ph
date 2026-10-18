@@ -15,7 +15,8 @@ const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 // Verify HMAC-SHA256 signature from PayMongo
 async function verifyPayMongoSignature(payload: string, signatureHeader: string, secret: string): Promise<boolean> {
-  if (!signatureHeader || !secret) return true; // allow in test/unconfigured dev mode
+  if (!secret) return true; // allow unverified ONLY in local dev if secret is not set
+  if (!signatureHeader) return false; // fail if secret is set but signature is missing
 
   // Paymongo-Signature format: t=1614764834,te=test_mode_hash,li=live_mode_hash
   const parts = signatureHeader.split(",");
@@ -76,14 +77,21 @@ serve(async (req) => {
     console.log(`Processing PayMongo event: ${eventType}`);
 
     if (eventType === "checkout_session.payment.paid" || eventType === "payment.paid") {
-      const paymentAttr = eventData?.attributes;
-      const metadata = paymentAttr?.metadata || {};
+      // Support both checkout_session payload structure and direct payment payload structure
+      const sessionPayments = eventData?.attributes?.payments;
+      const paymentAttr = sessionPayments && sessionPayments.length > 0 
+        ? sessionPayments[0]?.attributes 
+        : eventData?.attributes;
+
+      const metadata = eventData?.attributes?.metadata || paymentAttr?.metadata || {};
       const userId = metadata.user_id;
       
       // Amount in PayMongo is in centavos (e.g. 50000 = ₱500.00)
-      const amountCentavos = paymentAttr?.amount || 0;
+      const amountCentavos = paymentAttr?.amount || eventData?.attributes?.line_items?.[0]?.amount || 0;
       const amountPhp = amountCentavos / 100;
-      const paymentId = eventData?.id || `pay_${Date.now()}`;
+      const paymentId = sessionPayments && sessionPayments.length > 0
+        ? sessionPayments[0]?.id
+        : eventData?.id || `pay_${Date.now()}`;
       const paymentMethod = paymentAttr?.source?.type || "paymongo";
 
       if (!userId) {
@@ -91,45 +99,34 @@ serve(async (req) => {
         return new Response(JSON.stringify({ received: true, note: "missing_user_id" }), { status: 200 });
       }
 
-      // Fetch user profile to calculate new balance
-      const { data: profile, error: profileErr } = await supabase
-        .from("profiles")
-        .select("wallet_balance")
-        .eq("id", userId)
-        .single();
+      // 1. Idempotency Check: Prevent duplicate crediting if PayMongo retries the webhook
+      const { data: existingTx } = await supabase
+        .from("wallet_transactions")
+        .select("id")
+        .eq("paymongo_payment_id", paymentId)
+        .maybeSingle();
 
-      if (profileErr) {
-        console.error("Profile lookup error:", profileErr);
-        throw profileErr;
+      if (existingTx) {
+        console.log(`Payment ID ${paymentId} was already processed. Skipping duplicate credit.`);
+        return new Response(JSON.stringify({ received: true, note: "already_processed" }), { status: 200 });
       }
 
-      const currentBalance = Number(profile?.wallet_balance || 0);
-      const newBalance = currentBalance + amountPhp;
-
-      // 1. Credit wallet balance
-      const { error: updateErr } = await supabase
-        .from("profiles")
-        .update({ wallet_balance: newBalance })
-        .eq("id", userId);
-
-      if (updateErr) {
-        console.error("Wallet update error:", updateErr);
-        throw updateErr;
-      }
-
-      // 2. Insert audit log in wallet_transactions
+      // 2. Atomic Wallet Credit using stored procedure
       const appsUnlocked = amountPhp >= 1000 ? 24 : amountPhp >= 500 ? 11 : 5;
-      await supabase.from("wallet_transactions").insert({
-        user_id: userId,
-        amount: amountPhp,
-        type: "topup",
-        description: `PayMongo Instant Checkout (${appsUnlocked} Apps)`,
-        balance_after: newBalance,
-        payment_method: `PayMongo (${paymentMethod.toUpperCase()})`,
-        paymongo_payment_id: paymentId
+      const { data: rpcResult, error: rpcErr } = await supabase.rpc("credit_wallet", {
+        p_user_id: userId,
+        p_amount: amountPhp,
+        p_payment_method: `PayMongo (${paymentMethod.toUpperCase()})`,
+        p_payment_id: paymentId,
+        p_description: `PayMongo Instant Checkout (${appsUnlocked} Apps)`
       });
 
-      console.log(`Successfully credited ₱${amountPhp} to user ${userId}. New balance: ₱${newBalance}`);
+      if (rpcErr) {
+        console.error("Atomic credit_wallet RPC error:", rpcErr);
+        throw rpcErr;
+      }
+
+      console.log(`Successfully credited ₱${amountPhp} to user ${userId} via atomic RPC.`);
     }
 
     return new Response(

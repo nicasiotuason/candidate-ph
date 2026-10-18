@@ -31,6 +31,7 @@ create table if not exists public.profiles (
   wallet_balance numeric(10, 2) default 250.00, -- Starts with ₱250 welcome credits
   referral_code text unique,
   referred_by text,
+  is_admin boolean default false,
   is_onboarded boolean default false,
   is_paused boolean default false,
   created_at timestamptz default timezone('utc'::text, now()) not null,
@@ -53,16 +54,37 @@ create policy "Users can insert their own profile." on public.profiles
 create policy "Users can update their own profile." on public.profiles
   for update using (auth.uid() = id);
 
+-- Trigger to protect wallet_balance from unauthorized client-side tampering
+create or replace function public.protect_wallet_balance()
+returns trigger as $$
+begin
+  -- Prevent client from directly overwriting wallet_balance via regular profile updates
+  -- Allow balance modification only via security definer RPCs with internal config override
+  if new.wallet_balance is distinct from old.wallet_balance and coalesce(current_setting('candidate.rpc_override', true), 'false') <> 'true' then
+    new.wallet_balance := old.wallet_balance;
+  end if;
+  return new;
+end;
+$$ language plpgsql;
+
+drop trigger if exists trg_protect_wallet_balance on public.profiles;
+create trigger trg_protect_wallet_balance
+  before update on public.profiles
+  for each row execute procedure public.protect_wallet_balance();
+
 -- =========================================================================
--- 2. AUTOMATIC PROFILE CREATION TRIGGER ON SIGNUP
+-- 2. AUTOMATIC PROFILE CREATION TRIGGER ON SIGNUP WITH REFERRAL CREDITING
 -- =========================================================================
 create or replace function public.handle_new_user()
 returns trigger as $$
 declare
   ref_code text;
+  ref_by text;
+  v_referrer_id uuid;
 begin
   -- Generate unique referral code (e.g. CAND-AB12)
   ref_code := 'CAND-' || upper(substring(md5(random()::text) from 1 for 6));
+  ref_by := new.raw_user_meta_data->>'referred_by';
 
   insert into public.profiles (
     id,
@@ -70,16 +92,48 @@ begin
     name,
     wallet_balance,
     referral_code,
+    referred_by,
     is_onboarded
   )
   values (
     new.id,
     new.email,
     coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)),
-    250.00, -- Welcome ₱250 credit bundle
+    250.00, -- Welcome ₱250 credit bundle (5 apps)
     ref_code,
+    ref_by,
     false
   );
+
+  -- If referred by a valid colleague code, credit the referrer ₱50 upon verified signup
+  if ref_by is not null and ref_by <> '' then
+    select id into v_referrer_id from public.profiles where referral_code = upper(trim(ref_by));
+    if v_referrer_id is not null then
+      -- Enable RPC override for balance update
+      perform set_config('candidate.rpc_override', 'true', true);
+
+      update public.profiles
+      set wallet_balance = wallet_balance + 50.00,
+          updated_at = now()
+      where id = v_referrer_id;
+
+      insert into public.referrals (referrer_id, referee_id, referral_code, reward_amount, reward_credited, created_at)
+      values (v_referrer_id, new.id, upper(trim(ref_by)), 50.00, true, now());
+
+      insert into public.wallet_transactions (id, user_id, amount, type, description, balance_after, payment_method, created_at)
+      values (
+        'tx_ref_' || extract(epoch from now())::bigint || '_' || lower(substring(md5(random()::text) from 1 for 4)),
+        v_referrer_id,
+        50.00,
+        'referral_bonus',
+        'Referral reward: Invited friend completed signup (' || new.email || ')',
+        (select wallet_balance from public.profiles where id = v_referrer_id),
+        'Referral Program',
+        now()
+      );
+    end if;
+  end if;
+
   return new;
 end;
 $$ language plpgsql security definer;
@@ -216,8 +270,152 @@ alter table public.wallet_transactions enable row level security;
 create policy "Users can view their own wallet transactions." on public.wallet_transactions
   for select using (auth.uid() = user_id);
 
+-- Only service role or security definer RPC can insert into wallet transactions
 create policy "Service can log wallet transactions." on public.wallet_transactions
-  for insert with check (auth.uid() = user_id);
+  for insert with check (auth.role() = 'service_role' or coalesce(current_setting('candidate.rpc_override', true), 'false') = 'true');
+
+-- Unique index to prevent duplicate credit processing from retried PayMongo webhooks
+create unique index if not exists wallet_tx_paymongo_payment_id_uniq on public.wallet_transactions(paymongo_payment_id) where paymongo_payment_id is not null;
+
+-- =========================================================================
+-- ATOMIC STORED PROCEDURE: DISPATCH APPLICATION (₱50 Debit + ATS Queue)
+-- =========================================================================
+create or replace function public.dispatch_application(
+  p_job_id text,
+  p_company text,
+  p_title text,
+  p_salary text,
+  p_portal text,
+  p_employer_reply_target text,
+  p_resume_choice text default 'tailored',
+  p_tailored_headline text default null,
+  p_tailored_summary text default null,
+  p_cover_letter text default null,
+  p_cover_letter_tone text default 'technical',
+  p_screening_answers jsonb default '[]'::jsonb
+)
+returns jsonb as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_cur_balance numeric(10, 2);
+  v_new_balance numeric(10, 2);
+  v_app_id text;
+  v_receipt_id text;
+  v_cost numeric(10, 2) := 50.00;
+begin
+  if v_user_id is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  -- Row-level lock on profile prevents concurrent race condition debits
+  select wallet_balance into v_cur_balance
+  from public.profiles
+  where id = v_user_id
+  for update;
+
+  if v_cur_balance is null then
+    raise exception 'Profile not found';
+  end if;
+
+  if v_cur_balance < v_cost then
+    raise exception 'Insufficient balance: ₱% available, ₱% required.', v_cur_balance, v_cost;
+  end if;
+
+  v_new_balance := v_cur_balance - v_cost;
+  v_app_id := 'app_' || extract(epoch from now())::bigint || '_' || lower(substring(md5(random()::text) from 1 for 6));
+  v_receipt_id := 'ATS-' || upper(coalesce(substring(p_portal from 1 for 3), 'DIR')) || '-' || floor(100000 + random() * 900000)::text;
+
+  -- Allow internal balance override
+  perform set_config('candidate.rpc_override', 'true', true);
+
+  -- 1. Deduct ₱50
+  update public.profiles
+  set wallet_balance = v_new_balance,
+      updated_at = now()
+  where id = v_user_id;
+
+  -- 2. Insert application
+  insert into public.applications (
+    id, user_id, job_id, company, title, salary, portal, deduction_php,
+    ats_receipt_id, status, employer_reply_target, resume_choice,
+    tailored_headline, tailored_summary, cover_letter, cover_letter_tone,
+    screening_answers, applied_at
+  ) values (
+    v_app_id, v_user_id, p_job_id, p_company, p_title, p_salary, p_portal, v_cost,
+    v_receipt_id, 'Delivered to ATS', p_employer_reply_target, p_resume_choice,
+    p_tailored_headline, p_tailored_summary, p_cover_letter, p_cover_letter_tone,
+    p_screening_answers, now()
+  );
+
+  -- 3. Insert transaction audit log
+  insert into public.wallet_transactions (
+    id, user_id, amount, type, description, balance_after, payment_method, created_at
+  ) values (
+    'tx_' || extract(epoch from now())::bigint || '_' || lower(substring(md5(random()::text) from 1 for 6)),
+    v_user_id, -v_cost, 'application_fee',
+    'Dispatched application for ' || p_title || ' at ' || p_company,
+    v_new_balance, 'Wallet Balance', now()
+  );
+
+  return jsonb_build_object(
+    'success', true,
+    'application_id', v_app_id,
+    'ats_receipt_id', v_receipt_id,
+    'balance_after', v_new_balance
+  );
+end;
+$$ language plpgsql security definer;
+
+-- =========================================================================
+-- ATOMIC STORED PROCEDURE: CREDIT WALLET (PayMongo Topup Webhook)
+-- =========================================================================
+create or replace function public.credit_wallet(
+  p_user_id uuid,
+  p_amount numeric,
+  p_payment_method text,
+  p_payment_id text,
+  p_description text default 'PayMongo Wallet Topup'
+)
+returns jsonb as $$
+declare
+  v_cur_balance numeric(10, 2);
+  v_new_balance numeric(10, 2);
+  v_tx_id text;
+begin
+  -- Row-level lock to prevent race conditions
+  select wallet_balance into v_cur_balance
+  from public.profiles
+  where id = p_user_id
+  for update;
+
+  if v_cur_balance is null then
+    raise exception 'Profile % not found', p_user_id;
+  end if;
+
+  v_new_balance := v_cur_balance + p_amount;
+  v_tx_id := 'tx_' || extract(epoch from now())::bigint || '_' || lower(substring(md5(random()::text) from 1 for 6));
+
+  -- Allow internal balance override
+  perform set_config('candidate.rpc_override', 'true', true);
+
+  update public.profiles
+  set wallet_balance = v_new_balance,
+      updated_at = now()
+  where id = p_user_id;
+
+  insert into public.wallet_transactions (
+    id, user_id, amount, type, description, balance_after, payment_method, paymongo_payment_id, created_at
+  ) values (
+    v_tx_id, p_user_id, p_amount, 'topup', p_description, v_new_balance, p_payment_method, p_payment_id, now()
+  );
+
+  return jsonb_build_object(
+    'success', true,
+    'new_balance', v_new_balance,
+    'transaction_id', v_tx_id
+  );
+end;
+$$ language plpgsql security definer;
 
 -- =========================================================================
 -- 7. REFERRALS (Give ₱50, Get ₱50 Viral Loop)

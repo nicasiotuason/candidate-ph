@@ -321,20 +321,22 @@ export default function DashboardPage({
           </span>
         </button>
 
-        <button
-          type="button"
-          disabled={isLandingPreview}
-          onClick={isLandingPreview ? undefined : () => setMainNav('admin')}
-          className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ml-auto ${
-            mainNav === 'admin'
-              ? 'bg-slate-900 text-white shadow-md'
-              : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
-          } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
-        >
-          <Activity className="w-4 h-4 text-emerald-400" />
-          <span>Founders' Telemetry</span>
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        </button>
+        {Boolean(user?.isAdmin || isLandingPreview) && (
+          <button
+            type="button"
+            disabled={isLandingPreview}
+            onClick={isLandingPreview ? undefined : () => setMainNav('admin')}
+            className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ml-auto ${
+              mainNav === 'admin'
+                ? 'bg-slate-900 text-white shadow-md'
+                : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
+            } ${isLandingPreview ? 'cursor-default pointer-events-none' : 'cursor-pointer'}`}
+          >
+            <Activity className="w-4 h-4 text-emerald-400" />
+            <span>Founders' Telemetry</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          </button>
+        )}
       </div>
 
       {/* ================= VIEW 1: JOBS FEED ================= */}
@@ -978,7 +980,7 @@ export default function DashboardPage({
               ) : (
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold" title="To activate live PostgreSQL, add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env file">
                   <Server className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Demo Mode (Local SQLite/Storage)</span>
+                  <span>Demo Mode (Local Browser Storage)</span>
                   <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-[10px] text-amber-200 uppercase font-mono">Plug .env to sync</span>
                 </div>
               )}

@@ -54,24 +54,84 @@ export const supabaseService = {
       .single();
 
     if (error) throw error;
-    return data;
+    return this.mapProfileFromDb(data);
   },
 
   async updateProfile(userId, updates) {
     if (!supabase) throw new Error('Supabase is not configured');
 
+    const dbPayload = this.mapProfileToDb(updates);
+    dbPayload.updated_at = new Date().toISOString();
+
     const { data, error } = await supabase
       .from('profiles')
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString()
-      })
+      .update(dbPayload)
       .eq('id', userId)
       .select()
       .single();
 
     if (error) throw error;
-    return data;
+    return this.mapProfileFromDb(data);
+  },
+
+  // Helper mappers between frontend camelCase and DB snake_case
+  mapProfileToDb(updates) {
+    const mapping = {
+      targetRole: 'target_role',
+      targetCategory: 'target_category',
+      desiredSalary: 'desired_salary',
+      salaryFloor: 'salary_floor',
+      noticePeriod: 'notice_period',
+      setupPreference: 'setup_preference',
+      profileStrength: 'profile_strength',
+      walletBalance: 'wallet_balance',
+      referralCode: 'referral_code',
+      referredBy: 'referred_by',
+      isOnboarded: 'is_onboarded',
+      isPaused: 'is_paused',
+      masterResumeUrl: 'master_resume_url',
+      masterResumeFilename: 'master_resume_filename'
+    };
+
+    const payload = {};
+    for (const [key, val] of Object.entries(updates)) {
+      if (val !== undefined) {
+        const dbCol = mapping[key] || key;
+        payload[dbCol] = val;
+      }
+    }
+    return payload;
+  },
+
+  mapProfileFromDb(data) {
+    if (!data) return null;
+    return {
+      id: data.id,
+      email: data.email,
+      name: data.name,
+      headline: data.headline,
+      summary: data.summary,
+      targetRole: data.target_role,
+      targetCategory: data.target_category,
+      seniority: data.seniority,
+      desiredSalary: data.desired_salary,
+      salaryFloor: data.salary_floor,
+      noticePeriod: data.notice_period,
+      citizenship: data.citizenship,
+      setupPreference: data.setup_preference,
+      education: data.education,
+      skills: data.skills || [],
+      masterResumeUrl: data.master_resume_url,
+      masterResumeFilename: data.master_resume_filename,
+      profileStrength: data.profile_strength,
+      walletBalance: Number(data.wallet_balance || 0),
+      referralCode: data.referral_code,
+      referredBy: data.referred_by,
+      isOnboarded: Boolean(data.is_onboarded),
+      isPaused: Boolean(data.is_paused),
+      createdAt: data.created_at,
+      updatedAt: data.updated_at
+    };
   },
 
   // ================= JOBS =================
@@ -129,6 +189,29 @@ export const supabaseService = {
       })
       .select()
       .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  // Atomic stored procedure call for ₱50 balance deduction, ATS dispatch, and audit logging
+  async dispatchApplication(job, tailoredData, user) {
+    if (!supabase) throw new Error('Supabase is not configured');
+
+    const { data, error } = await supabase.rpc('dispatch_application', {
+      p_job_id: job.id,
+      p_company: job.company,
+      p_title: job.title,
+      p_salary: job.salary,
+      p_portal: job.portal || 'Direct Employer ATS',
+      p_employer_reply_target: user.email,
+      p_resume_choice: tailoredData.resumeChoice || 'tailored',
+      p_tailored_headline: tailoredData.headline || user.headline,
+      p_tailored_summary: tailoredData.summary || user.summary,
+      p_cover_letter: tailoredData.coverLetter || '',
+      p_cover_letter_tone: tailoredData.coverLetterTone || 'technical',
+      p_screening_answers: tailoredData.screeningAnswers || []
+    });
 
     if (error) throw error;
     return data;
