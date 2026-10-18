@@ -87,7 +87,7 @@ export default function Navbar({ currentView, setCurrentView, user, onOpenTopUp,
                 >
                   <div className="flex flex-col text-left leading-tight">
                     <span className="text-xs sm:text-[13px] font-black tracking-wide">SIGN UP</span>
-                    <span className="text-[9px] sm:text-[10px] font-semibold text-blue-100">Claim ₱50 First Application</span>
+                    <span className="text-[9px] sm:text-[10px] font-semibold text-blue-100">Get 5 free applications</span>
                   </div>
                   <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 text-amber-300" />
                 </button>

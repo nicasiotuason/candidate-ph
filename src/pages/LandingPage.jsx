@@ -82,30 +82,30 @@ const THEMES = {
 const LIVE_HERO_JOBS = [
   {
     id: "job_01",
-    company: "Maya",
-    industry: "Digital Banking & Payments",
-    logo: "M",
-    logoColor: "bg-emerald-600 text-white",
-    title: "Senior Full Stack Engineer (FinTech)",
-    salary: "₱180,000 – ₱240,000 / mo",
-    location: "BGC, Taguig",
+    company: "SGV & Co. (Ernst & Young)",
+    industry: "Audit, Tax & Advisory Services",
+    logo: "EY",
+    logoColor: "bg-amber-600 text-white",
+    title: "Senior Financial Accountant & Reporting Lead",
+    salary: "₱95,000 – ₱140,000 / mo",
+    location: "Makati CBD",
     setup: "Hybrid (2 days on-site)",
     type: "Full-Time",
-    level: "Mid-Senior Level",
-    experience: "5+ yrs exp",
-    postedAgo: "Discovered 1 hour ago",
-    applicantCount: "< 20 applicants",
+    level: "Senior Level",
+    experience: "4+ yrs exp",
+    postedAgo: "Discovered 45m ago",
+    applicantCount: "< 12 applicants",
     matchScore: 98,
     matchLabel: "STRONG MATCH",
-    jobDescription: "Architect and scale high-throughput digital wallet architectures, QR payment gateways, and checkout micro-frontends serving 10M+ daily consumer transactions.",
+    jobDescription: "Lead statutory financial reporting, monthly P&L close, and international tax compliance across multinational corporate clients.",
     responsibilities: [
-      "Design secure React 18 & Go payment microservices with sub-second latency",
-      "Optimize web client performance and core user checkout flows"
+      "Lead IFRS/PFRS compliant financial statement preparation and statutory audit coordination",
+      "Manage variance analysis, budget forecasting, and executive management reporting"
     ],
     fitReasons: [
-      "4/4 Core Skills Met (React 18, TypeScript, Node.js, Go)",
-      "Salary exceeds your ₱150k monthly floor",
-      "Matches your preferred BGC Hybrid setup"
+      "4/4 Core Skills Met (IFRS Reporting, General Ledger, Tax Compliance, ERP)",
+      "Salary exceeds your ₱90k monthly floor",
+      "Matches your preferred Makati CBD Hybrid setup"
     ]
   },
   {
@@ -227,14 +227,14 @@ const PREVIEW_USER = {
   name: "Juan Dela Cruz",
   email: "juan.delacruz@email.com",
   phone: "+63 917 123 4567",
-  targetRole: "Senior Frontend / Full-Stack Engineer",
+  targetRole: "Senior Financial Accountant & Reporting Lead",
   seniority: "senior",
   experienceYears: 6,
-  desiredSalary: "₱160,000 / mo",
-  salaryFloor: "₱160,000 / mo",
+  desiredSalary: "₱120,000 / mo",
+  salaryFloor: "₱90,000 / mo",
   noticePeriod: "30 Days (Standard Philippine Corporate)",
-  education: "Bachelor's Degree (Computer Science)",
-  setupPreference: "Hybrid • BGC / Makati / Remote",
+  education: "Bachelor's Degree in Accountancy (CPA)",
+  setupPreference: "Hybrid • Makati CBD / BGC / Remote",
   walletBalance: 250,
   profileStrength: 85,
   isPaused: false
@@ -677,14 +677,14 @@ export default function LandingPage({
                 <div className="w-12 h-12 rounded-2xl bg-theme-primary-light text-theme-primary flex items-center justify-center font-bold">
                   <Clock className="w-6 h-6" />
                 </div>
-                <div className="text-3xl font-black text-slate-900">4x–8x Callbacks</div>
+                <div className="text-3xl font-black text-slate-900">Batch #1 Advantage</div>
                 <h3 className="text-base font-bold text-slate-900">The Early Bird Advantage</h3>
                 <p className="text-xs text-slate-800 leading-relaxed font-normal">
                   Hiring teams don't read through 300 resumes—they interview qualified candidates from the first batch that arrives. Applying within the first few hours places your name on the recruiter's desk while their calendar is still completely open.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-800 font-medium">
-                <span className="font-bold text-slate-900">TalentWorks Recruitment Study:</span> Applicants who submit within the first 96 hours are up to 8x more likely to secure an interview.
+                <span className="font-bold text-slate-900">Hiring Reality:</span> Initial interview shortlists are typically formed and scheduled within the first few days of a role going live.
               </div>
             </div>
 
@@ -693,14 +693,14 @@ export default function LandingPage({
                 <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
                   <FileCheck2 className="w-6 h-6" />
                 </div>
-                <div className="text-3xl font-black text-emerald-600">First 25 Applicants</div>
+                <div className="text-3xl font-black text-emerald-600">First 25 Window</div>
                 <h3 className="text-base font-bold text-slate-900">The Critical Review Window</h3>
                 <p className="text-xs text-slate-800 leading-relaxed font-normal">
-                  Recruiters lock in their candidate shortlists rapidly. Being Candidate #1 to #25 gives you priority evaluation before hiring managers stop reviewing inbound resumes due to volume.
+                  Recruiters lock in candidate shortlists rapidly. Being Candidate #1 to #25 gives you priority evaluation before hiring managers stop reviewing inbound resumes due to application volume.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-800 font-medium">
-                <span className="font-bold text-slate-900">LinkedIn Talent Insights:</span> Over 70% of professional hires are scheduled from the first 25 applicants reviewed.
+                <span className="font-bold text-slate-900">Application Volume:</span> High-demand Philippine roles receive hundreds of submissions, causing recruiters to pause reviews once their initial shortlist is full.
               </div>
             </div>
 
@@ -709,10 +709,10 @@ export default function LandingPage({
                 <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <div className="text-3xl font-black text-amber-600">100% Direct Replies</div>
+                <div className="text-2xl sm:text-3xl font-black text-amber-600">Replies come straight to you</div>
                 <h3 className="text-base font-bold text-slate-900">Zero Middleman Delivery</h3>
                 <p className="text-xs text-slate-800 leading-relaxed font-normal">
-                  Your tailored application package lands directly in the company's official hiring inbox. Recruiters reply straight to your personal email address—giving you 100% direct control over your interview process.
+                  Your tailored application package lands directly in the company's official hiring inbox. Recruiters reply straight to your personal email address—giving you direct control over your interview process.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-800 font-medium">
@@ -732,7 +732,7 @@ export default function LandingPage({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600">Actively Monitored Tech & Corporate Hubs</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600">Actively Monitored Employers</h3>
             <p className="text-lg font-extrabold text-slate-900">We continuously search open roles at top employers across the Philippines.</p>
           </div>
 
@@ -757,9 +757,9 @@ export default function LandingPage({
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-slate-200 text-center flex flex-col items-center justify-center shadow-xs">
-              <div className="w-9 h-9 rounded-xl bg-orange-600 text-white flex items-center justify-center font-black text-sm mb-2 shadow-xs">S</div>
-              <span className="font-bold text-slate-900 text-xs">SeaMoney</span>
-              <span className="text-[10px] text-slate-600">ShopeePay</span>
+              <div className="w-9 h-9 rounded-xl bg-blue-700 text-white flex items-center justify-center font-black text-sm mb-2 shadow-xs">U</div>
+              <span className="font-bold text-slate-900 text-xs">Unilever PH</span>
+              <span className="text-[10px] text-slate-600">Consumer Goods</span>
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-slate-200 text-center flex flex-col items-center justify-center shadow-xs">
@@ -775,9 +775,9 @@ export default function LandingPage({
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-slate-200 text-center flex flex-col items-center justify-center shadow-xs">
-              <div className="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-black text-sm mb-2 shadow-xs">🪙</div>
-              <span className="font-bold text-slate-900 text-xs">Coins.ph</span>
-              <span className="text-[10px] text-slate-600">Crypto & Fiat</span>
+              <div className="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center font-black text-sm mb-2 shadow-xs">EY</div>
+              <span className="font-bold text-slate-900 text-xs">SGV & Co.</span>
+              <span className="text-[10px] text-slate-600">Audit & Tax</span>
             </div>
 
           </div>
@@ -1058,7 +1058,7 @@ export default function LandingPage({
               Everything You Need to Know
             </h2>
             <p className="text-slate-800 text-sm sm:text-base">
-              Clear, transparent answers about how CANDIDATE.ph works, our ₱50 unit economics, and our Zero Middleman Guarantee.
+              Clear, transparent answers about how CANDIDATE.ph works, what the ₱50 covers, and our Zero Middleman Guarantee.
             </p>
           </div>
 
@@ -1134,7 +1134,7 @@ export default function LandingPage({
             >
               <div className="flex flex-col text-left leading-tight">
                 <span className="text-xs sm:text-sm font-black tracking-wide">SIGN UP</span>
-                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Claim ₱50 First Application</span>
+                <span className="text-[10px] sm:text-[11px] font-semibold text-blue-100">Get 5 free applications</span>
               </div>
               <ArrowRight className="w-4 h-4 text-amber-300" />
             </button>

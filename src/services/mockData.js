@@ -41,66 +41,64 @@ export const INITIAL_USER = {
 export const MOCK_JOBS = [
   {
     id: "job_01",
-    company: "Maya",
-    industry: "Fintech & Digital Banking",
-    logoText: "M",
-    logoColor: "bg-emerald-600",
-    title: "Senior React Developer",
-    salary: "₱180,000 – ₱240,000 / mo",
-    setup: "Hybrid • BGC, Taguig",
+    company: "SGV & Co. (Ernst & Young)",
+    industry: "Audit, Tax & Advisory Services",
+    logoText: "EY",
+    logoColor: "bg-amber-600 text-white",
+    title: "Senior Financial Accountant & Reporting Lead",
+    salary: "₱95,000 – ₱140,000 / mo",
+    setup: "Hybrid • Makati CBD",
     portal: "Direct Employer ATS",
     portalBadge: "VERIFIED DIRECT",
-    postedHeader: "Posted 1h 18m ago • First Review Batch",
-    liveSinceHours: 1.3,
+    postedHeader: "Posted 45m ago • First Review Batch",
+    liveSinceHours: 0.75,
     matchPercentage: 98,
-    companyDescription: "Maya is the #1 digital bank and payments ecosystem in the Philippines, powering millions of consumer wallets and enterprise merchants.",
-    jobDescription: "Lead the frontend architecture for next-generation consumer merchant wallets, QR checkout modules, and financial dashboards using React 18, TypeScript, and micro-frontends.",
-    aboutRole: "Maya is the undisputed leader in Philippine digital banking and consumer finance. We are expanding our Merchant & Consumer Checkout engineering squad in BGC. In this role, you will lead the frontend architecture for mission-critical web applications handling millions of daily financial transactions. You will partner with product designers, staff backend engineers, and compliance teams to ship robust, accessible, and ultra-responsive payment experiences.",
+    companyDescription: "SGV & Co. is the largest multidisciplinary professional services firm in the Philippines and a member firm of Ernst & Young Global Limited.",
+    jobDescription: "Lead statutory financial reporting, monthly P&L close, and international tax compliance across multinational corporate clients.",
+    aboutRole: "SGV & Co. is the Philippines' preeminent professional services organization. We are expanding our Financial Accounting Advisory Services (FAAS) team in Makati. In this role, you will lead statutory financial reporting, internal controls compliance, and tax reconciliation for high-growth enterprise clients. You will manage engagement deliverables, liaise with external regulatory bodies (SEC, BIR), and present executive financial dashboards to leadership.",
     responsibilities: [
-      "Architect, develop, and maintain high-throughput React 18 & TypeScript web applications with strict SLAs for performance and uptime.",
-      "Build modular micro-frontend components that integrate seamlessly across Maya Checkout, merchant settlement portals, and QR payments.",
-      "Collaborate closely with UI/UX product designers and design system engineers to ensure WCAG 2.1 AA accessibility and brand consistency.",
-      "Optimize Core Web Vitals (LCP < 1.8s, INP < 150ms) across mobile and desktop viewports under variable Philippine telecom network conditions.",
-      "Author comprehensive unit, component, and integration tests using Vitest and React Testing Library maintaining > 85% coverage.",
-      "Conduct rigorous code reviews, establish engineering best practices, and mentor mid-level and junior frontend developers.",
-      "Partner with SecOps and compliance teams to ensure all client-side financial flows comply with PCI-DSS and BSP cybersecurity standards."
+      "Lead IFRS/PFRS compliant financial statement preparation, variance analysis, and month-end closing cadences.",
+      "Manage statutory audit schedules, tax reconciliation, and regulatory filings with the SEC and BIR.",
+      "Review general ledger balance sheet reconciliations and ensure adherence to internal SOX financial controls.",
+      "Partner with corporate FP&A teams to prepare consolidated variance reports against annual operating plans.",
+      "Supervise and mentor senior accounting associates through technical financial modeling and audit workpapers.",
+      "Spearhead automation initiatives across ERP accounting workflows (SAP / Oracle NetSuite)."
     ],
     qualifications: [
-      "5+ years of production experience in frontend software engineering, with at least 3 years specialized in React and modern TypeScript.",
-      "Deep understanding of modern state management, React Hooks, concurrency features, and SSR/SSG patterns (Next.js).",
-      "Proven track record building secure, high-availability web applications with token management and REST/GraphQL APIs.",
-      "Strong proficiency in modern CSS architectures, Tailwind CSS, responsive design, and cross-browser performance tuning.",
-      "Solid experience with frontend build tooling (Vite, Webpack), CI/CD pipelines (GitHub Actions), and monitoring tools (Datadog/Sentry).",
-      "Bachelor's degree in Computer Science, Information Technology, or equivalent practical industry experience."
+      "Bachelor's Degree in Accountancy and active Philippine Certified Public Accountant (CPA) license.",
+      "4+ years of professional financial reporting experience in Big 4 audit or multinational corporate accounting.",
+      "Deep expertise in International Financial Reporting Standards (IFRS) and Philippine Financial Reporting Standards (PFRS).",
+      "Hands-on proficiency with tier-1 ERP systems (SAP S/4HANA, NetSuite, or Workday Financials).",
+      "Advanced proficiency in financial modeling and Microsoft Excel.",
+      "Exceptional analytical rigor and executive stakeholder presentation skills."
     ],
     preferredQualifications: [
-      "Previous domain experience in fintech, digital banking, payment gateways, or high-volume transactional e-commerce.",
-      "Hands-on experience implementing micro-frontends (Module Federation) and design token architectures.",
-      "Familiarity with containerized local development (Docker) and cloud deployments on AWS/GCP."
+      "Prior supervisory experience managing audit engagements or corporate accounting teams.",
+      "Familiarity with cross-border transfer pricing and multinational tax frameworks."
     ],
     benefits: [
-      "Comprehensive HMO from Day 1 with ₱300,000 MBL covering you and up to 2 dependents.",
-      "Competitive base salary (₱180,000 – ₱240,000 / mo) + guaranteed 14th-month pay and annual performance bonus.",
-      "Hybrid work setup (2 days on-site in BGC, Taguig; 3 days work-from-home).",
-      "₱35,000 annual tech & home-office allowance + brand new M3 MacBook Pro.",
-      "₱30,000 annual learning and certification budget (AWS, React Summit, O'Reilly).",
-      "20 days paid annual leave + 10 days sick leave with cash conversion."
+      "Comprehensive HMO coverage for you and up to 2 dependents from Day 1.",
+      "Competitive monthly compensation (₱95,000 – ₱140,000 / mo) + guaranteed 14th-month pay and annual performance incentive.",
+      "Hybrid work arrangement (2 days on-site in Makati CBD; 3 days work-from-home).",
+      "Annual continuing professional education (CPE) budget and CPA license renewal subsidy.",
+      "Generous leaves: 20 vacation days + 10 sick leaves with cash conversion.",
+      "Life and personal accident insurance coverage."
     ],
     coreCount: "4/4 core requirements met",
     matchingSkills: [
-      "React 18 + TypeScript",
-      "Next.js SSR",
-      "Payments domain",
-      "Design systems"
+      "PFRS / IFRS Reporting",
+      "General Ledger & Audit",
+      "SAP / NetSuite ERP",
+      "Tax Compliance"
     ],
-    optionalSkills: ["GraphQL", "Micro-frontends"],
-    referralHeadline: "2 Insider Referral Contacts Available",
-    referralSubtext: "Ex-colleagues in your network at Maya",
+    optionalSkills: ["SOX Compliance", "Transfer Pricing"],
+    referralHeadline: "2 SGV Alumni in Network",
+    referralSubtext: "Verified senior managers in your network",
     avatars: [
-      { text: "JC", bg: "bg-blue-100 text-blue-800" },
-      { text: "AR", bg: "bg-orange-100 text-orange-800" }
+      { text: "RC", bg: "bg-blue-100 text-blue-800" },
+      { text: "AT", bg: "bg-amber-100 text-amber-800" }
     ],
-    estQueue: "Early Bird Batch (< 25 applicants)"
+    estQueue: "Early Bird Batch (< 12 applicants)"
   },
   {
     id: "job_02",

@@ -203,7 +203,9 @@ export default function DashboardPage({
 
           <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
             <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">APPLICATIONS SENT</span>
-            <span className="text-lg font-black text-emerald-600 mt-0.5 block">{appliedJobs.length} Applications sent</span>
+            <span className="text-lg font-black text-emerald-600 mt-0.5 block">
+              {appliedJobs.length} {appliedJobs.length === 1 ? 'Application' : 'Applications'} sent
+            </span>
           </div>
 
           <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
@@ -269,7 +271,7 @@ export default function DashboardPage({
           </span>
         </button>
 
-        {Boolean(user?.isAdmin || isLandingPreview) && (
+        {Boolean(user?.isAdmin && !isLandingPreview) && (
           <button
             type="button"
             disabled={isLandingPreview}
