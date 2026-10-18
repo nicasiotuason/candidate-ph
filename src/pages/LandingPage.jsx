@@ -463,7 +463,7 @@ export default function LandingPage({
                 <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
                   1
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Upload Your Master Resume</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Upload your resume</h3>
                 <p className="text-sm text-slate-800 leading-relaxed mb-4">
                   Upload your current resume once. Our engine extracts your real skills, years of experience, and credentials in 3 seconds.
                 </p>
@@ -479,7 +479,7 @@ export default function LandingPage({
                 <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
                   2
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Set Your Salary & Hubs</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Set your salary and location</h3>
                 <p className="text-sm text-slate-800 leading-relaxed mb-4">
                   Specify your target monthly salary in ₱ (e.g. minimum ₱80,000/mo) and preferred setup (BGC, Makati, or 100% Remote). Lowball offers are hidden.
                 </p>
@@ -495,9 +495,9 @@ export default function LandingPage({
                 <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-lg flex items-center justify-center mb-5 shadow-xs">
                   3
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Review, Tweak & Apply</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Review, tweak, and apply</h3>
                 <p className="text-sm text-slate-800 leading-relaxed mb-4">
-                  When a matched role appears, preview your tailored resume and role-specific cover letter alongside your original. Approve every word, then dispatch directly to the employer for ₱50.
+                  When a matched role appears, preview your tailored resume and role-specific cover letter alongside your original. Approve every word, then send your application straight to the recruiter for ₱50.
                 </p>
               </div>
               <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 flex items-center gap-2">
@@ -734,6 +734,7 @@ export default function LandingPage({
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600">Actively Monitored Employers</h3>
             <p className="text-lg font-extrabold text-slate-900">We continuously search open roles at top employers across the Philippines.</p>
+            <p className="text-xs text-slate-500 font-medium">We track public openings at companies like these; they aren't partners.</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
@@ -835,7 +836,7 @@ export default function LandingPage({
                 <ul className="space-y-3 text-xs text-slate-800">
                   <li className="flex items-center gap-2 font-medium text-slate-900">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>5 Direct Employer Dispatches</span>
+                    <span>5 applications directly sent to recruiters</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -893,7 +894,7 @@ export default function LandingPage({
                 <ul className="space-y-3 text-xs text-slate-800">
                   <li className="flex items-center gap-2 font-medium text-slate-900">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>11 Direct Employer Dispatches (+1 Free)</span>
+                    <span>11 applications directly sent to recruiters (+1 Free)</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -946,7 +947,7 @@ export default function LandingPage({
                 <ul className="space-y-3 text-xs text-slate-800">
                   <li className="flex items-center gap-2 font-medium text-slate-900">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>24 Direct Employer Dispatches (+4 Free)</span>
+                    <span>24 applications directly sent to recruiters (+4 Free)</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
