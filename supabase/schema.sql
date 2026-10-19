@@ -28,7 +28,7 @@ create table if not exists public.profiles (
   master_resume_url text,
   master_resume_filename text default 'Juan_Dela_Cruz_Master_Resume.pdf',
   profile_strength integer default 85,
-  wallet_balance numeric(10, 2) default 250.00, -- Starts with ₱250 welcome credits
+  wallet_balance numeric(10, 2) default 50.00, -- Starts with ₱50 welcome credit (1st application free)
   referral_code text unique,
   referred_by text,
   is_admin boolean default false,
@@ -99,7 +99,7 @@ begin
     new.id,
     new.email,
     coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)),
-    250.00, -- Welcome ₱250 credit bundle (5 apps)
+    50.00, -- Welcome ₱50 credit (1 free application)
     ref_code,
     ref_by,
     false
